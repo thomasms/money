@@ -1,0 +1,25 @@
+body {
+  font: 24px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+input{
+  text-align: right;
+  font: 24px "Century Gothic", Futura, sans-serif;
+  height: 40px;
+  width: 150px;
+}
+
+.atthebottom {
+  position : absolute;
+  right : 50px;
+  bottom : 50px;
+}
+
+.label-righty{
+  font-weight: bold;
+  display: inline-block;
+  width: 280px;
+  text-align: right;
+  margin-top: 25px;
+}
