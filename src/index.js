@@ -40,32 +40,35 @@ class IncomeForm extends React.Component {
         };
       }
 
-      handleGross(e) {
-        const newValue = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const newGrossTotal = newValue + parseFloat(this.state.grossAdditionalSalary);
+      updateTax(newGrossTotal){
         const taxPaid = computeTaxPaid(newGrossTotal);
         const niPaid = computeNIPaid(newGrossTotal);
 
         this.setState({
-          grossBasicSalary: newValue.toFixed(2),
           netSalary: (newGrossTotal - taxPaid - niPaid).toFixed(2),
           taxPaid: taxPaid.toFixed(2),
           niPaid: niPaid.toFixed(2),
-        })
+        });
+      }
+
+      handleGross(e) {
+        const newValue = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        const newGrossTotal = newValue + parseFloat(this.state.grossAdditionalSalary);
+        this.updateTax(newGrossTotal);
+
+        this.setState({
+          grossBasicSalary: newValue.toFixed(2),
+        });
       }
 
       handleAdditionalGross(e) {
         const newValue = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
         const newGrossTotal = newValue + parseFloat(this.state.grossBasicSalary);
-        const taxPaid = computeTaxPaid(newGrossTotal);
-        const niPaid = computeNIPaid(newGrossTotal);
+        this.updateTax(newGrossTotal);
 
         this.setState({
           grossAdditionalSalary: newValue.toFixed(2),
-          netSalary: (newGrossTotal - taxPaid - niPaid).toFixed(2),
-          taxPaid: taxPaid.toFixed(2),
-          niPaid: niPaid.toFixed(2),
-        })
+        });
       }
 
       render(){
