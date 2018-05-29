@@ -1,6 +1,7 @@
 body {
   font: 24px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  background: #fff;
 }
 
 input{
@@ -21,5 +22,23 @@ input{
   display: inline-block;
   width: 280px;
   text-align: right;
+  margin-top: 25px;
+}
+
+.label-righty-red{
+  font-weight: bold;
+  display: inline-block;
+  width: 280px;
+  text-align: right;
+  color: red;
+  margin-top: 25px;
+}
+
+.label-righty-blue{
+  font-weight: bold;
+  display: inline-block;
+  width: 280px;
+  text-align: right;
+  color: blue;
   margin-top: 25px;
 }

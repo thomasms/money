@@ -13,11 +13,21 @@ function LabelWithInput(props) {
   );
 }
 
-function ReadOnlyLabel(props) {
+function ReadOnlyRedLabel(props) {
   return (
     <div className="block">
-      <label className="label-righty">{props.name} : </label>
-      <input type="number" name={props.name} value={props.value} readOnly/>
+      <label className="label-righty-red">{props.name} : </label>
+      <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
+      <label> {props.unit}</label>
+    </div>
+  );
+}
+
+function ReadOnlyBlueLabel(props) {
+  return (
+    <div className="block">
+      <label className="label-righty-blue">{props.name} : </label>
+      <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
       <label> {props.unit}</label>
     </div>
   );
@@ -29,46 +39,59 @@ class IncomeForm extends React.Component {
         super( props );
 
         this.handleGross = this.handleGross.bind(this)
-        this.handleAdditionalGross = this.handleAdditionalGross.bind(this)
+        this.handleNonPensionableGross = this.handleNonPensionableGross.bind(this)
+        this.handlePensionRate = this.handlePensionRate.bind(this)
 
         this.state = {
           grossBasicSalary: 0.0,
-          grossAdditionalSalary: 0.0,
+          grossNonPensionableSalary: 0.0,
+          pensionRate: 0.0,
           netSalary: 0.0,
           taxPaid: 0.0,
           niPaid: 0.0,
+          pensionPaid: 0.0,
         };
       }
 
-      updateTax(newGrossTotal){
-        const taxPaid = computeTaxPaid(newGrossTotal);
-        const niPaid = computeNIPaid(newGrossTotal);
+      update(basicGross, nonPensionableGross, pensionRate){
+        //NI is paid on pension
+        //Tax is not paid on pension
+        const totalGross = basicGross + nonPensionableGross;
+        const niPaid = computeNIPaid(totalGross);
+        const taxPaid = computeTaxPaid(totalGross - (basicGross*pensionRate));
 
         this.setState({
-          netSalary: (newGrossTotal - taxPaid - niPaid).toFixed(2),
-          taxPaid: taxPaid.toFixed(2),
-          niPaid: niPaid.toFixed(2),
+          grossBasicSalary: parseFloat(basicGross),
+          grossNonPensionableSalary: parseFloat(nonPensionableGross),
+          pensionRate: parseFloat(pensionRate),
+          taxPaid: parseFloat(taxPaid),
+          niPaid: parseFloat(niPaid),
+          pensionPaid: parseFloat(pensionRate*basicGross),
+          netSalary: parseFloat(basicGross) + parseFloat(nonPensionableGross) -
+                parseFloat(niPaid) - parseFloat(taxPaid) -
+                parseFloat(pensionRate*basicGross),
         });
+
       }
 
       handleGross(e) {
-        const newValue = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const newGrossTotal = newValue + parseFloat(this.state.grossAdditionalSalary);
-        this.updateTax(newGrossTotal);
-
-        this.setState({
-          grossBasicSalary: newValue.toFixed(2),
-        });
+        const basicGross = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
+        this.update(basicGross, nonPensionableGross, parseFloat(this.state.pensionRate));
       }
 
-      handleAdditionalGross(e) {
-        const newValue = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const newGrossTotal = newValue + parseFloat(this.state.grossBasicSalary);
-        this.updateTax(newGrossTotal);
+      handleNonPensionableGross(e) {
+        const nonPensionableGross = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        const basicGross = parseFloat(this.state.grossBasicSalary);
+        this.update(basicGross, nonPensionableGross, parseFloat(this.state.pensionRate));
+      }
 
-        this.setState({
-          grossAdditionalSalary: newValue.toFixed(2),
-        });
+      handlePensionRate(e){
+        const rate = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        const pensionRate = parseFloat(parseFloat(rate)/100.0);
+        const basicGross = parseFloat(this.state.grossBasicSalary);
+        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
+        this.update(basicGross, nonPensionableGross, pensionRate);
       }
 
       render(){
@@ -76,18 +99,21 @@ class IncomeForm extends React.Component {
           <div>
             <div>
               <LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/>
-              <LabelWithInput name="Additional salary" unit="(£ per year)" handler={this.handleAdditionalGross}/>
+              <LabelWithInput name="Non pensionable salary" unit="(£ per year)" handler={this.handleNonPensionableGross}/>
+              <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate}/>
             </div>
 
             <div className="atthebottom">
-              <ReadOnlyLabel name="Tax Paid" value={this.state.taxPaid} unit="(£ per year)"/>
-                <ReadOnlyLabel name="NI Paid" value={this.state.niPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
+              <ReadOnlyRedLabel name="Tax Paid" value={this.state.taxPaid} unit="(£ per year)"/>
+              <ReadOnlyRedLabel name="NI Paid" value={this.state.niPaid} unit="(£ per year)"/>
+              <ReadOnlyRedLabel name="Pension Payments" value={this.state.pensionPaid} unit="(£ per year)"/>
+              <ReadOnlyBlueLabel name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
             </div>
           </div>
         );
       }
 }
+
 
 function computeNIPaid(gross){
   const rates = [0.12, 0.02]
