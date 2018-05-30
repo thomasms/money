@@ -1,14 +1,18 @@
 body {
-  font: 24px "Century Gothic", Futura, sans-serif;
+  font: 18px "Arial", Futura, sans-serif;
   margin: 20px;
   background: #fff;
 }
 
 input{
   text-align: right;
-  font: 24px "Century Gothic", Futura, sans-serif;
-  height: 40px;
-  width: 150px;
+  font: 18px "Arial", Futura, sans-serif;
+  height: 30px;
+  width: 140px;
+}
+
+input[type=checkbox] {
+    zoom: 0.5;
 }
 
 .atthebottom {
