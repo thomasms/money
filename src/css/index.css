@@ -1,5 +1,5 @@
 body {
-  font: 18px "Arial", Futura, sans-serif;
+  font: 18px "Palatino", Futura, sans-serif;
   margin: 20px;
   background-image: url("../money_high.jpeg");
 }
@@ -30,6 +30,7 @@ input[type=checkbox] {
   width: 280px;
   text-align: right;
   margin-top: 25px;
+  margin-right: 10px;
 }
 
 .label-righty-red{
@@ -39,6 +40,7 @@ input[type=checkbox] {
   text-align: right;
   color: red;
   margin-top: 25px;
+  margin-right: 10px;
 }
 
 .label-righty-blue{
@@ -48,4 +50,5 @@ input[type=checkbox] {
   text-align: right;
   color: blue;
   margin-top: 25px;
+  margin-right: 10px;
 }
