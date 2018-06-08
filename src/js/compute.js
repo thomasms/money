@@ -12,17 +12,16 @@ export function computeStudentLoanPaid(gross){
   }
 }
 
-const weeksInYear = 52;
 
 export function computeNIPaid(gross){
   const rates = [0.12, 0.02];
-  const thresholds = [162.0*weeksInYear, 892.0*weeksInYear];
+  const thresholds = [8424.0, 46350.0];
 
   // less than or equal to threshold - no NI paid
   if(gross <= thresholds[0]){
     return 0.0;
   }
-  else if(gross <= thresholds[1]){
+  else if(gross < thresholds[1]){
     return (gross - thresholds[0])*rates[0];
   }
   else{
