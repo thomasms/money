@@ -1,7 +1,10 @@
 body {
   font: 18px "Arial", Futura, sans-serif;
   margin: 20px;
-  background: #fff;
+  background-image: url("../money.jpg");
+}
+img{
+  opacity: 0.2;
 }
 
 input{
