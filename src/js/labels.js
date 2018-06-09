@@ -20,20 +20,10 @@ function LabelWithCheck(props){
   );
 }
 
-function ReadOnlyRedLabel(props) {
+function ReadOnlyLabel(props) {
   return (
     <div className="block">
-      <label className="label-righty-red">{props.name} </label>
-      <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
-      <label> {props.unit}</label>
-    </div>
-  );
-}
-
-function ReadOnlyBlueLabel(props) {
-  return (
-    <div className="block">
-      <label className="label-righty-blue">{props.name} </label>
+      <label className={props.classname}>{props.name} </label>
       <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
       <label> {props.unit}</label>
     </div>
@@ -42,5 +32,4 @@ function ReadOnlyBlueLabel(props) {
 
 export {LabelWithInput};
 export {LabelWithCheck};
-export {ReadOnlyRedLabel};
-export {ReadOnlyBlueLabel};
+export {ReadOnlyLabel};

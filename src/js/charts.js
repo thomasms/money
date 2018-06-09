@@ -1,38 +1,24 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const COLORS = ['#FF0000', '#FF3411', '#FF5000', '#FF6347', '#0088FE'];
-
-const RADIAN = Math.PI / 180;
-
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
- 	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy  + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
-    	{`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
+const COLORS = ['#8b0000', '#FF3411', '#FF5000', '#FF6347', '#0088FE'];
 
 function MoneyPie(props) {
 
   	return (
-    	<PieChart width={600} height={600}>
+    	<PieChart width={550} height={550}>
         <Pie
           data={props.data}
-          cx={300}
-          cy={300}
+          cx={250}
+          cy={250}
           innerRadius={100}
-          outerRadius={200}
+          outerRadius={180}
           fill="#8884d8"
-          label={renderCustomizedLabel}
           paddingAngle={0}
+          dataKey="value"
         >
         	{
-          	props.data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+          	props.data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
           }
         </Pie>
       </PieChart>

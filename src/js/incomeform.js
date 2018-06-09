@@ -1,6 +1,6 @@
 import React from 'react';
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
-import { LabelWithInput, LabelWithCheck, ReadOnlyRedLabel, ReadOnlyBlueLabel } from './labels.js';
+import { LabelWithInput, LabelWithCheck, ReadOnlyLabel } from './labels.js';
 import { MoneyPie } from './charts.js'
 
 
@@ -40,8 +40,12 @@ class IncomeForm extends React.Component {
         const childcareVoucher = parseFloat(this.state.childcareVoucher);
         const totalGross = basicGross + nonPensionableGross - childcareVoucher;
         const niPaid = computeNIPaid(totalGross);
-        const taxPaid = computeTaxPaid(totalGross - (basicGross*pensionRate));
+        const pensionPaid = parseFloat(pensionRate*basicGross);
+        const taxPaid = computeTaxPaid(totalGross - pensionPaid);
         const slPaid = this.state.studentLoan ? computeStudentLoanPaid(totalGross) : 0.0;
+        const net = parseFloat(basicGross) + parseFloat(nonPensionableGross) -
+              parseFloat(niPaid) - parseFloat(taxPaid) -
+              parseFloat(pensionRate*basicGross) - parseFloat(slPaid) - parseFloat(childcareVoucher);
 
         this.setState({
           grossBasicSalary: parseFloat(basicGross),
@@ -50,15 +54,13 @@ class IncomeForm extends React.Component {
           taxPaid: parseFloat(taxPaid),
           niPaid: parseFloat(niPaid),
           slPaid: parseFloat(slPaid),
-          pensionPaid: parseFloat(pensionRate*basicGross),
-          netSalary: parseFloat(basicGross) + parseFloat(nonPensionableGross) -
-                parseFloat(niPaid) - parseFloat(taxPaid) -
-                parseFloat(pensionRate*basicGross) - parseFloat(slPaid) - parseFloat(childcareVoucher),
-          piedata: [{name: 'Tax', value: this.state.taxPaid},
-                    {name: 'NI', value: this.state.niPaid},
-                    {name: 'Pension', value: this.state.pensionPaid},
-                    {name: 'Student Loan', value: this.state.slPaid},
-                    {name: 'Take Home', value: this.state.netSalary}],
+          pensionPaid: parseFloat(pensionPaid),
+          netSalary: parseFloat(net),
+          piedata: [{name: 'Tax', value: taxPaid},
+                    {name: 'NI', value: niPaid},
+                    {name: 'Pension', value: pensionPaid},
+                    {name: 'Student Loan', value: slPaid},
+                    {name: 'Take Home', value: net}],
         });
       }
 
@@ -82,29 +84,25 @@ class IncomeForm extends React.Component {
         this.update(basicGross, nonPensionableGross, pensionRate);
       }
 
-      // has a bug - need to fix
       handleChildCareVoucher(e){
         const amount = e.target.value === "" ? 0.0 : parseFloat(e.target.value)*12.0;
-        this.setState({
-          childcareVoucher: amount,
-        });
-
-        const pensionRate = parseFloat(this.state.pensionRate);
-        const basicGross = parseFloat(this.state.grossBasicSalary);
-        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-        this.update(basicGross, nonPensionableGross, pensionRate);
+        this.setState({ childcareVoucher: amount, },
+                () => {
+                    const pensionRate = parseFloat(this.state.pensionRate);
+                    const basicGross = parseFloat(this.state.grossBasicSalary);
+                    const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
+                    this.update(basicGross, nonPensionableGross, pensionRate);
+                });
       }
 
       handleStudentLoan(e){
-        const studentLoan = !e.target.checked;
-        this.setState({
-          studentLoan: studentLoan,
-        });
-
-        const pensionRate = parseFloat(this.state.pensionRate);
-        const basicGross = parseFloat(this.state.grossBasicSalary);
-        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-        this.update(basicGross, nonPensionableGross, pensionRate);
+        this.setState({ studentLoan: e.target.checked, },
+                () => {
+                  const pensionRate = parseFloat(this.state.pensionRate);
+                  const basicGross = parseFloat(this.state.grossBasicSalary);
+                  const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
+                  this.update(basicGross, nonPensionableGross, pensionRate);
+                });
       }
 
       render(){
@@ -113,8 +111,8 @@ class IncomeForm extends React.Component {
             <div>
               <LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/>
               <LabelWithInput name="Non pensionable salary" unit="(£ per year)" handler={this.handleNonPensionableGross}/>
-              <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate}/>
-              {/*<LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>}*/}
+              <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate} />
+              <LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>
               <LabelWithCheck name="Student Loan" handler={this.handleStudentLoan}/>
             </div>
             <div className="atthetopright">
@@ -122,11 +120,11 @@ class IncomeForm extends React.Component {
             </div>
 
             <div className="atthebottom">
-              <ReadOnlyRedLabel name="Tax" value={this.state.taxPaid} unit="(£ per year)"/>
-              <ReadOnlyRedLabel name="NI" value={this.state.niPaid} unit="(£ per year)"/>
-              <ReadOnlyRedLabel name="Student Loan" value={this.state.slPaid} unit="(£ per year)"/>
-              <ReadOnlyRedLabel name="Pension" value={this.state.pensionPaid} unit="(£ per year)"/>
-              <ReadOnlyBlueLabel name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty-red" name="Tax" value={this.state.taxPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty-red" name="NI" value={this.state.niPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty-red" name="Student Loan" value={this.state.slPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty-red" name="Pension" value={this.state.pensionPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty-blue" name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
             </div>
           </div>
         );
