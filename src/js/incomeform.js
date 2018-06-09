@@ -1,6 +1,7 @@
 import React from 'react';
-import {computeStudentLoanPaid, computeNIPaid, computeTaxPaid} from './compute.js';
-import {LabelWithInput, LabelWithCheck, ReadOnlyRedLabel, ReadOnlyBlueLabel} from './labels.js';
+import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
+import { LabelWithInput, LabelWithCheck, ReadOnlyRedLabel, ReadOnlyBlueLabel } from './labels.js';
+import { MoneyPie } from './charts.js'
 
 
 class IncomeForm extends React.Component {
@@ -25,6 +26,11 @@ class IncomeForm extends React.Component {
           slPaid: 0.0,
           niPaid: 0.0,
           pensionPaid: 0.0,
+          piedata: [{name: 'Tax', value: 0},
+                 {name: 'NI', value: 0},
+                 {name: 'Pension', value: 0},
+                 {name: 'Student Loan', value: 0},
+                 {name: 'Take Home', value: 0}],
         };
       }
 
@@ -48,6 +54,11 @@ class IncomeForm extends React.Component {
           netSalary: parseFloat(basicGross) + parseFloat(nonPensionableGross) -
                 parseFloat(niPaid) - parseFloat(taxPaid) -
                 parseFloat(pensionRate*basicGross) - parseFloat(slPaid) - parseFloat(childcareVoucher),
+          piedata: [{name: 'Tax', value: this.state.taxPaid},
+                    {name: 'NI', value: this.state.niPaid},
+                    {name: 'Pension', value: this.state.pensionPaid},
+                    {name: 'Student Loan', value: this.state.slPaid},
+                    {name: 'Take Home', value: this.state.netSalary}],
         });
       }
 
@@ -105,6 +116,9 @@ class IncomeForm extends React.Component {
               <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate}/>
               {/*<LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>}*/}
               <LabelWithCheck name="Student Loan" handler={this.handleStudentLoan}/>
+            </div>
+            <div className="atthetopright">
+              <MoneyPie data={this.state.piedata}/>
             </div>
 
             <div className="atthebottom">
