@@ -1,27 +1,8 @@
 import React from 'react';
 import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
-import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
+import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid, computeAmountForPeriod } from './compute.js';
 import { LabelWithInput, LabelWithCheck, ReadOnlyLabel } from './labels.js';
 import { MoneyPie } from './charts.js'
-
-const MONTH_TO_YEAR = 12.0;
-const WEEK_TO_YEAR = 52.0;
-const DAY_TO_YEAR = 7.0*WEEK_TO_YEAR;
-
-function computeAmountForPeriod(amount, period){
-    if(period === 'year'){
-      return parseFloat(amount);
-    }
-    else if(period === 'month'){
-      return parseFloat(amount/MONTH_TO_YEAR);
-    }
-    else if(period === 'week'){
-      return parseFloat(amount/WEEK_TO_YEAR);
-    }
-    else{
-      return parseFloat(amount/DAY_TO_YEAR);
-    }
-}
 
 class IncomeForm extends React.Component {
 

@@ -1,4 +1,23 @@
 
+const MONTH_TO_YEAR = 12.0;
+const WEEK_TO_YEAR = 52.0;
+const DAY_TO_YEAR = 7.0*WEEK_TO_YEAR;
+
+export function computeAmountForPeriod(amount, period){
+    if(period === 'year'){
+      return parseFloat(amount);
+    }
+    else if(period === 'month'){
+      return parseFloat(amount/MONTH_TO_YEAR);
+    }
+    else if(period === 'week'){
+      return parseFloat(amount/WEEK_TO_YEAR);
+    }
+    else{
+      return parseFloat(amount/DAY_TO_YEAR);
+    }
+}
+
 export function computeStudentLoanPaid(gross){
   const rate = 0.09;
   const threshold = 18330.0;
