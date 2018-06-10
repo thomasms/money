@@ -1,8 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const COLORS = ['#8b0000', '#FF3411', '#FF5000', '#FF6347', '#0088FE'];
-
 function MoneyPie(props) {
 
   	return (
@@ -18,7 +16,7 @@ function MoneyPie(props) {
           dataKey="value"
         >
         	{
-          	props.data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+          	props.data.map((entry, index) => <Cell key={index} fill={props.colours[index % props.colours.length]}/>)
           }
         </Pie>
       </PieChart>

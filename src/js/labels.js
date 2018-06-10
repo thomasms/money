@@ -23,7 +23,7 @@ function LabelWithCheck(props){
 function ReadOnlyLabel(props) {
   return (
     <div className="block">
-      <label className={props.classname}>{props.name} </label>
+      <font color={props.color}><label className={props.classname}>{props.name} </label></font>
       <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
       <label> {props.unit}</label>
     </div>

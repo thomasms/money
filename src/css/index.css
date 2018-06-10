@@ -10,13 +10,22 @@ img{
 
 input{
   text-align: right;
-  font: 18px "Arial", Futura, sans-serif;
+  font: 18px "Palatino", Futura, sans-serif;
   height: 30px;
   width: 140px;
 }
 
 input[type=checkbox] {
     zoom: 0.5;
+}
+
+.footer{
+  font: 12px "Palatino", Futura, sans-serif;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .atthetopright {
@@ -32,30 +41,9 @@ input[type=checkbox] {
 }
 
 .label-righty{
-  font-weight: bold;
   display: inline-block;
   width: 280px;
   text-align: right;
-  margin-top: 25px;
-  margin-right: 10px;
-}
-
-.label-righty-red{
-  font-weight: bold;
-  display: inline-block;
-  width: 280px;
-  text-align: right;
-  color: red;
-  margin-top: 25px;
-  margin-right: 10px;
-}
-
-.label-righty-blue{
-  font-weight: bold;
-  display: inline-block;
-  width: 280px;
-  text-align: right;
-  color: blue;
   margin-top: 25px;
   margin-right: 10px;
 }

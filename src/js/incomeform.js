@@ -1,4 +1,5 @@
 import React from 'react';
+import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
 import { LabelWithInput, LabelWithCheck, ReadOnlyLabel } from './labels.js';
 import { MoneyPie } from './charts.js'
@@ -106,25 +107,28 @@ class IncomeForm extends React.Component {
       }
 
       render(){
+        const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
+                                  SL_COLOUR, NET_COLOUR ];
         return (
           <div>
+            <h1 align="center">Income Tax Calculator</h1>
             <div>
-              <LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/>
+              <b><LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/></b>
               <LabelWithInput name="Non pensionable salary" unit="(£ per year)" handler={this.handleNonPensionableGross}/>
               <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate} />
               <LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>
               <LabelWithCheck name="Student Loan" handler={this.handleStudentLoan}/>
             </div>
             <div className="atthetopright">
-              <MoneyPie data={this.state.piedata}/>
+              <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS}/>
             </div>
 
             <div className="atthebottom">
-              <ReadOnlyLabel classname="label-righty-red" name="Tax" value={this.state.taxPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty-red" name="NI" value={this.state.niPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty-red" name="Student Loan" value={this.state.slPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty-red" name="Pension" value={this.state.pensionPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty-blue" name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty" color={TAX_COLOUR} name="Tax" value={this.state.taxPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty" color={NI_COLOUR} name="NI" value={this.state.niPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty" color={PENSION_COLOUR} name="Pension" value={this.state.pensionPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty" color={SL_COLOUR} name="Student Loan" value={this.state.slPaid} unit="(£ per year)"/>
+              <ReadOnlyLabel classname="label-righty" color={NET_COLOUR} name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
             </div>
           </div>
         );
