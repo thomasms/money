@@ -4,6 +4,24 @@ import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute
 import { LabelWithInput, LabelWithCheck, ReadOnlyLabel } from './labels.js';
 import { MoneyPie } from './charts.js'
 
+const MONTH_TO_YEAR = 12.0;
+const WEEK_TO_YEAR = 52.0;
+const DAY_TO_YEAR = 7.0*WEEK_TO_YEAR;
+
+function computeAmountForPeriod(amount, period){
+    if(period === 'year'){
+      return parseFloat(amount);
+    }
+    else if(period === 'month'){
+      return parseFloat(amount/MONTH_TO_YEAR);
+    }
+    else if(period === 'week'){
+      return parseFloat(amount/WEEK_TO_YEAR);
+    }
+    else{
+      return parseFloat(amount/DAY_TO_YEAR);
+    }
+}
 
 class IncomeForm extends React.Component {
 
@@ -16,7 +34,12 @@ class IncomeForm extends React.Component {
         this.handleStudentLoan = this.handleStudentLoan.bind(this);
         this.handleChildCareVoucher = this.handleChildCareVoucher.bind(this);
 
+        this.handleNetPeriodChange = this.handleNetPeriodChange.bind(this);
+        this.handleSlChange = this.handleSlChange.bind(this);
+
         this.state = {
+          netSalaryPeriod: 'year',
+          slPeriod: 'year',
           grossBasicSalary: 0.0,
           grossNonPensionableSalary: 0.0,
           pensionRate: 0.0,
@@ -106,9 +129,18 @@ class IncomeForm extends React.Component {
                 });
       }
 
+      handleSlChange(e){
+        this.setState({ slPeriod: e.target.value });
+      }
+
+      handleNetPeriodChange(e){
+        this.setState({ netSalaryPeriod: e.target.value });
+      }
+
       render(){
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
+
         return (
           <div>
             <h1 align="center">Income Tax Calculator</h1>
@@ -124,11 +156,56 @@ class IncomeForm extends React.Component {
             </div>
 
             <div className="atthebottom">
-              <ReadOnlyLabel classname="label-righty" color={TAX_COLOUR} name="Tax" value={this.state.taxPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty" color={NI_COLOUR} name="NI" value={this.state.niPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty" color={PENSION_COLOUR} name="Pension" value={this.state.pensionPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty" color={SL_COLOUR} name="Student Loan" value={this.state.slPaid} unit="(£ per year)"/>
-              <ReadOnlyLabel classname="label-righty" color={NET_COLOUR} name="Take home pay" value={this.state.netSalary} unit="(£ per year)"/>
+              <ReadOnlyLabel
+                classname="label-righty"
+                color={TAX_COLOUR}
+                name="Tax"
+                value={this.state.taxPaid}
+                unit="(£ per year)"
+                periods = {['year']}
+              />
+              <ReadOnlyLabel
+                classname="label-righty"
+                color={NI_COLOUR}
+                name="NI"
+                value={this.state.niPaid}
+                unit="(£ per year)"
+                periods = {['year']}
+              />
+              <ReadOnlyLabel
+                classname="label-righty"
+                color={PENSION_COLOUR}
+                name="Pension"
+                value={this.state.pensionPaid}
+                unit="(£ per year)"
+                periods = {['year']}
+              />
+              <ReadOnlyLabel
+                classname="label-righty"
+                color={SL_COLOUR}
+                name="Student Loan"
+                value={computeAmountForPeriod(
+                  this.state.slPaid,
+                  this.state.slPeriod)
+                }
+                handler={this.handleSlChange}
+                timeperiod={this.slPeriod}
+                unit="(£ per year)"
+                periods = {['year', 'month', 'week', 'day']}
+              />
+              <ReadOnlyLabel
+                classname="label-righty"
+                color={NET_COLOUR}
+                name="Take home pay"
+                value={computeAmountForPeriod(
+                  this.state.netSalary,
+                  this.state.netSalaryPeriod)
+                }
+                unit="(£ per year)"
+                handler={this.handleNetPeriodChange}
+                timeperiod={this.netSalaryPeriod}
+                periods = {['year', 'month', 'week', 'day']}
+              />
             </div>
           </div>
         );

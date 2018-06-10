@@ -28,6 +28,13 @@ input[type=checkbox] {
   text-align: center;
 }
 
+.inline {
+  margin-top: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  float:right;
+}
+
 .atthetopright {
   position : absolute;
   right : 0px;
@@ -40,10 +47,20 @@ input[type=checkbox] {
   bottom : 50px;
 }
 
+.label-lefty{
+  display: inline-block;
+  width: 250px;
+  text-align: right;
+  margin-top: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .label-righty{
   display: inline-block;
-  width: 280px;
+  width: 150px;
   text-align: right;
   margin-top: 25px;
   margin-right: 10px;
+  margin-left: 10px;
 }
