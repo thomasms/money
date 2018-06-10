@@ -34,12 +34,16 @@ class IncomeForm extends React.Component {
         this.handleStudentLoan = this.handleStudentLoan.bind(this);
         this.handleChildCareVoucher = this.handleChildCareVoucher.bind(this);
 
+        this.handleTaxChange = this.handleTaxChange.bind(this);
+        this.handleNIChange = this.handleNIChange.bind(this);
         this.handleNetPeriodChange = this.handleNetPeriodChange.bind(this);
         this.handleSlChange = this.handleSlChange.bind(this);
 
         this.state = {
-          netSalaryPeriod: 'year',
+          taxPeriod: 'year',
+          niPeriod: 'year',
           slPeriod: 'year',
+          netSalaryPeriod: 'year',
           grossBasicSalary: 0.0,
           grossNonPensionableSalary: 0.0,
           pensionRate: 0.0,
@@ -129,6 +133,14 @@ class IncomeForm extends React.Component {
                 });
       }
 
+      handleTaxChange(e){
+        this.setState({ taxPeriod: e.target.value });
+      }
+
+      handleNIChange(e){
+        this.setState({ niPeriod: e.target.value });
+      }
+
       handleSlChange(e){
         this.setState({ slPeriod: e.target.value });
       }
@@ -144,6 +156,7 @@ class IncomeForm extends React.Component {
         return (
           <div>
             <h1 align="center">Income Tax Calculator</h1>
+
             <div>
               <b><LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/></b>
               <LabelWithInput name="Non pensionable salary" unit="(£ per year)" handler={this.handleNonPensionableGross}/>
@@ -151,6 +164,7 @@ class IncomeForm extends React.Component {
               <LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>
               <LabelWithCheck name="Student Loan" handler={this.handleStudentLoan}/>
             </div>
+
             <div className="atthetopright">
               <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS}/>
             </div>
@@ -160,17 +174,27 @@ class IncomeForm extends React.Component {
                 classname="label-righty"
                 color={TAX_COLOUR}
                 name="Tax"
-                value={this.state.taxPaid}
+                value={computeAmountForPeriod(
+                  this.state.taxPaid,
+                  this.state.taxPeriod)
+                }
+                handler={this.handleTaxChange}
+                timeperiod={this.taxPeriod}
                 unit="(£ per year)"
-                periods = {['year']}
+                periods = {['year', 'month', 'week', 'day']}
               />
               <ReadOnlyLabel
                 classname="label-righty"
                 color={NI_COLOUR}
                 name="NI"
-                value={this.state.niPaid}
+                value={computeAmountForPeriod(
+                  this.state.niPaid,
+                  this.state.niPeriod)
+                }
+                handler={this.handleNIChange}
+                timeperiod={this.niPeriod}
                 unit="(£ per year)"
-                periods = {['year']}
+                periods = {['year', 'month', 'week', 'day']}
               />
               <ReadOnlyLabel
                 classname="label-righty"
@@ -178,7 +202,7 @@ class IncomeForm extends React.Component {
                 name="Pension"
                 value={this.state.pensionPaid}
                 unit="(£ per year)"
-                periods = {['year']}
+                periods = {['year', 'month', 'week', 'day']}
               />
               <ReadOnlyLabel
                 classname="label-righty"
@@ -206,6 +230,7 @@ class IncomeForm extends React.Component {
                 timeperiod={this.netSalaryPeriod}
                 periods = {['year', 'month', 'week', 'day']}
               />
+              <p className="small">*Assumes 52 weeks in a year and 7 days in a week</p>
             </div>
           </div>
         );

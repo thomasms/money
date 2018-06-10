@@ -1,7 +1,7 @@
 body {
   font: 18px "Palatino", Futura, sans-serif;
   margin: 20px;
-  background-color: #FFFFFE;
+  background-color: #FEFEFE;
   #background-image: url("../money_high.jpeg");
 }
 img{
@@ -35,6 +35,13 @@ input[type=checkbox] {
   float:right;
 }
 
+.small{
+  font: 12px "Palatino", Futura, sans-serif;
+  position: fixed;
+  right : 30px;
+  text-align: center;
+}
+
 .atthetopright {
   position : absolute;
   right : 0px;
@@ -44,7 +51,7 @@ input[type=checkbox] {
 .atthebottom {
   position : absolute;
   right : 50px;
-  bottom : 50px;
+  bottom : 80px;
 }
 
 .label-lefty{
