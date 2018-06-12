@@ -147,7 +147,7 @@ class IncomeForm extends React.Component {
             </div>
 
             <div className="atthetopright">
-              <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS}/>
+              <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
             </div>
 
             <div className="atthebottom">

@@ -6,6 +6,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+![Screen sample](https://github.com/thomasms/money/blob/master/screensample.png?raw=true)
+
+
 Requires nodejs and npm. 
 
 Dockerfile added to handle dependencies.
