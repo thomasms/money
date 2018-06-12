@@ -6,14 +6,19 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-for development dev do
+Requires nodejs and npm. 
+
+Dockerfile added to handle dependencies.
+
+For development dev do:
 
 ```bash
+npm install package.json
 npm start
 ```
 
 for production do
 
 ```bash
-npm build
+npm run build
 ```
