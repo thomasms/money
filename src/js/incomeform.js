@@ -17,12 +17,14 @@ class IncomeForm extends React.Component {
 
         this.handleTaxChange = this.handleTaxChange.bind(this);
         this.handleNIChange = this.handleNIChange.bind(this);
+        this.handlePensionChange = this.handlePensionChange.bind(this);
         this.handleNetPeriodChange = this.handleNetPeriodChange.bind(this);
         this.handleSlChange = this.handleSlChange.bind(this);
 
         this.state = {
           taxPeriod: 'year',
           niPeriod: 'year',
+          pensionPeriod: 'year',
           slPeriod: 'year',
           netSalaryPeriod: 'year',
           grossBasicSalary: 0.0,
@@ -122,6 +124,10 @@ class IncomeForm extends React.Component {
         this.setState({ niPeriod: e.target.value });
       }
 
+      handlePensionChange(e){
+        this.setState({ pensionPeriod: e.target.value });
+      }
+
       handleSlChange(e){
         this.setState({ slPeriod: e.target.value });
       }
@@ -181,7 +187,12 @@ class IncomeForm extends React.Component {
                 classname="label-righty"
                 color={PENSION_COLOUR}
                 name="Pension"
-                value={this.state.pensionPaid}
+                value={computeAmountForPeriod(
+                  this.state.pensionPaid,
+                  this.state.pensionPeriod)
+                }
+                handler={this.handlePensionChange}
+                timeperiod={this.pensionPeriod}
                 unit="(£ per year)"
                 periods = {['year', 'month', 'week', 'day']}
               />
