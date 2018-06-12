@@ -2,13 +2,13 @@ import React from 'react';
 
 function DropDownDateInput(props) {
   return (
-    <div className="inline">
+    <div className={props.classname}>
       <select onChange={props.handler}>
         {
           props.data.map((x, i) => <option
                                      key={i}
                                      value={x}>
-                                     £ per {x}
+                                     {x}
                                    </option>)
         }
       </select>
@@ -40,11 +40,28 @@ function ReadOnlyLabel(props) {
     <div className="block">
       <font color={props.color}><label className={props.classname}>{props.name} </label></font>
       <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
-      <DropDownDateInput handler={props.handler} data={props.periods}/>
+      <DropDownDateInput classname="inline" handler={props.handler} data={props.periods}/>
     </div>
   );
 }
 
+function OutputLabel(props){
+  return (
+    <ReadOnlyLabel
+      classname="label-righty"
+      color={props.color}
+      name={props.name}
+      value={props.value}
+      handler={props.handler}
+      timeperiod={props.timeperiod}
+      unit="(£ per year)"
+      periods = {['£ per year', '£ per month', '£ per week', '£ per day']}
+    />
+  );
+}
+
+
 export {LabelWithInput};
 export {LabelWithCheck};
-export {ReadOnlyLabel};
+export {DropDownDateInput};
+export {OutputLabel};

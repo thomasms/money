@@ -1,13 +1,15 @@
 import React from 'react';
 import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid, computeAmountForPeriod } from './compute.js';
-import { LabelWithInput, LabelWithCheck, ReadOnlyLabel } from './labels.js';
+import { LabelWithInput, LabelWithCheck, DropDownDateInput, OutputLabel } from './labels.js';
 import { MoneyPie } from './charts.js'
 
 class IncomeForm extends React.Component {
 
       constructor( props ) {
         super( props );
+
+        this.handleTaxYearChange = this.handleTaxYearChange.bind(this);
 
         this.handleGross = this.handleGross.bind(this);
         this.handleNonPensionableGross = this.handleNonPensionableGross.bind(this);
@@ -22,6 +24,7 @@ class IncomeForm extends React.Component {
         this.handleSlChange = this.handleSlChange.bind(this);
 
         this.state = {
+          taxYear: '18/19',
           taxPeriod: 'year',
           niPeriod: 'year',
           pensionPeriod: 'year',
@@ -136,6 +139,10 @@ class IncomeForm extends React.Component {
         this.setState({ netSalaryPeriod: e.target.value });
       }
 
+      handleTaxYearChange(e){
+        this.setState({ taxYear: e.target.value });
+      }
+
       render(){
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
@@ -143,6 +150,9 @@ class IncomeForm extends React.Component {
         return (
           <div>
             <h1 align="center">Income Tax Calculator</h1>
+
+            <label>Tax Year</label>
+            <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
 
             <div>
               <b><LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/></b>
@@ -157,8 +167,7 @@ class IncomeForm extends React.Component {
             </div>
 
             <div className="atthebottom">
-              <ReadOnlyLabel
-                classname="label-righty"
+              <OutputLabel
                 color={TAX_COLOUR}
                 name="Tax"
                 value={computeAmountForPeriod(
@@ -167,11 +176,8 @@ class IncomeForm extends React.Component {
                 }
                 handler={this.handleTaxChange}
                 timeperiod={this.taxPeriod}
-                unit="(£ per year)"
-                periods = {['year', 'month', 'week', 'day']}
               />
-              <ReadOnlyLabel
-                classname="label-righty"
+              <OutputLabel
                 color={NI_COLOUR}
                 name="NI"
                 value={computeAmountForPeriod(
@@ -180,11 +186,8 @@ class IncomeForm extends React.Component {
                 }
                 handler={this.handleNIChange}
                 timeperiod={this.niPeriod}
-                unit="(£ per year)"
-                periods = {['year', 'month', 'week', 'day']}
               />
-              <ReadOnlyLabel
-                classname="label-righty"
+              <OutputLabel
                 color={PENSION_COLOUR}
                 name="Pension"
                 value={computeAmountForPeriod(
@@ -193,11 +196,8 @@ class IncomeForm extends React.Component {
                 }
                 handler={this.handlePensionChange}
                 timeperiod={this.pensionPeriod}
-                unit="(£ per year)"
-                periods = {['year', 'month', 'week', 'day']}
               />
-              <ReadOnlyLabel
-                classname="label-righty"
+              <OutputLabel
                 color={SL_COLOUR}
                 name="Student Loan"
                 value={computeAmountForPeriod(
@@ -206,21 +206,16 @@ class IncomeForm extends React.Component {
                 }
                 handler={this.handleSlChange}
                 timeperiod={this.slPeriod}
-                unit="(£ per year)"
-                periods = {['year', 'month', 'week', 'day']}
               />
-              <ReadOnlyLabel
-                classname="label-righty"
+              <OutputLabel
                 color={NET_COLOUR}
                 name="Take home pay"
                 value={computeAmountForPeriod(
                   this.state.netSalary,
                   this.state.netSalaryPeriod)
                 }
-                unit="(£ per year)"
                 handler={this.handleNetPeriodChange}
                 timeperiod={this.netSalaryPeriod}
-                periods = {['year', 'month', 'week', 'day']}
               />
               <p className="small">*Assumes 52 weeks in a year and 7 days in a week</p>
             </div>
