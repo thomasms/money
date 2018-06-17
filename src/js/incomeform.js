@@ -120,27 +120,27 @@ class IncomeForm extends React.Component {
       }
 
       handleTaxChange(e){
-        this.setState({ taxPeriod: e.target.value });
+        this.setState({ taxPeriod: e.target.value.split(" ").pop() });
       }
 
       handleNIChange(e){
-        this.setState({ niPeriod: e.target.value });
+        this.setState({ niPeriod: e.target.value.split(" ").pop() });
       }
 
       handlePensionChange(e){
-        this.setState({ pensionPeriod: e.target.value });
+        this.setState({ pensionPeriod: e.target.value.split(" ").pop() });
       }
 
       handleSlChange(e){
-        this.setState({ slPeriod: e.target.value });
+        this.setState({ slPeriod: e.target.value.split(" ").pop() });
       }
 
       handleNetPeriodChange(e){
-        this.setState({ netSalaryPeriod: e.target.value });
+        this.setState({ netSalaryPeriod: e.target.value.split(" ").pop() });
       }
 
       handleTaxYearChange(e){
-        this.setState({ taxYear: e.target.value });
+        this.setState({ taxYear: e.target.value.split(" ").pop()});
       }
 
       render(){
