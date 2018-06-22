@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chai": "^4.1.2",
     "jest": "^23.1.0",
     "npm": "^6.1.0",
     "package.json": "^2.0.1",

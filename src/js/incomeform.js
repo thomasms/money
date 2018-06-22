@@ -10,8 +10,6 @@ import Responsive from 'react-responsive';
 
 const Desktop = props => <Responsive {...props} minWidth={992} />;
 const TabletMobile = props => <Responsive {...props} maxWidth={991} />;
-const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
-const Mobile = props => <Responsive {...props} maxWidth={767} />;
 
 class IncomeForm extends React.Component {
 
@@ -165,7 +163,7 @@ class IncomeForm extends React.Component {
                 <label>Tax Year</label>
                 <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
 
-                <InputMenu classname="jeff"
+                <InputMenu classname=""
                   handleGross={this.handleGross}
                   handleNonPensionableGross={this.handleNonPensionableGross}
                   handlePensionRate={this.handlePensionRate}
@@ -230,7 +228,7 @@ class IncomeForm extends React.Component {
                 <div className="">
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
                 </div>
-                
+
               </TabletMobile>
             </div>
         );
