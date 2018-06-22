@@ -1,8 +1,17 @@
 import React from 'react';
 import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
-import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid, computeAmountForPeriod } from './compute.js';
-import { LabelWithInput, LabelWithCheck, DropDownDateInput, OutputLabel } from './labels.js';
+import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
+import { DropDownDateInput } from './labels.js';
+import { InputMenu } from './input.js'
+import { OutputMenu } from './output.js'
 import { MoneyPie } from './charts.js'
+
+import Responsive from 'react-responsive';
+
+const Desktop = props => <Responsive {...props} minWidth={992} />;
+const TabletMobile = props => <Responsive {...props} maxWidth={991} />;
+const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
+const Mobile = props => <Responsive {...props} maxWidth={767} />;
 
 class IncomeForm extends React.Component {
 
@@ -148,78 +157,82 @@ class IncomeForm extends React.Component {
                                   SL_COLOUR, NET_COLOUR ];
 
         return (
-          <div>
-            <h1 align="center">Income Tax Calculator</h1>
-
-            <label>Tax Year</label>
-            <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
-
             <div>
-              <b><LabelWithInput name="Salary" unit="(£ per year)" handler={this.handleGross}/></b>
-              <LabelWithInput name="Non pensionable salary" unit="(£ per year)" handler={this.handleNonPensionableGross}/>
-              <LabelWithInput name="Pension Rate" unit="(%)" handler={this.handlePensionRate} />
-              <LabelWithInput name="Childcare voucher" unit="(£ per month)" handler={this.handleChildCareVoucher}/>
-              <LabelWithCheck name="Student Loan" handler={this.handleStudentLoan}/>
-            </div>
+              <h1 align="center">Income Tax Calculator</h1>
 
-            <div className="atthetopright">
-              <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
-            </div>
+              {/* Desktop*/}
+              <Desktop>
+                <label>Tax Year</label>
+                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
 
-            <div className="atthebottom">
-              <OutputLabel
-                color={TAX_COLOUR}
-                name="Tax"
-                value={computeAmountForPeriod(
-                  this.state.taxPaid,
-                  this.state.taxPeriod)
-                }
-                handler={this.handleTaxChange}
-                timeperiod={this.taxPeriod}
-              />
-              <OutputLabel
-                color={NI_COLOUR}
-                name="NI"
-                value={computeAmountForPeriod(
-                  this.state.niPaid,
-                  this.state.niPeriod)
-                }
-                handler={this.handleNIChange}
-                timeperiod={this.niPeriod}
-              />
-              <OutputLabel
-                color={PENSION_COLOUR}
-                name="Pension"
-                value={computeAmountForPeriod(
-                  this.state.pensionPaid,
-                  this.state.pensionPeriod)
-                }
-                handler={this.handlePensionChange}
-                timeperiod={this.pensionPeriod}
-              />
-              <OutputLabel
-                color={SL_COLOUR}
-                name="Student Loan"
-                value={computeAmountForPeriod(
-                  this.state.slPaid,
-                  this.state.slPeriod)
-                }
-                handler={this.handleSlChange}
-                timeperiod={this.slPeriod}
-              />
-              <OutputLabel
-                color={NET_COLOUR}
-                name="Take home pay"
-                value={computeAmountForPeriod(
-                  this.state.netSalary,
-                  this.state.netSalaryPeriod)
-                }
-                handler={this.handleNetPeriodChange}
-                timeperiod={this.netSalaryPeriod}
-              />
-              <p className="small">*Assumes 52 weeks in a year and 7 days in a week</p>
+                <InputMenu classname="jeff"
+                  handleGross={this.handleGross}
+                  handleNonPensionableGross={this.handleNonPensionableGross}
+                  handlePensionRate={this.handlePensionRate}
+                  handleChildCareVoucher={this.handleChildCareVoucher}
+                  handleStudentLoan={this.handleStudentLoan}
+                />
+
+                <div className="atthetopright">
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
+                </div>
+
+                <OutputMenu classname="atthebottom"
+                  taxPaid={this.state.taxPaid}
+                  taxPeriod={this.state.taxPeriod}
+                  handleTaxChange={this.handleTaxChange}
+                  niPaid={this.state.niPaid}
+                  niPeriod={this.state.niPeriod}
+                  handleNIChange={this.handleNIChange}
+                  pensionPaid={this.state.pensionPaid}
+                  pensionPeriod={this.state.pensionPeriod}
+                  handlePensionChange={this.handlePensionChange}
+                  slPaid={this.state.slPaid}
+                  slPeriod={this.state.slPeriod}
+                  handleSlChange={this.handleSlChange}
+                  netSalary={this.state.netSalary}
+                  netSalaryPeriod={this.state.netSalaryPeriod}
+                  handleNetPeriodChange={this.handleNetPeriodChange}
+                />
+              </Desktop>
+
+              {/* Tablets or mobiles*/}
+              <TabletMobile>
+                <label>Tax Year</label>
+                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
+
+                <InputMenu classname=""
+                  handleGross={this.handleGross}
+                  handleNonPensionableGross={this.handleNonPensionableGross}
+                  handlePensionRate={this.handlePensionRate}
+                  handleChildCareVoucher={this.handleChildCareVoucher}
+                  handleStudentLoan={this.handleStudentLoan}
+                />
+
+                <OutputMenu classname=""
+                  taxPaid={this.state.taxPaid}
+                  taxPeriod={this.state.taxPeriod}
+                  handleTaxChange={this.handleTaxChange}
+                  niPaid={this.state.niPaid}
+                  niPeriod={this.state.niPeriod}
+                  handleNIChange={this.handleNIChange}
+                  pensionPaid={this.state.pensionPaid}
+                  pensionPeriod={this.state.pensionPeriod}
+                  handlePensionChange={this.handlePensionChange}
+                  slPaid={this.state.slPaid}
+                  slPeriod={this.state.slPeriod}
+                  handleSlChange={this.handleSlChange}
+                  netSalary={this.state.netSalary}
+                  netSalaryPeriod={this.state.netSalaryPeriod}
+                  handleNetPeriodChange={this.handleNetPeriodChange}
+                />
+
+                <div className="">
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
+                </div>
+                
+              </TabletMobile>
             </div>
-          </div>
         );
       }
 }
