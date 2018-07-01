@@ -2,17 +2,19 @@ import React from 'react';
 
 function DropDownDateInput(props) {
   return (
-    <div className={props.classname}>
-      <select onChange={props.handler}>
-        {
-          props.data.map((x, i) => <option
-                                     key={i}
-                                     value={x}>
-                                     {x}
-                                   </option>)
-        }
-      </select>
-    </div>
+    <span className={props.classname}>
+    <select onChange={props.handler} defaultValue={props.selected}>
+      {
+        props.data.map((x, i) =>
+            <option
+              key={i}
+              value={x}>
+              {x}
+            </option>
+        )
+      }
+    </select>
+  </span>
   );
 }
 
@@ -20,7 +22,7 @@ function LabelWithInput(props) {
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input type="number" name={props.name} onChange={props.handler}/>
+      <input type="number" name={props.name} onChange={props.handler} value={props.value}/>
       <label> {props.unit}</label>
     </div>
   );
@@ -30,7 +32,7 @@ function LabelWithCheck(props){
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input type="checkbox" name={props.name} onChange={props.handler}/>
+      <input type="checkbox" name={props.name} onChange={props.handler} value={props.value}/>
     </div>
   );
 }
@@ -40,12 +42,15 @@ function ReadOnlyLabel(props) {
     <div className="block">
       <font color={props.color}><label className={props.classname}>{props.name} </label></font>
       <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
-      <DropDownDateInput classname="inline" handler={props.handler} data={props.periods}/>
+      <DropDownDateInput classname="hozspace" handler={props.handler} data={props.periods} selected={props.selected}/>
     </div>
   );
 }
 
 function OutputLabel(props){
+  const prepend = '£ per ';
+  const selected = prepend + props.timeperiod;
+  const periods = [prepend +'year', prepend +'month', prepend +'week', prepend +'day'];
   return (
     <ReadOnlyLabel
       classname="label-righty"
@@ -53,9 +58,8 @@ function OutputLabel(props){
       name={props.name}
       value={props.value}
       handler={props.handler}
-      timeperiod={props.timeperiod}
-      unit="(£ per year)"
-      periods = {['£ per year', '£ per month', '£ per week', '£ per day']}
+      selected={selected}
+      periods = {periods}
     />
   );
 }

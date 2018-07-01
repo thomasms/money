@@ -29,16 +29,28 @@ input[type=checkbox] {
   text-align: center;
 }
 
+.hozspace{
+  margin-left: 5px;
+}
+
+.vertspace{
+  margin-top: 50px;
+}
+
+.hozvertspace{
+  margin-left: 5px;
+  margin-top: 25px;
+}
+
 .inline {
   margin-top: 25px;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-right: 10px;
   float:right;
 }
 
 .small{
   font: 12px "Palatino", Futura, sans-serif;
-  position: fixed;
   right : 30px;
   text-align: center;
 }
@@ -47,6 +59,10 @@ input[type=checkbox] {
   position : absolute;
   right : 0px;
   top : 0px;
+}
+
+.attheright {
+  right : 50px;
 }
 
 .atthebottom {
@@ -66,7 +82,7 @@ input[type=checkbox] {
 
 .label-righty{
   display: inline-block;
-  width: 150px;
+  width: 140px;
   text-align: right;
   margin-top: 25px;
   margin-right: 10px;

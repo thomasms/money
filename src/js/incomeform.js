@@ -8,7 +8,8 @@ import { MoneyPie } from './charts.js'
 
 import Responsive from 'react-responsive';
 
-const Desktop = props => <Responsive {...props} minWidth={992} />;
+const Desktop = props => <Responsive {...props} minWidth={992} minHeight={692}/>;
+const TabletLandscape = props => <Responsive {...props} maxHeight={691}/>;
 const TabletMobile = props => <Responsive {...props} maxWidth={991} />;
 
 class IncomeForm extends React.Component {
@@ -32,18 +33,22 @@ class IncomeForm extends React.Component {
 
         this.state = {
           taxYear: '18/19',
-          taxPeriod: 'year',
-          niPeriod: 'year',
-          pensionPeriod: 'year',
-          slPeriod: 'year',
-          netSalaryPeriod: 'year',
-          grossBasicSalary: 0.0,
-          grossNonPensionableSalary: 0.0,
-          pensionRate: 0.0,
+          input: {
+            grossBasicSalary: 0.0,
+            grossNonPensionableSalary: 0.0,
+            pensionRate: 0.0,
+            childcareVoucher: 0.0,
+            studentLoan: false,
+          },
+          outputPeriods:{
+            taxPeriod: 'year',
+            niPeriod: 'year',
+            pensionPeriod: 'year',
+            slPeriod: 'year',
+            netSalaryPeriod: 'year',
+          },
           netSalary: 0.0,
           taxPaid: 0.0,
-          childcareVoucher: 0.0,
-          studentLoan: false,
           slPaid: 0.0,
           niPaid: 0.0,
           pensionPaid: 0.0,
@@ -55,23 +60,22 @@ class IncomeForm extends React.Component {
         };
       }
 
-      update(basicGross, nonPensionableGross, pensionRate){
+      update(input){
         //NI is paid on pension
         //Tax is not paid on pension
-        const childcareVoucher = parseFloat(this.state.childcareVoucher);
-        const totalGross = basicGross + nonPensionableGross - childcareVoucher;
+        const totalGross = input.grossBasicSalary +
+                      input.grossNonPensionableSalary - input.childcareVoucher;
         const niPaid = computeNIPaid(totalGross);
-        const pensionPaid = parseFloat(pensionRate*basicGross);
+        const pensionPaid = parseFloat(input.pensionRate*input.grossBasicSalary);
         const taxPaid = computeTaxPaid(totalGross - pensionPaid);
-        const slPaid = this.state.studentLoan ? computeStudentLoanPaid(totalGross) : 0.0;
-        const net = parseFloat(basicGross) + parseFloat(nonPensionableGross) -
+        const slPaid = input.studentLoan ? computeStudentLoanPaid(totalGross) : 0.0;
+        const net = input.grossBasicSalary + input.grossNonPensionableSalary -
               parseFloat(niPaid) - parseFloat(taxPaid) -
-              parseFloat(pensionRate*basicGross) - parseFloat(slPaid) - parseFloat(childcareVoucher);
+              parseFloat(input.pensionRate*input.grossBasicSalary) -
+              parseFloat(slPaid) - parseFloat(input.childcareVoucher);
 
         this.setState({
-          grossBasicSalary: parseFloat(basicGross),
-          grossNonPensionableSalary: parseFloat(nonPensionableGross),
-          pensionRate: parseFloat(pensionRate),
+          input: input,
           taxPaid: parseFloat(taxPaid),
           niPaid: parseFloat(niPaid),
           slPaid: parseFloat(slPaid),
@@ -86,64 +90,64 @@ class IncomeForm extends React.Component {
       }
 
       handleGross(e) {
-        const basicGross = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-        this.update(basicGross, nonPensionableGross, parseFloat(this.state.pensionRate));
+        var input = {...this.state.input};
+        input.grossBasicSalary = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        this.update(input);
       }
 
       handleNonPensionableGross(e) {
-        const nonPensionableGross = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const basicGross = parseFloat(this.state.grossBasicSalary);
-        this.update(basicGross, nonPensionableGross, parseFloat(this.state.pensionRate));
+        var input = {...this.state.input};
+        input.grossNonPensionableSalary = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
+        this.update(input);
       }
 
       handlePensionRate(e){
+        var input = {...this.state.input};
         const rate = e.target.value === "" ? 0.0 : parseFloat(e.target.value);
-        const pensionRate = parseFloat(parseFloat(rate)/100.0);
-        const basicGross = parseFloat(this.state.grossBasicSalary);
-        const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-        this.update(basicGross, nonPensionableGross, pensionRate);
+        input.pensionRate = parseFloat(parseFloat(rate)/100.0);
+        this.update(input);
       }
 
       handleChildCareVoucher(e){
-        const amount = e.target.value === "" ? 0.0 : parseFloat(e.target.value)*12.0;
-        this.setState({ childcareVoucher: amount, },
-                () => {
-                    const pensionRate = parseFloat(this.state.pensionRate);
-                    const basicGross = parseFloat(this.state.grossBasicSalary);
-                    const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-                    this.update(basicGross, nonPensionableGross, pensionRate);
-                });
+        var input = {...this.state.input};
+        input.childcareVoucher = e.target.value === "" ? 0.0 : parseFloat(e.target.value)*12.0;
+        this.update(input);
       }
 
       handleStudentLoan(e){
-        this.setState({ studentLoan: e.target.checked, },
-                () => {
-                  const pensionRate = parseFloat(this.state.pensionRate);
-                  const basicGross = parseFloat(this.state.grossBasicSalary);
-                  const nonPensionableGross = parseFloat(this.state.grossNonPensionableSalary);
-                  this.update(basicGross, nonPensionableGross, pensionRate);
-                });
+        var input = {...this.state.input};
+        input.studentLoan = e.target.checked;
+        this.update(input);
       }
 
       handleTaxChange(e){
-        this.setState({ taxPeriod: e.target.value.split(" ").pop() });
+        var periods = {...this.state.outputPeriods};
+        periods.taxPeriod = e.target.value.split(" ").pop();
+        this.setState({ outputPeriods: periods });
       }
 
       handleNIChange(e){
-        this.setState({ niPeriod: e.target.value.split(" ").pop() });
+        var periods = {...this.state.outputPeriods};
+        periods.niPeriod = e.target.value.split(" ").pop();
+        this.setState({ outputPeriods: periods });
       }
 
       handlePensionChange(e){
-        this.setState({ pensionPeriod: e.target.value.split(" ").pop() });
+        var periods = {...this.state.outputPeriods};
+        periods.pensionPeriod = e.target.value.split(" ").pop();
+        this.setState({ outputPeriods: periods });
       }
 
       handleSlChange(e){
-        this.setState({ slPeriod: e.target.value.split(" ").pop() });
+        var periods = {...this.state.outputPeriods};
+        periods.slPeriod = e.target.value.split(" ").pop();
+        this.setState({ outputPeriods: periods });
       }
 
       handleNetPeriodChange(e){
-        this.setState({ netSalaryPeriod: e.target.value.split(" ").pop() });
+        var periods = {...this.state.outputPeriods};
+        periods.netSalaryPeriod = e.target.value.split(" ").pop();
+        this.setState({ outputPeriods: periods });
       }
 
       handleTaxYearChange(e){
@@ -154,6 +158,7 @@ class IncomeForm extends React.Component {
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
 
+        const input = {...this.state.input};
         return (
             <div>
               <h1 align="center">Income Tax Calculator</h1>
@@ -164,6 +169,7 @@ class IncomeForm extends React.Component {
                 <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
 
                 <InputMenu classname=""
+                  input={input}
                   handleGross={this.handleGross}
                   handleNonPensionableGross={this.handleNonPensionableGross}
                   handlePensionRate={this.handlePensionRate}
@@ -176,30 +182,27 @@ class IncomeForm extends React.Component {
                 </div>
 
                 <OutputMenu classname="atthebottom"
+                  periods={this.state.outputPeriods}
                   taxPaid={this.state.taxPaid}
-                  taxPeriod={this.state.taxPeriod}
                   handleTaxChange={this.handleTaxChange}
                   niPaid={this.state.niPaid}
-                  niPeriod={this.state.niPeriod}
                   handleNIChange={this.handleNIChange}
                   pensionPaid={this.state.pensionPaid}
-                  pensionPeriod={this.state.pensionPeriod}
                   handlePensionChange={this.handlePensionChange}
                   slPaid={this.state.slPaid}
-                  slPeriod={this.state.slPeriod}
                   handleSlChange={this.handleSlChange}
                   netSalary={this.state.netSalary}
-                  netSalaryPeriod={this.state.netSalaryPeriod}
                   handleNetPeriodChange={this.handleNetPeriodChange}
                 />
               </Desktop>
 
               {/* Tablets or mobiles*/}
-              <TabletMobile>
+              <TabletLandscape>
                 <label>Tax Year</label>
                 <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
 
                 <InputMenu classname=""
+                  input={input}
                   handleGross={this.handleGross}
                   handleNonPensionableGross={this.handleNonPensionableGross}
                   handlePensionRate={this.handlePensionRate}
@@ -207,21 +210,55 @@ class IncomeForm extends React.Component {
                   handleStudentLoan={this.handleStudentLoan}
                 />
 
-                <OutputMenu classname=""
+                <div className="vertspace"/>
+                
+                <OutputMenu classname="attheright"
+                  periods={this.state.outputPeriods}
                   taxPaid={this.state.taxPaid}
-                  taxPeriod={this.state.taxPeriod}
                   handleTaxChange={this.handleTaxChange}
                   niPaid={this.state.niPaid}
-                  niPeriod={this.state.niPeriod}
                   handleNIChange={this.handleNIChange}
                   pensionPaid={this.state.pensionPaid}
-                  pensionPeriod={this.state.pensionPeriod}
                   handlePensionChange={this.handlePensionChange}
                   slPaid={this.state.slPaid}
-                  slPeriod={this.state.slPeriod}
                   handleSlChange={this.handleSlChange}
                   netSalary={this.state.netSalary}
-                  netSalaryPeriod={this.state.netSalaryPeriod}
+                  handleNetPeriodChange={this.handleNetPeriodChange}
+                />
+
+                <div className="">
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
+                </div>
+
+              </TabletLandscape>
+
+              {/* Tablets or mobiles*/}
+              <TabletMobile>
+                <label>Tax Year</label>
+                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
+
+                <InputMenu classname=""
+                  input={input}
+                  handleGross={this.handleGross}
+                  handleNonPensionableGross={this.handleNonPensionableGross}
+                  handlePensionRate={this.handlePensionRate}
+                  handleChildCareVoucher={this.handleChildCareVoucher}
+                  handleStudentLoan={this.handleStudentLoan}
+                />
+
+                <div className="vertspace"/>
+
+                <OutputMenu classname="attheright"
+                  periods={this.state.outputPeriods}
+                  taxPaid={this.state.taxPaid}
+                  handleTaxChange={this.handleTaxChange}
+                  niPaid={this.state.niPaid}
+                  handleNIChange={this.handleNIChange}
+                  pensionPaid={this.state.pensionPaid}
+                  handlePensionChange={this.handlePensionChange}
+                  slPaid={this.state.slPaid}
+                  handleSlChange={this.handleSlChange}
+                  netSalary={this.state.netSalary}
                   handleNetPeriodChange={this.handleNetPeriodChange}
                 />
 

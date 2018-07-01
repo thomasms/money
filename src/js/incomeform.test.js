@@ -14,6 +14,8 @@ describe('<IncomeForm />', () => {
   it('Contains Desktop', () => {
     const wrapper = mount(<IncomeForm />);
     expect(wrapper.find('Desktop')).to.have.length(1);
+    expect(wrapper.find('Desktop').find('div')).to.have.length(1);
+    expect(wrapper.find('Desktop').contains(OutputMenu)).to.equal(true);
   });
 
   it('Contains Mobile', () => {
