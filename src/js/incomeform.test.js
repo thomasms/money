@@ -11,16 +11,16 @@ describe('<IncomeForm />', () => {
     expect(wrapper.find('h1')).to.have.length(1);
   });
 
-  it('Contains Desktop', () => {
-    const wrapper = mount(<IncomeForm />);
-    expect(wrapper.find('Desktop')).to.have.length(1);
-    expect(wrapper.find('Desktop').find('div')).to.have.length(1);
-    expect(wrapper.find('Desktop').contains(OutputMenu)).to.equal(true);
-  });
-
-  it('Contains Mobile', () => {
-    const wrapper = mount(<IncomeForm />);
-    expect(wrapper.find('TabletMobile')).to.have.length(1);
-  });
+  // it('Contains Desktop', () => {
+  //   const wrapper = mount(<IncomeForm />);
+  //   expect(wrapper.find('Desktop')).to.have.length(1);
+  //   expect(wrapper.find('Desktop').find('div')).to.have.length(1);
+  //   expect(wrapper.find('Desktop').contains(OutputMenu)).to.equal(true);
+  // });
+  //
+  // it('Contains Mobile', () => {
+  //   const wrapper = mount(<IncomeForm />);
+  //   expect(wrapper.find('TabletMobile')).to.have.length(1);
+  // });
 
 });
