@@ -1,10 +1,10 @@
 import React from 'react';
 import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
-import { DropDownDateInput } from './labels.js';
 import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
 import { MoneyPie } from './charts.js'
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 import Responsive from 'react-responsive';
 
@@ -161,13 +161,20 @@ class IncomeForm extends React.Component {
         const input = {...this.state.input};
         return (
             <div>
-              <h1 align="center">Income Tax Calculator</h1>
+
+              <Navbar color="dark" dark expand="md" className="vertspace">
+                  <NavbarBrand href="/">
+                      <strong>Income Tax Calculator</strong>
+                  </NavbarBrand>
+                  <Nav className="ml-auto" navbar>
+                    <NavItem>
+                      <NavLink href="/components/">Tax Year - 18/19</NavLink>
+                    </NavItem>
+                  </Nav>
+              </Navbar>
 
               {/* Desktop*/}
               <Desktop>
-                <label>Tax Year</label>
-                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
-
                 <InputMenu classname=""
                   input={input}
                   handleGross={this.handleGross}
@@ -198,9 +205,6 @@ class IncomeForm extends React.Component {
 
               {/* Tablets or mobiles*/}
               <TabletLandscape>
-                <label>Tax Year</label>
-                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
-
                 <InputMenu classname=""
                   input={input}
                   handleGross={this.handleGross}
@@ -211,7 +215,7 @@ class IncomeForm extends React.Component {
                 />
 
                 <div className="vertspace"/>
-                
+
                 <OutputMenu classname="attheright"
                   periods={this.state.outputPeriods}
                   taxPaid={this.state.taxPaid}
@@ -234,9 +238,6 @@ class IncomeForm extends React.Component {
 
               {/* Tablets or mobiles*/}
               <TabletMobile>
-                <label>Tax Year</label>
-                <DropDownDateInput handler={this.handleTaxYearChange} data={['18/19']}/>
-
                 <InputMenu classname=""
                   input={input}
                   handleGross={this.handleGross}

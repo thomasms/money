@@ -32,7 +32,7 @@ function LabelWithCheck(props){
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input type="checkbox" name={props.name} onChange={props.handler} value={props.value}/>
+      <input type="checkbox" name={props.name} onChange={props.handler} value={props.value} defaultChecked={props.value}/>
     </div>
   );
 }

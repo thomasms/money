@@ -1,19 +1,19 @@
 body {
   font: 18px "Palatino", Futura, sans-serif;
   margin: 20px;
-  background-color: #FEFEFE;
+  #background-color: #FEFEFE;
   #background-image: url("../money_high.jpeg");
 }
 
 img{
-  opacity: 0.2;
+  opacity: 0.9;
 }
 
 input{
   text-align: right;
   font: 18px "Palatino", Futura, sans-serif;
   height: 30px;
-  width: 140px;
+  width: 110px;
 }
 
 input[type=checkbox] {
@@ -34,7 +34,7 @@ input[type=checkbox] {
 }
 
 .vertspace{
-  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .hozvertspace{
@@ -62,7 +62,9 @@ input[type=checkbox] {
 }
 
 .attheright {
+  position : relative;
   right : 50px;
+  float:right;
 }
 
 .atthebottom {
@@ -73,7 +75,7 @@ input[type=checkbox] {
 
 .label-lefty{
   display: inline-block;
-  width: 250px;
+  width: 190px;
   text-align: right;
   margin-top: 25px;
   margin-left: 10px;

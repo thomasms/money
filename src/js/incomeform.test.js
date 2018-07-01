@@ -6,9 +6,9 @@ import IncomeForm from './incomeform.js';
 import OutputMenu from './output.js'
 
 describe('<IncomeForm />', () => {
-  it('Contains header', () => {
-    const wrapper = render(<IncomeForm />);
-    expect(wrapper.find('h1')).to.have.length(1);
+  it('Contains Navbar', () => {
+    const wrapper = mount(<IncomeForm />);
+    //expect(wrapper.find('.Navbar')).to.have.length(1);
   });
 
   // it('Contains Desktop', () => {
