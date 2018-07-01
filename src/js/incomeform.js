@@ -8,8 +8,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 import Responsive from 'react-responsive';
 
-const Desktop = props => <Responsive {...props} minWidth={992} minHeight={692}/>;
-const TabletLandscape = props => <Responsive {...props} maxHeight={691}/>;
+const Desktop = props => <Responsive {...props} minWidth={992}/>;
 const TabletMobile = props => <Responsive {...props} maxWidth={991} />;
 
 class IncomeForm extends React.Component {
@@ -162,7 +161,7 @@ class IncomeForm extends React.Component {
         return (
             <div>
 
-              <Navbar color="dark" dark expand="md" className="vertspace">
+              <Navbar color="dark" dark expand="md" className="">
                   <NavbarBrand href="/">
                       <strong>Income Tax Calculator</strong>
                   </NavbarBrand>
@@ -202,39 +201,6 @@ class IncomeForm extends React.Component {
                   handleNetPeriodChange={this.handleNetPeriodChange}
                 />
               </Desktop>
-
-              {/* Tablets or mobiles*/}
-              <TabletLandscape>
-                <InputMenu classname=""
-                  input={input}
-                  handleGross={this.handleGross}
-                  handleNonPensionableGross={this.handleNonPensionableGross}
-                  handlePensionRate={this.handlePensionRate}
-                  handleChildCareVoucher={this.handleChildCareVoucher}
-                  handleStudentLoan={this.handleStudentLoan}
-                />
-
-                <div className="vertspace"/>
-
-                <OutputMenu classname="attheright"
-                  periods={this.state.outputPeriods}
-                  taxPaid={this.state.taxPaid}
-                  handleTaxChange={this.handleTaxChange}
-                  niPaid={this.state.niPaid}
-                  handleNIChange={this.handleNIChange}
-                  pensionPaid={this.state.pensionPaid}
-                  handlePensionChange={this.handlePensionChange}
-                  slPaid={this.state.slPaid}
-                  handleSlChange={this.handleSlChange}
-                  netSalary={this.state.netSalary}
-                  handleNetPeriodChange={this.handleNetPeriodChange}
-                />
-
-                <div className="">
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
-                </div>
-
-              </TabletLandscape>
 
               {/* Tablets or mobiles*/}
               <TabletMobile>

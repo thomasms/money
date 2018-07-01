@@ -75,18 +75,27 @@ input[type=checkbox] {
 
 .label-lefty{
   display: inline-block;
-  width: 190px;
+  width: 140px;
   text-align: right;
-  margin-top: 25px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.label-lefty-long{
+  display: inline-block;
+  width: 220px;
+  text-align: right;
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .label-righty{
   display: inline-block;
-  width: 140px;
+  width: 130px;
   text-align: right;
-  margin-top: 25px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-top: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
 }

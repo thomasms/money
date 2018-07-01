@@ -31,7 +31,7 @@ function LabelWithInput(props) {
 function LabelWithCheck(props){
   return (
     <div className="block">
-      <label className="label-lefty">{props.name} </label>
+      <label className="label-lefty-long">{props.name} </label>
       <input type="checkbox" name={props.name} onChange={props.handler} value={props.value} defaultChecked={props.value}/>
     </div>
   );
@@ -48,7 +48,7 @@ function ReadOnlyLabel(props) {
 }
 
 function OutputLabel(props){
-  const prepend = '£ per ';
+  const prepend = '£/';
   const selected = prepend + props.timeperiod;
   const periods = [prepend +'year', prepend +'month', prepend +'week', prepend +'day'];
   return (
