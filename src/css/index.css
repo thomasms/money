@@ -29,6 +29,12 @@ input[type=checkbox] {
   text-align: center;
 }
 
+.footer2{
+  font: 12px "Palatino", Futura, sans-serif;
+  width: 100%;
+  text-align: center;
+}
+
 .hozspace{
   margin-left: 5px;
 }
@@ -42,9 +48,13 @@ input[type=checkbox] {
   margin-top: 25px;
 }
 
+.border{
+  border: 5px solid black;
+}
+
 .inline {
   margin-top: 25px;
-  margin-left: 5px;
+  margin-left: 10px;
   margin-right: 10px;
   float:right;
 }
@@ -78,8 +88,8 @@ input[type=checkbox] {
   width: 140px;
   text-align: right;
   margin-top: 20px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .label-lefty-long{
@@ -87,8 +97,8 @@ input[type=checkbox] {
   width: 220px;
   text-align: right;
   margin-top: 20px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .label-righty{
@@ -96,6 +106,6 @@ input[type=checkbox] {
   width: 130px;
   text-align: right;
   margin-top: 20px;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
 }

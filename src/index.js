@@ -9,7 +9,9 @@ class Main extends React.Component {
     return (
       <div>
           <IncomeForm />
-          <p className="footer" align="center">Thomas Stainer &copy; 2018</p>
+          <div>
+            <p className="footer2" align="center">Thomas Stainer &copy; 2018</p>
+          </div>
       </div>
     );
   }

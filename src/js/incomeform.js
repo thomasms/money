@@ -5,11 +5,10 @@ import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
 import { MoneyPie } from './charts.js'
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { WidthProvider, Responsive } from "react-grid-layout";
 
-import Responsive from 'react-responsive';
-
-const Desktop = props => <Responsive {...props} minWidth={992}/>;
-const TabletMobile = props => <Responsive {...props} maxWidth={991} />;
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const originalLayouts = getFromLS("layouts") || {};
 
 class IncomeForm extends React.Component {
 
@@ -31,6 +30,7 @@ class IncomeForm extends React.Component {
         this.handleSlChange = this.handleSlChange.bind(this);
 
         this.state = {
+          layouts: JSON.parse(JSON.stringify(originalLayouts)),
           taxYear: '18/19',
           input: {
             grossBasicSalary: 0.0,
@@ -57,6 +57,24 @@ class IncomeForm extends React.Component {
                  {name: 'Student Loan', value: 0},
                  {name: 'Take Home', value: 0}],
         };
+      }
+
+
+      static get defaultProps() {
+        return {
+          className: "layout",
+          cols: { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 },
+          rowHeight: 120
+        };
+      }
+
+      resetLayout() {
+        this.setState({ layouts: {} });
+      }
+
+      onLayoutChange(layout, layouts) {
+        saveToLS("layouts", layouts);
+        this.setState({ layouts });
       }
 
       update(input){
@@ -121,31 +139,31 @@ class IncomeForm extends React.Component {
 
       handleTaxChange(e){
         var periods = {...this.state.outputPeriods};
-        periods.taxPeriod = e.target.value.split(" ").pop();
+        periods.taxPeriod = e.target.value.split("/").pop();
         this.setState({ outputPeriods: periods });
       }
 
       handleNIChange(e){
         var periods = {...this.state.outputPeriods};
-        periods.niPeriod = e.target.value.split(" ").pop();
+        periods.niPeriod = e.target.value.split("/").pop();
         this.setState({ outputPeriods: periods });
       }
 
       handlePensionChange(e){
         var periods = {...this.state.outputPeriods};
-        periods.pensionPeriod = e.target.value.split(" ").pop();
+        periods.pensionPeriod = e.target.value.split("/").pop();
         this.setState({ outputPeriods: periods });
       }
 
       handleSlChange(e){
         var periods = {...this.state.outputPeriods};
-        periods.slPeriod = e.target.value.split(" ").pop();
+        periods.slPeriod = e.target.value.split("/").pop();
         this.setState({ outputPeriods: periods });
       }
 
       handleNetPeriodChange(e){
         var periods = {...this.state.outputPeriods};
-        periods.netSalaryPeriod = e.target.value.split(" ").pop();
+        periods.netSalaryPeriod = e.target.value.split("/").pop();
         this.setState({ outputPeriods: periods });
       }
 
@@ -172,71 +190,73 @@ class IncomeForm extends React.Component {
                   </Nav>
               </Navbar>
 
-              {/* Desktop*/}
-              <Desktop>
-                <InputMenu classname=""
-                  input={input}
-                  handleGross={this.handleGross}
-                  handleNonPensionableGross={this.handleNonPensionableGross}
-                  handlePensionRate={this.handlePensionRate}
-                  handleChildCareVoucher={this.handleChildCareVoucher}
-                  handleStudentLoan={this.handleStudentLoan}
-                />
+              <ResponsiveReactGridLayout
+                  className="layout"
+                  isDraggable={false} isResizable={false}
+                  cols={{ lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }}
+                  rowHeight={120}
+                  layouts={this.state.layouts}
+                  onLayoutChange={(layout, layouts) =>
+                    this.onLayoutChange(layout, layouts)
+                  }
+                >
+                <div className="border" key="1" data-grid={{ w: 4, h: 3, x: 0, y: 0 }}>
+                  <InputMenu classname=""
+                    input={input}
+                    handleGross={this.handleGross}
+                    handleNonPensionableGross={this.handleNonPensionableGross}
+                    handlePensionRate={this.handlePensionRate}
+                    handleChildCareVoucher={this.handleChildCareVoucher}
+                    handleStudentLoan={this.handleStudentLoan}
+                  />
+                </div>
 
-                <div className="atthetopright">
+                <div className="border" key="2" data-grid={{ w: 4, h: 3, x: 2, y: 0 }}>
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
                 </div>
 
-                <OutputMenu classname="atthebottom"
-                  periods={this.state.outputPeriods}
-                  taxPaid={this.state.taxPaid}
-                  handleTaxChange={this.handleTaxChange}
-                  niPaid={this.state.niPaid}
-                  handleNIChange={this.handleNIChange}
-                  pensionPaid={this.state.pensionPaid}
-                  handlePensionChange={this.handlePensionChange}
-                  slPaid={this.state.slPaid}
-                  handleSlChange={this.handleSlChange}
-                  netSalary={this.state.netSalary}
-                  handleNetPeriodChange={this.handleNetPeriodChange}
-                />
-              </Desktop>
-
-              {/* Tablets or mobiles*/}
-              <TabletMobile>
-                <InputMenu classname=""
-                  input={input}
-                  handleGross={this.handleGross}
-                  handleNonPensionableGross={this.handleNonPensionableGross}
-                  handlePensionRate={this.handlePensionRate}
-                  handleChildCareVoucher={this.handleChildCareVoucher}
-                  handleStudentLoan={this.handleStudentLoan}
-                />
-
-                <div className="vertspace"/>
-
-                <OutputMenu classname="attheright"
-                  periods={this.state.outputPeriods}
-                  taxPaid={this.state.taxPaid}
-                  handleTaxChange={this.handleTaxChange}
-                  niPaid={this.state.niPaid}
-                  handleNIChange={this.handleNIChange}
-                  pensionPaid={this.state.pensionPaid}
-                  handlePensionChange={this.handlePensionChange}
-                  slPaid={this.state.slPaid}
-                  handleSlChange={this.handleSlChange}
-                  netSalary={this.state.netSalary}
-                  handleNetPeriodChange={this.handleNetPeriodChange}
-                />
-
-                <div className="">
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
+                <div className="border" key="3" data-grid={{ w: 4, h: 3, x: 40, y: 20 }}>
+                  <OutputMenu classname=""
+                    periods={this.state.outputPeriods}
+                    taxPaid={this.state.taxPaid}
+                    handleTaxChange={this.handleTaxChange}
+                    niPaid={this.state.niPaid}
+                    handleNIChange={this.handleNIChange}
+                    pensionPaid={this.state.pensionPaid}
+                    handlePensionChange={this.handlePensionChange}
+                    slPaid={this.state.slPaid}
+                    handleSlChange={this.handleSlChange}
+                    netSalary={this.state.netSalary}
+                    handleNetPeriodChange={this.handleNetPeriodChange}
+                  />
                 </div>
-
-              </TabletMobile>
+              </ResponsiveReactGridLayout>
             </div>
         );
       }
 }
 
 export default IncomeForm;
+
+function getFromLS(key) {
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls[key];
+}
+
+function saveToLS(key, value) {
+  if (global.localStorage) {
+    global.localStorage.setItem(
+      "rgl-8",
+      JSON.stringify({
+        [key]: value
+      })
+    );
+  }
+}
