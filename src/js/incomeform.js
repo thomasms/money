@@ -3,7 +3,7 @@ import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
 import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
-import { MoneyPie } from './charts.js'
+import { MoneyPie, MoneyChart } from './charts.js'
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { WidthProvider, Responsive } from "react-grid-layout";
 
@@ -59,12 +59,12 @@ class IncomeForm extends React.Component {
         };
       }
 
-
       static get defaultProps() {
         return {
           className: "layout",
-          cols: { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 },
-          rowHeight: 120
+          breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
+          cols: { lg: 3, md: 3, sm: 2, xs: 1, xxs: 1 },
+          rowHeight: 400
         };
       }
 
@@ -74,7 +74,7 @@ class IncomeForm extends React.Component {
 
       onLayoutChange(layout, layouts) {
         saveToLS("layouts", layouts);
-        this.setState({ layouts });
+        this.setState({ layouts: layouts });
       }
 
       update(input){
@@ -193,14 +193,16 @@ class IncomeForm extends React.Component {
               <ResponsiveReactGridLayout
                   className="layout"
                   isDraggable={false} isResizable={false}
-                  cols={{ lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }}
-                  rowHeight={120}
+                  breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                  cols={{ lg: 3, md: 3, sm: 2, xs: 1, xxs: 1 }}
+                  rowHeight={400}
                   layouts={this.state.layouts}
                   onLayoutChange={(layout, layouts) =>
                     this.onLayoutChange(layout, layouts)
                   }
                 >
-                <div className="border" key="1" data-grid={{ w: 4, h: 3, x: 0, y: 0 }}>
+                <div className="gridblock" key="a" data-grid={{ w: 1, h: 1, x: 0, y: 0 }}>
+                  <h3>Income</h3>
                   <InputMenu classname=""
                     input={input}
                     handleGross={this.handleGross}
@@ -211,11 +213,8 @@ class IncomeForm extends React.Component {
                   />
                 </div>
 
-                <div className="border" key="2" data-grid={{ w: 4, h: 3, x: 2, y: 0 }}>
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={400}/>
-                </div>
-
-                <div className="border" key="3" data-grid={{ w: 4, h: 3, x: 40, y: 20 }}>
+                <div className="gridblock" key="b" data-grid={{ w: 1, h: 1, x: 0, y: 1 }}>
+                  <h3>Breakdown</h3>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
                     taxPaid={this.state.taxPaid}
@@ -230,6 +229,15 @@ class IncomeForm extends React.Component {
                     handleNetPeriodChange={this.handleNetPeriodChange}
                   />
                 </div>
+
+                <div className="gridblock" key="c" data-grid={{ w: 1, h: 1, x: 1, y: 0 }}>
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={380}/>
+                </div>
+
+                <div className="gridblock" key="d" data-grid={{ w: 2, h: 1, x: 1, y: 1 }}>
+                  <MoneyChart size={600}/>
+                </div>
+
               </ResponsiveReactGridLayout>
             </div>
         );
