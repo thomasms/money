@@ -201,7 +201,7 @@ class IncomeForm extends React.Component {
                     this.onLayoutChange(layout, layouts)
                   }
                 >
-                <div className="gridblock" key="a" data-grid={{ w: 1, h: 1, x: 0, y: 0 }}>
+                <div className="gridblock" key="block1" data-grid={{ w: 1, h: 1, x: 0, y: 0 }}>
                   <h3>Income</h3>
                   <InputMenu classname=""
                     input={input}
@@ -213,7 +213,7 @@ class IncomeForm extends React.Component {
                   />
                 </div>
 
-                <div className="gridblock" key="b" data-grid={{ w: 1, h: 1, x: 0, y: 1 }}>
+                <div className="gridblock" key="block2" data-grid={{ w: 1, h: 1, x: 1, y: 0 }}>
                   <h3>Breakdown</h3>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
@@ -230,12 +230,12 @@ class IncomeForm extends React.Component {
                   />
                 </div>
 
-                <div className="gridblock" key="c" data-grid={{ w: 1, h: 1, x: 1, y: 0 }}>
+                <div className="gridblock" key="block3" data-grid={{ w: 1, h: 1, x: 2, y: 0 }}>
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={380}/>
                 </div>
 
-                <div className="gridblock" key="d" data-grid={{ w: 2, h: 1, x: 1, y: 1 }}>
-                  <MoneyChart size={600}/>
+                <div className="gridblock" key="block4" data-grid={{ w: 2, h: 1, x: 0, y: 1, minW: 1 }}>
+                  <MoneyChart size={650} salary={this.state.netSalary}/>
                 </div>
 
               </ResponsiveReactGridLayout>

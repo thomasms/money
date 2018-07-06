@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, Brush, ReferenceLine } from 'recharts';
 
 function MoneyPie(props) {
 
@@ -125,15 +125,28 @@ function MoneyChart(props){
       {name: '97%', bt : 117000.0, at: 81900.0},
       {name: '98%', bt : 170000.0, at: 114000.0},
   ];
+
+  var percentile = data[0];
+  if(props.salary <= data[data.length-1].at){
+    percentile = data.find((element) => {
+      return element.at >= props.salary;
+    });
+  }
+  else{
+    percentile = data[data.length-1];
+  }
+
   return (
-    	<LineChart width={props.size} height={props.size/1.5} data={data}
-            margin={{top: 5, right: 5, left: 30, bottom: 30}}>
+    	<LineChart width={props.size} height={props.size/1.6} data={data}
+            margin={{top: 5, right: 20, left: 30, bottom: 30}}>
          <XAxis dataKey="name" label={{ value: "percentile",  position: 'insideBottom', offset: -30 }}/>
          <YAxis label={{ value: "£/year" , angle: -90, position: 'insideLeft', offset: -10 }}/>
          <Tooltip />
          <Legend verticalAlign="top" height={36}/>
          <Line type="monotone" name="before tax" dataKey="bt" stroke="#8884d8" activeDot={{r: 8}} />
          <Line type="monotone" name="after tax" dataKey="at" stroke="#82ca9d" />
+         <ReferenceLine x={percentile.name} label="Net" stroke="red" strokeDasharray="3 3" />
+         <Brush data={data} />
       </LineChart>
   );
 }
