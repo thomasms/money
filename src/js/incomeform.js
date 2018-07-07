@@ -231,11 +231,11 @@ class IncomeForm extends React.Component {
                 </div>
 
                 <div className="gridblock" key="block3" data-grid={{ w: 1, h: 1, x: 2, y: 0 }}>
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={380}/>
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={450}/>
                 </div>
 
                 <div className="gridblock" key="block4" data-grid={{ w: 2, h: 1, x: 0, y: 1, minW: 1 }}>
-                  <MoneyChart size={650} salary={this.state.netSalary}/>
+                  <MoneyChart size={700} salary={this.state.netSalary}/>
                 </div>
 
               </ResponsiveReactGridLayout>
