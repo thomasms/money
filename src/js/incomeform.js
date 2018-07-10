@@ -3,6 +3,7 @@ import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './
 import { computeStudentLoanPaid, computeNIPaid, computeTaxPaid } from './compute.js';
 import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
+import { Timer } from './timer.js'
 import { MoneyPie, MoneyChart } from './charts.js'
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { WidthProvider, Responsive } from "react-grid-layout";
@@ -28,6 +29,8 @@ class IncomeForm extends React.Component {
         this.handlePensionChange = this.handlePensionChange.bind(this);
         this.handleNetPeriodChange = this.handleNetPeriodChange.bind(this);
         this.handleSlChange = this.handleSlChange.bind(this);
+
+        this.handleNetUpdate = this.handleNetUpdate.bind(this);
 
         this.state = {
           layouts: JSON.parse(JSON.stringify(originalLayouts)),
@@ -63,7 +66,7 @@ class IncomeForm extends React.Component {
         return {
           className: "layout",
           breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
-          cols: { lg: 3, md: 3, sm: 2, xs: 1, xxs: 1 },
+          cols: { lg: 6, md: 4, sm: 4, xs: 2, xxs: 2 },
           rowHeight: 400
         };
       }
@@ -171,6 +174,10 @@ class IncomeForm extends React.Component {
         this.setState({ taxYear: e.target.value.split(" ").pop()});
       }
 
+      handleNetUpdate(e){
+        //todo
+      }
+
       render(){
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
@@ -194,15 +201,15 @@ class IncomeForm extends React.Component {
                   className="layout"
                   isDraggable={false} isResizable={false}
                   breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                  cols={{ lg: 3, md: 3, sm: 2, xs: 1, xxs: 1 }}
+                  cols={{ lg: 6, md: 4, sm: 4, xs: 2, xxs: 2 }}
                   rowHeight={400}
                   layouts={this.state.layouts}
                   onLayoutChange={(layout, layouts) =>
                     this.onLayoutChange(layout, layouts)
                   }
                 >
-                <div className="gridblock" key="block1" data-grid={{ w: 1, h: 1, x: 0, y: 0 }}>
-                  <h3>Income</h3>
+                <div className="gridblock" key="22" data-grid={{ w: 2, h: 1, x: 0, y: 0 }}>
+                  <h4 className="hozspace">Income</h4>
                   <InputMenu classname=""
                     input={input}
                     handleGross={this.handleGross}
@@ -213,8 +220,8 @@ class IncomeForm extends React.Component {
                   />
                 </div>
 
-                <div className="gridblock" key="block2" data-grid={{ w: 1, h: 1, x: 1, y: 0 }}>
-                  <h3>Breakdown</h3>
+                <div className="gridblock" key="23" data-grid={{ w: 2, h: 1, x: 2, y: 0 }}>
+                  <h4 className="hozspace">Breakdown</h4>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
                     taxPaid={this.state.taxPaid}
@@ -230,11 +237,16 @@ class IncomeForm extends React.Component {
                   />
                 </div>
 
-                <div className="gridblock" key="block3" data-grid={{ w: 1, h: 1, x: 2, y: 0 }}>
+                <div className="gridblock" key="24" data-grid={{ w: 2, h: 1, x: 4, y: 0 }}>
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={450}/>
                 </div>
 
-                <div className="gridblock" key="block4" data-grid={{ w: 2, h: 1, x: 0, y: 1, minW: 1 }}>
+                <div className="gridblock" key="25" data-grid={{ w: 1, h: 1, x: 0, y: 1 }}>
+                  <Timer salary={this.state.netSalary}/>
+                </div>
+
+                <div className="gridblock" key="32" data-grid={{ w: 4, h: 1, x: 2, y: 1, minW: 4 }}>
+                  <h5 className="centerit">Earnings percentile compared to 2015/2016 data</h5>
                   <MoneyChart size={700} salary={this.state.netSalary}/>
                 </div>
 

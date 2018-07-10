@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, Brush, ReferenceLine } from 'recharts';
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, Brush, ReferenceLine, ResponsiveContainer } from 'recharts';
 
 const RADIAN = Math.PI / 180;
 
@@ -27,24 +27,26 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 function MoneyPie(props) {
 
   	return (
-    	<PieChart width={props.size} height={props.size}
-            margin={{top: 5, right: 15, left: 60, bottom: 40}}>
-        <Pie
-          data={props.data}
-          cx={(props.size/2.0) - 10}
-          cy={(props.size/2.0) - 10}
-          innerRadius={70.0}
-          outerRadius={140.0}
-          fill="#8884d8"
-          paddingAngle={0.2}
-          dataKey="value"
-          label={renderCustomizedLabel}
-        >
-        	{
-          	props.data.map((entry, index) => <Cell key={index} fill={props.colours[index % props.colours.length]}/>)
-          }
-        </Pie>
-      </PieChart>
+      <ResponsiveContainer width={props.size} height="90%">
+      	<PieChart width={props.size} height={props.size}
+              margin={{top: 5, right: 15, left: 60, bottom: 40}}>
+          <Pie
+            data={props.data}
+            cx={(props.size/2.0) - 50}
+            cy={(props.size/2.0) - 50}
+            innerRadius={60.0}
+            outerRadius={120.0}
+            fill="#8884d8"
+            paddingAngle={0.2}
+            dataKey="value"
+            label={renderCustomizedLabel}
+          >
+          	{
+            	props.data.map((entry, index) => <Cell key={index} fill={props.colours[index % props.colours.length]}/>)
+            }
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
     );
 }
 
@@ -164,21 +166,24 @@ function MoneyChart(props){
   }
 
   // 10 points either side
-  const startIndex = Math.min(Math.max(0, index - 10), data.length-1);
-  const endIndex = Math.max(Math.min(data.length-1, index + 10), 0);
+  const range = 15;
+  const startIndex = Math.min(Math.max(0, index - range), data.length-1);
+  const endIndex = Math.max(Math.min(data.length-1, index + range), 0);
 
   return (
-    	<LineChart width={props.size} height={props.size/1.7} data={data}
-            margin={{top: 5, right: 10, left: 30, bottom: 30}}>
-         <XAxis dataKey="name" label={{ value: "percentile",  position: 'insideBottom', offset: -30 }}/>
-         <YAxis label={{ value: "£/year" , angle: -90, position: 'insideLeft', offset: -10 }}/>
-         <Tooltip />
-         <Legend verticalAlign="top" height={36}/>
-         <Line type="monotone" name="before tax" dataKey="bt" stroke="#8884d8" activeDot={{r: 8}} />
-         <Line type="monotone" name="after tax" dataKey="at" stroke="#82ca9d" />
-         <ReferenceLine x={data[index].name} label={{ value: "Take Home" , angle: -90}} stroke="red" strokeDasharray="3 3" />
-         <Brush data={data} startIndex={startIndex} endIndex={endIndex}/>
-      </LineChart>
+      <ResponsiveContainer width={props.size} height="100%">
+      	<LineChart width={props.size} height={props.size/1.7} data={data}
+              margin={{top: 5, right: 10, left: 30, bottom: 60}}>
+           <XAxis dataKey="name" label={{ value: "percentile",  position: 'insideBottom', offset: -40 }}/>
+           <YAxis label={{ value: "£/year" , angle: -90, position: 'insideLeft', offset: -10 }}/>
+           <Tooltip cursor={{ stroke: 'red', strokeWidth: 2 }} />
+           <Legend verticalAlign="top" height={36}/>
+           <Line type="monotone" name="before tax" dataKey="bt" stroke="#8884d8" activeDot={{r: 8}} />
+           <Line type="monotone" name="after tax" dataKey="at" stroke="#82ca9d" />
+           <ReferenceLine x={data[index].name} label={{ value: "Take Home" , angle: -90}} stroke="red" strokeDasharray="3 3" />
+           <Brush data={data} startIndex={startIndex} endIndex={endIndex} height={20}/>
+        </LineChart>
+      </ResponsiveContainer>
   );
 }
 

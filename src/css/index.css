@@ -20,12 +20,21 @@ input[type=checkbox] {
     zoom: 0.5;
 }
 
+.large{
+   font: 64px "Palatino", Futura, sans-serif;
+   text-align: center;
+}
+
 .footer{
   font: 12px "Palatino", Futura, sans-serif;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
+  text-align: center;
+}
+
+.centerit{
   text-align: center;
 }
 
@@ -40,7 +49,7 @@ input[type=checkbox] {
 }
 
 .vertspace{
-  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .hozvertspace{

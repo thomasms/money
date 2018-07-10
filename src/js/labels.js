@@ -22,7 +22,7 @@ function LabelWithInput(props) {
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input type="number" name={props.name} onChange={props.handler} value={props.value}/>
+      <input type="number" name={props.name} onChange={props.handler}/>
       <label> {props.unit}</label>
     </div>
   );
@@ -59,7 +59,7 @@ function OutputLabel(props){
       value={props.value}
       handler={props.handler}
       selected={selected}
-      periods = {periods}
+      periods={periods}
     />
   );
 }
