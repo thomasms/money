@@ -192,7 +192,7 @@ class IncomeForm extends React.Component {
                   </NavbarBrand>
                   <Nav className="ml-auto" navbar>
                     <NavItem>
-                      <NavLink href="/components/">Tax Year - 18/19</NavLink>
+                      <NavLink href="/">Tax Year - 18/19</NavLink>
                     </NavItem>
                   </Nav>
               </Navbar>
