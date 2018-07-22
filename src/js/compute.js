@@ -3,6 +3,17 @@ const MONTH_TO_YEAR = 12.0;
 const WEEK_TO_YEAR = 52.0;
 const DAY_TO_YEAR = 7.0*WEEK_TO_YEAR;
 
+export const TAX_YEAR_1819 = { 'short': '18/19', 'long': '2018 - 2019', 'id': 0 }
+export const TAX_YEAR_1718 = { 'short': '17/18', 'long': '2017 - 2018', 'id': 1 }
+
+export const AVAILABLE_TAX_YEARS = [TAX_YEAR_1819, TAX_YEAR_1718];
+
+function findYearIndex(year){
+    return AVAILABLE_TAX_YEARS.findIndex((y) => {
+     return year['id'] === y['id'];
+    });
+}
+
 export function computeAmountForPeriod(amount, period){
     if(period === 'year'){
       return parseFloat(amount);
@@ -18,10 +29,7 @@ export function computeAmountForPeriod(amount, period){
     }
 }
 
-export function computeStudentLoanPaid(gross){
-  const rate = 0.09;
-  const threshold = 18330.0;
-
+function computeStudentLoanPaid(gross, rate, threshold){
   // less than or equal to threshold - no NI paid
   if(gross <= threshold){
     return 0.0;
@@ -31,11 +39,16 @@ export function computeStudentLoanPaid(gross){
   }
 }
 
+export function computeStudentLoanPaidTaxYear(gross, year){
 
-export function computeNIPaid(gross){
-  const rates = [0.12, 0.02];
-  const thresholds = [8424.0, 46350.0];
+  const rates      = [0.09, 0.09];
+  const thresholds = [18330.0, 17775.0];
 
+  var index = findYearIndex(year);
+  return computeStudentLoanPaid(gross, rates[index], thresholds[index])
+}
+
+function computeNIPaid(gross, rates, thresholds){
   // less than or equal to threshold - no NI paid
   if(gross <= thresholds[0]){
     return 0.0;
@@ -48,10 +61,16 @@ export function computeNIPaid(gross){
   }
 }
 
-export function computeTaxPaid(gross){
+export function computeNIPaidTaxYear(gross, year){
 
-  const rates = [0.2, 0.4, 0.45];
-  const thresholds = [11850.0, 34500.0, 150000.0];
+  const rates = [[0.12, 0.02], [0.12, 0.02]];
+  const thresholds = [[8424.0, 46350.0], [8164.0, 45032.0]];
+
+  var index = findYearIndex(year);
+  return computeNIPaid(gross, rates[index], thresholds[index])
+}
+
+function computeTaxPaid(gross, rates, thresholds){
 
   const personalAllowance = thresholds[0];
   const personalAllowanceLowerGrossLimit = 100000.0;
@@ -92,4 +111,13 @@ export function computeTaxPaid(gross){
               (thresholds[2] - thresholds[1])*rates[1] +
                   (gross - thresholds[2])*rates[2]);
   }
+}
+
+export function computeTaxPaidTaxYear(gross, year){
+
+  const rates = [[0.2, 0.4, 0.45], [0.2, 0.4, 0.45]];
+  const thresholds = [[11850.0, 34500.0, 150000.0], [11500.0, 33500.0, 150000.0]];
+
+  var index = findYearIndex(year);
+  return computeTaxPaid(gross, rates[index], thresholds[index])
 }

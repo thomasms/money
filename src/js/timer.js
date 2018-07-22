@@ -27,14 +27,17 @@ class Timer extends React.Component {
     const YEAR_TO_SEC = 365.25*24.0*60.0*60.0;
     const value = this.state.seconds*this.props.salary/YEAR_TO_SEC;
     return (
-      <div className="vertspace">
+      <div className="">
         <div className="centerit">
           Money earned since browsing site
         </div>
-        <div className="vertspace"/>
         <div className="large">
           £ {value.toFixed(2)}
         </div>
+          <div className="centerit">
+            If this starts to get to a high amount, then I think you have spent
+            too long on this site.
+          </div>
       </div>
     );
   }
