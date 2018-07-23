@@ -7,6 +7,43 @@ import {
   TAX_YEAR_1819,
   TAX_YEAR_1718 } from './compute.js';
 
+it('compute student loan type 1 2018/2019', () => {
+  expect(computeStudentLoanPaidTaxYear(-100000, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(-1, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(0, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(10000, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(11850, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(11851, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(12000, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(18330, TAX_YEAR_1819)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(18331, TAX_YEAR_1819)).toBeCloseTo(0.09, 4);
+  expect(computeStudentLoanPaidTaxYear(38000, TAX_YEAR_1819)).toBeCloseTo(1770.30, 4);
+  expect(computeStudentLoanPaidTaxYear(100000, TAX_YEAR_1819)).toBeCloseTo(7350.30, 4);
+  expect(computeStudentLoanPaidTaxYear(120000, TAX_YEAR_1819)).toBeCloseTo(9150.30, 4);
+  expect(computeStudentLoanPaidTaxYear(150000, TAX_YEAR_1819)).toBeCloseTo(11850.30, 4);
+  expect(computeStudentLoanPaidTaxYear(200000, TAX_YEAR_1819)).toBeCloseTo(16350.30, 4);
+});
+
+
+it('compute student loan type 1 2017/2018', () => {
+  expect(computeStudentLoanPaidTaxYear(-100000, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(-1, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(0, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(10000, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(11850, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(11851, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(12000, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(17775, TAX_YEAR_1718)).toEqual(0);
+  expect(computeStudentLoanPaidTaxYear(17776, TAX_YEAR_1718)).toBeCloseTo(0.09, 4);
+  expect(computeStudentLoanPaidTaxYear(18330, TAX_YEAR_1718)).toBeCloseTo(49.95, 4);
+  expect(computeStudentLoanPaidTaxYear(18331, TAX_YEAR_1718)).toBeCloseTo(50.04, 4);
+  expect(computeStudentLoanPaidTaxYear(38000, TAX_YEAR_1718)).toBeCloseTo(1820.25, 4);
+  expect(computeStudentLoanPaidTaxYear(100000, TAX_YEAR_1718)).toBeCloseTo(7400.25, 4);
+  expect(computeStudentLoanPaidTaxYear(120000, TAX_YEAR_1718)).toBeCloseTo(9200.25, 4);
+  expect(computeStudentLoanPaidTaxYear(150000, TAX_YEAR_1718)).toBeCloseTo(11900.25, 4);
+  expect(computeStudentLoanPaidTaxYear(200000, TAX_YEAR_1718)).toBeCloseTo(16400.25, 4);
+});
+
 it('compute tax 2018/2019', () => {
   expect(computeTaxPaidTaxYear(-100000, TAX_YEAR_1819)).toEqual(0);
   expect(computeTaxPaidTaxYear(-1, TAX_YEAR_1819)).toEqual(0);
