@@ -1,7 +1,7 @@
 import React from 'react';
 import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
 import {
-  computeStudentLoanPaidTaxYear,
+  computeStudentLoanPaidType1TaxYear,
   computeNIPaidTaxYear,
   computeTaxPaidTaxYear,
   AVAILABLE_TAX_YEARS } from './compute.js';
@@ -10,14 +10,19 @@ import { OutputMenu } from './output.js'
 import { Timer } from './timer.js'
 import { MoneyPie, MoneyChart } from './charts.js'
 import {
+  Collapse,
   Navbar,
+  NavbarToggler,
   NavbarBrand,
+  NavLink,
   Nav,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 import { WidthProvider, Responsive } from "react-grid-layout";
+import FaHome from 'react-icons/lib/fa/home';
+import FaPieChart from 'react-icons/lib/fa/pie-chart';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = getFromLS("layouts") || {};
@@ -32,7 +37,7 @@ class IncomeForm extends React.Component {
         this.handleGross = this.handleGross.bind(this);
         this.handleNonPensionableGross = this.handleNonPensionableGross.bind(this);
         this.handlePensionRate = this.handlePensionRate.bind(this);
-        this.handleStudentLoan = this.handleStudentLoan.bind(this);
+        this.handleStudentLoanType1 = this.handleStudentLoanType1.bind(this);
         this.handleChildCareVoucher = this.handleChildCareVoucher.bind(this);
 
         this.handleTaxChange = this.handleTaxChange.bind(this);
@@ -41,15 +46,19 @@ class IncomeForm extends React.Component {
         this.handleNetPeriodChange = this.handleNetPeriodChange.bind(this);
         this.handleSlChange = this.handleSlChange.bind(this);
 
+        this.toggle = this.toggle.bind(this);
+
         this.state = {
           layouts: JSON.parse(JSON.stringify(originalLayouts)),
+          isOpen: false,
           input: {
             taxYear: AVAILABLE_TAX_YEARS[0],
             grossBasicSalary: 0.0,
             grossNonPensionableSalary: 0.0,
             pensionRate: 0.0,
             childcareVoucher: 0.0,
-            studentLoan: false,
+            studentLoanType1: false,
+            studentLoanType2: false,
           },
           outputPeriods:{
             taxPeriod: 'year',
@@ -97,7 +106,7 @@ class IncomeForm extends React.Component {
         const niPaid = computeNIPaidTaxYear(totalGross, input.taxYear);
         const pensionPaid = parseFloat(input.pensionRate*input.grossBasicSalary);
         const taxPaid = computeTaxPaidTaxYear(totalGross - pensionPaid, input.taxYear);
-        const slPaid = input.studentLoan ? computeStudentLoanPaidTaxYear(totalGross, input.taxYear) : 0.0;
+        const slPaid = input.studentLoanType1 ? computeStudentLoanPaidType1TaxYear(totalGross, input.taxYear) : 0.0;
         const net = input.grossBasicSalary + input.grossNonPensionableSalary -
               parseFloat(niPaid) - parseFloat(taxPaid) -
               parseFloat(input.pensionRate*input.grossBasicSalary) -
@@ -143,9 +152,15 @@ class IncomeForm extends React.Component {
         this.update(input);
       }
 
-      handleStudentLoan(e){
+      handleStudentLoanType1(e){
         var input = {...this.state.input};
-        input.studentLoan = e.target.checked;
+        input.studentLoanType1 = e.target.checked;
+        this.update(input);
+      }
+
+      handleStudentLoanType2(e){
+        var input = {...this.state.input};
+        input.studentLoanType2 = e.target.checked;
         this.update(input);
       }
 
@@ -189,6 +204,12 @@ class IncomeForm extends React.Component {
         this.update(input);
       }
 
+      toggle() {
+        this.setState({
+          isOpen: !this.state.isOpen
+        });
+      }
+
       render(){
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
@@ -197,10 +218,12 @@ class IncomeForm extends React.Component {
         return (
             <div>
 
-              <Navbar color="dark" dark expand="md" className="">
-                  <NavbarBrand href="/">
-                      <strong>Income Tax Calculator</strong>
-                  </NavbarBrand>
+              <Navbar color="light" light expand="md" className="">
+                <NavbarBrand href="/">Accounting Tom</NavbarBrand>
+                <NavbarBrand href="/"><FaHome/></NavbarBrand>
+                <NavbarBrand href="/income"><FaPieChart/></NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
                   <Nav className="ml-auto" navbar>
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav caret>
@@ -217,14 +240,16 @@ class IncomeForm extends React.Component {
                       </DropdownMenu>
                     </UncontrolledDropdown>
                   </Nav>
+                </Collapse>
               </Navbar>
 
               <div>
-                <h2 className="centerit">How much tax are you paying?</h2>
+                <h1 className="centerit">Income Tax Calculator</h1>
                 <p className="centerit">
                 Just enter your salary, or desired salary, and see how much tax
-                and national insurance you pay per year, month, week or day! 
-                Supports financial years 2018 - 2019 and 2017 - 2018.
+                and national insurance you pay per year, month, week or day!
+                Supports financial years 2018/2019 and 2017/2018.
+                Remember, it's not the gross that matters it's the net.
                 </p>
                 <div className="vertspace"/>
               </div>
@@ -241,19 +266,19 @@ class IncomeForm extends React.Component {
                   }
                 >
                 <div className="gridblock" key="22" data-grid={{ w: 2, h: 1, x: 0, y: 0 }}>
-                  <h4 className="hozspace">Income</h4>
+                  <h3 className="hozspace">Income</h3>
                   <InputMenu classname=""
                     input={input}
                     handleGross={this.handleGross}
                     handleNonPensionableGross={this.handleNonPensionableGross}
                     handlePensionRate={this.handlePensionRate}
                     handleChildCareVoucher={this.handleChildCareVoucher}
-                    handleStudentLoan={this.handleStudentLoan}
+                    handleStudentLoanType1={this.handleStudentLoanType1}
                   />
                 </div>
 
                 <div className="gridblock" key="23" data-grid={{ w: 2, h: 1, x: 2, y: 0 }}>
-                  <h4 className="hozspace">Breakdown</h4>
+                  <h3 className="hozspace">Breakdown</h3>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
                     taxPaid={this.state.taxPaid}
@@ -283,6 +308,15 @@ class IncomeForm extends React.Component {
                 </div>
 
               </ResponsiveReactGridLayout>
+
+              <div>
+                <div className="vertspace"/>
+                <p className="centerit">
+                Rates and thresholds accurate as of &nbsp;
+                <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
+                </p>
+                <div className="vertspace"/>
+              </div>
             </div>
         );
       }

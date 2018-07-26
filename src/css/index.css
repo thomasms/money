@@ -1,6 +1,13 @@
+
+html {
+  height: 100%;
+}
+
 body {
   font: 18px "Palatino", Futura, sans-serif;
   margin: 20px;
+  position: relative;
+  min-height: 100%;
   #background-color: #FEFEFE;
   #background-image: url("../money_high.jpeg");
 }
@@ -42,6 +49,7 @@ input[type=checkbox] {
   font: 12px "Palatino", Futura, sans-serif;
   width: 100%;
   text-align: center;
+  bottom: 0;
 }
 
 .hozspace{
@@ -108,7 +116,7 @@ input[type=checkbox] {
   display: inline-block;
   width: 220px;
   text-align: right;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-left: 5px;
   margin-right: 0px;
 }
