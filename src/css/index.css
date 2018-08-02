@@ -1,11 +1,21 @@
 
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-transition: all .2s;
+	-moz-transition: all .2s;
+	-ms-transition: all .2s;
+	-o-transition: all .2s;
+	transition: all .2s;
+}
+
 html {
   height: 100%;
 }
 
 body {
-  font: 18px "Palatino", Futura, sans-serif;
-  margin: 20px;
+  font: 24px "Palatino", Futura, sans-serif;
+  left: 20px;
   position: relative;
   min-height: 100%;
   #background-color: #FEFEFE;
@@ -16,11 +26,15 @@ img{
   opacity: 0.9;
 }
 
+label{
+  font: 22px "Palatino", Futura, sans-serif;
+}
+
 input{
   text-align: right;
-  font: 18px "Palatino", Futura, sans-serif;
+  font: 24px "Palatino", Futura, sans-serif;
   height: 30px;
-  width: 110px;
+  width: 170px;
 }
 
 input[type=checkbox] {
@@ -50,13 +64,13 @@ input:focus {
 
 input.snazzy,
 textarea.snazzy {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 300;
   border-radius: 2px;
   margin: 0;
   border: none;
   height: 30px;
-  width: 110px;
+  width: 170px;
   background: rgba(0, 0, 0, 0);
   transition: padding-top 0.2s ease, margin-top 0.2s ease;
   overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */
@@ -70,7 +84,7 @@ textarea.snazzy + label {
   white-space: nowrap;
   padding: 0;
   margin: 0;
-  width: 110px;
+  width: 170px;
   border-top: 1px solid red;
   -webkit-transition: width 0.4s ease;
   transition: width 0.4s ease;
@@ -78,21 +92,21 @@ textarea.snazzy + label {
 }
 
 input.snazzy:focus + label {
-  width: 110px;
+  width: 170px;
 }
 
 input.snazzy:focus + label > span,
 input.snazzy:valid + label > span {
   top: -100px;
-  font-size: 18px;
+  font-size: 24px;
   color: #333;
 }
 
 input.snazzy:valid + label{
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   border-color: green;
   border-width: 2px;
-  width: 110px;
+  width: 170px;
   left: 160px;
   text-align: right;
 }
@@ -113,6 +127,107 @@ textarea.question + label > span {
   z-index: -1;
   -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
   transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+} */
+
+/* Select style here */
+.select {
+  font-size: 16px;
+  position: relative;
+  display: inline-block;
+}
+
+.select select {
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: block;
+  padding: 0.5em 0em 0.5em 0.5em;
+  margin: 0;
+
+  width: 90px;
+  transition: border-color 0.2s;
+  border: 1px solid black;
+  border-radius: 2px;
+
+  background: #fff;
+  color: #000;
+  line-height: normal;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position:
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    5px 5px,
+    5px 5px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+/* .select .arr {
+  background: #fff;
+  bottom: 5px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 50px;
+  pointer-events: none;
+}
+.select .arr:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  margin-top: -5px;
+  pointer-events: none;
+  border-top: 10px solid #EB5168;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+
+.select .arr:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 28px;
+  margin-top: -5px;
+  pointer-events: none;
+  border-top: 6px solid #fff;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+} */
+
+/* select {
+	margin: 0 auto;
+	color: black;
+	width: 90px;
+	padding: 15px;
+	height: 25px;
+	cursor: pointer;
+	background: white;
+  border: 0px solid blue;
+}
+
+select:hover {
+	background-color: black;
+	color: white;
+	padding: 15px 5px 15px 25px;
+}
+
+select option {
+	background-color: black;
+	color: gray;
+	width: 90px;
+	padding: 10px 15px;
+	height: 20px;
+	cursor: pointer;
 } */
 
 .jumbotron {

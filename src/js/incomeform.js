@@ -19,13 +19,11 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
-import { WidthProvider, Responsive } from "react-grid-layout";
+  DropdownItem,
+  Row,
+  Col } from 'reactstrap';
 import FaHome from 'react-icons/lib/fa/home';
 import FaPieChart from 'react-icons/lib/fa/pie-chart';
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const originalLayouts = getFromLS("layouts") || {};
 
 class IncomeForm extends React.Component {
 
@@ -49,7 +47,6 @@ class IncomeForm extends React.Component {
         this.toggle = this.toggle.bind(this);
 
         this.state = {
-          layouts: JSON.parse(JSON.stringify(originalLayouts)),
           isOpen: false,
           input: {
             taxYear: AVAILABLE_TAX_YEARS[0],
@@ -80,22 +77,8 @@ class IncomeForm extends React.Component {
         };
       }
 
-      static get defaultProps() {
-        return {
-          className: "layout",
-          breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
-          cols: { lg: 6, md: 4, sm: 4, xs: 2, xxs: 2 },
-          rowHeight: 400
-        };
-      }
-
       resetLayout() {
         this.setState({ layouts: {} });
-      }
-
-      onLayoutChange(layout, layouts) {
-        saveToLS("layouts", layouts);
-        this.setState({ layouts: layouts });
       }
 
       update(input){
@@ -254,30 +237,23 @@ class IncomeForm extends React.Component {
                 <div className="vertspace"/>
               </div>
 
-              <ResponsiveReactGridLayout
-                  className="layout"
-                  isDraggable={false} isResizable={false}
-                  breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                  cols={{ lg: 6, md: 4, sm: 4, xs: 2, xxs: 2 }}
-                  rowHeight={500}
-                  layouts={this.state.layouts}
-                  onLayoutChange={(layout, layouts) =>
-                    this.onLayoutChange(layout, layouts)
-                  }
-                >
-                <div className="gridblock" key="22" data-grid={{ w: 2, h: 1, x: 0, y: 0 }}>
-                  <h3 className="hozspace">Income</h3>
-                  <InputMenu classname=""
-                    input={input}
-                    handleGross={this.handleGross}
-                    handleNonPensionableGross={this.handleNonPensionableGross}
-                    handlePensionRate={this.handlePensionRate}
-                    handleChildCareVoucher={this.handleChildCareVoucher}
-                    handleStudentLoanType1={this.handleStudentLoanType1}
-                  />
-                </div>
+              <Row>
+                <Col>
+                  <div className="gridblock">
+                    <h3 className="hozspace">Income</h3>
+                    <InputMenu classname=""
+                      input={input}
+                      handleGross={this.handleGross}
+                      handleNonPensionableGross={this.handleNonPensionableGross}
+                      handlePensionRate={this.handlePensionRate}
+                      handleChildCareVoucher={this.handleChildCareVoucher}
+                      handleStudentLoanType1={this.handleStudentLoanType1}
+                    />
+                  </div>
+              </Col>
 
-                <div className="gridblock" key="23" data-grid={{ w: 2, h: 1, x: 2, y: 0 }}>
+              <Col>
+                <div className="gridblock">
                   <h3 className="hozspace">Breakdown</h3>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
@@ -293,56 +269,46 @@ class IncomeForm extends React.Component {
                     handleNetPeriodChange={this.handleNetPeriodChange}
                   />
                 </div>
+              </Col>
 
-                <div className="gridblock" key="24" data-grid={{ w: 2, h: 1, x: 4, y: 0 }}>
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={450}/>
-                </div>
-
-                <div className="gridblock" key="25" data-grid={{ w: 1, h: 1, x: 0, y: 1 }}>
+              <Col>
+                <div className="gridblock">
                   <Timer salary={this.state.netSalary}/>
                 </div>
+              </Col>
 
-                <div className="gridblock" key="32" data-grid={{ w: 4, h: 1, x: 2, y: 1, minW: 4 }}>
+            </Row>
+
+            <br />
+            <br />
+            <br />
+
+            <Row>
+              <Col>
+                <div className="gridblock">
+                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
+                </div>
+              </Col>
+
+              <Col>
+                <div className="gridblock">
                   <h5 className="">Earnings percentile compared to 2015/2016 data</h5>
                   <MoneyChart size={700} salary={this.state.netSalary}/>
                 </div>
+              </Col>
+            </Row>
 
-              </ResponsiveReactGridLayout>
-
-              <div>
-                <div className="vertspace"/>
-                <p className="centerit">
-                Rates and thresholds accurate as of &nbsp;
-                <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
-                </p>
-                <div className="vertspace"/>
-              </div>
+            <div>
+              <div className="vertspace"/>
+              <p className="centerit">
+              Rates and thresholds accurate as of &nbsp;
+              <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
+              </p>
+              <div className="vertspace"/>
             </div>
+          </div>
         );
       }
 }
 
 export default IncomeForm;
-
-function getFromLS(key) {
-  let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls[key];
-}
-
-function saveToLS(key, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(
-      "rgl-8",
-      JSON.stringify({
-        [key]: value
-      })
-    );
-  }
-}

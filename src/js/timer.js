@@ -28,6 +28,11 @@ class Timer extends React.Component {
     const value = this.state.seconds*this.props.salary/YEAR_TO_SEC;
     return (
       <div className="">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <div className="centerit">
           Money earned since browsing site
         </div>

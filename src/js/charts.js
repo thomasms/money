@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, Brush, ReferenceLine, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, Brush, ReferenceLine } from 'recharts';
 
 const RADIAN = Math.PI / 180;
 
@@ -27,15 +27,14 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 function MoneyPie(props) {
 
   	return (
-      <ResponsiveContainer width={props.size} height="90%">
       	<PieChart width={props.size} height={props.size}
               margin={{top: 5, right: 15, left: 60, bottom: 40}}>
           <Pie
             data={props.data}
-            cx={(props.size/2.0) - 50}
+            cx={(props.size/2.0) - 10}
             cy={(props.size/2.0) - 50}
-            innerRadius={60.0}
-            outerRadius={120.0}
+            innerRadius={50.0}
+            outerRadius={140.0}
             fill="#8884d8"
             paddingAngle={0.2}
             dataKey="value"
@@ -46,7 +45,6 @@ function MoneyPie(props) {
             }
           </Pie>
         </PieChart>
-      </ResponsiveContainer>
     );
 }
 
@@ -171,7 +169,6 @@ function MoneyChart(props){
   const endIndex = Math.max(Math.min(data.length-1, index + range), 0);
 
   return (
-      <ResponsiveContainer width={props.size} height="100%">
       	<LineChart width={props.size} height={props.size/1.7} data={data}
               margin={{top: 5, right: 10, left: 30, bottom: 60}}>
            <XAxis dataKey="name" label={{ value: "percentile",  position: 'insideBottom', offset: -40 }}/>
@@ -183,7 +180,6 @@ function MoneyChart(props){
            <ReferenceLine x={data[index].name} label={{ value: "Take Home" , angle: -90}} stroke="red" strokeDasharray="3 3" />
            <Brush data={data} startIndex={startIndex} endIndex={endIndex} height={20}/>
         </LineChart>
-      </ResponsiveContainer>
   );
 }
 
