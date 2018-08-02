@@ -238,7 +238,7 @@ class IncomeForm extends React.Component {
               </div>
 
               <Row>
-                <Col>
+                <Col xs="12" sm="12" md="6" lg="6" xl="4">
                   <div className="gridblock">
                     <h3 className="hozspace">Income</h3>
                     <InputMenu classname=""
@@ -252,7 +252,7 @@ class IncomeForm extends React.Component {
                   </div>
               </Col>
 
-              <Col>
+              <Col xs="12" sm="12" md="6" lg="6" xl="4">
                 <div className="gridblock">
                   <h3 className="hozspace">Breakdown</h3>
                   <OutputMenu classname=""
@@ -271,7 +271,7 @@ class IncomeForm extends React.Component {
                 </div>
               </Col>
 
-              <Col>
+              <Col xs="12" sm="12" md="6" lg="6" xl="4">
                 <div className="gridblock">
                   <Timer salary={this.state.netSalary}/>
                 </div>
@@ -284,13 +284,13 @@ class IncomeForm extends React.Component {
             <br />
 
             <Row>
-              <Col>
+              <Col xs="12" sm="12" md="6" lg="6" xl="5">
                 <div className="gridblock">
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
                 </div>
               </Col>
 
-              <Col>
+              <Col xs="12" sm="12" md="12" lg="12" xl="7">
                 <div className="gridblock">
                   <h5 className="">Earnings percentile compared to 2015/2016 data</h5>
                   <MoneyChart size={700} salary={this.state.netSalary}/>

@@ -31,7 +31,7 @@ function MoneyPie(props) {
               margin={{top: 5, right: 15, left: 60, bottom: 40}}>
           <Pie
             data={props.data}
-            cx={(props.size/2.0) - 10}
+            cx={(props.size/2.0) - 20}
             cy={(props.size/2.0) - 50}
             innerRadius={50.0}
             outerRadius={140.0}
