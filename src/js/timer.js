@@ -35,8 +35,7 @@ class Timer extends React.Component {
           £ {value.toFixed(2)}
         </div>
           <div className="centerit">
-            If this starts to get to a high amount, then I think you have spent
-            too long on this site.
+            Tick tock
           </div>
       </div>
     );

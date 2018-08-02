@@ -22,8 +22,8 @@ function LabelWithInput(props) {
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input type="number" name={props.name} onChange={props.handler}/>
-      <label> {props.unit}</label>
+      <input className="snazzy" type="number" name={props.name} onChange={props.handler}/>
+      <label> <span>{props.unit}</span></label>
     </div>
   );
 }
@@ -41,8 +41,9 @@ function ReadOnlyLabel(props) {
   return (
     <div className="block">
       <font color={props.color}><label className={props.classname}>{props.name} </label></font>
-      <input type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
+      <input className="snazzy" type="number" name={props.name} value={props.value.toFixed(2)} readOnly/>
       <DropDownDateInput classname="hozspace" handler={props.handler} data={props.periods} selected={props.selected}/>
+      <div className="halfvertspace" />
     </div>
   );
 }

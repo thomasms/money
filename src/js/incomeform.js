@@ -259,7 +259,7 @@ class IncomeForm extends React.Component {
                   isDraggable={false} isResizable={false}
                   breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                   cols={{ lg: 6, md: 4, sm: 4, xs: 2, xxs: 2 }}
-                  rowHeight={400}
+                  rowHeight={500}
                   layouts={this.state.layouts}
                   onLayoutChange={(layout, layouts) =>
                     this.onLayoutChange(layout, layouts)

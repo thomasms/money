@@ -178,8 +178,8 @@ function MoneyChart(props){
            <YAxis label={{ value: "£/year" , angle: -90, position: 'insideLeft', offset: -10 }}/>
            <Tooltip cursor={{ stroke: 'red', strokeWidth: 2 }} />
            <Legend verticalAlign="top" height={36}/>
-           <Line type="monotone" name="before tax" dataKey="bt" stroke="#8884d8" activeDot={{r: 8}} />
-           <Line type="monotone" name="after tax" dataKey="at" stroke="#82ca9d" />
+           <Line type="monotone" name="before tax" dataKey="bt" stroke="black" activeDot={{r: 8}} />
+           <Line type="monotone" name="after tax" dataKey="at" stroke="red" />
            <ReferenceLine x={data[index].name} label={{ value: "Take Home" , angle: -90}} stroke="red" strokeDasharray="3 3" />
            <Brush data={data} startIndex={startIndex} endIndex={endIndex} height={20}/>
         </LineChart>

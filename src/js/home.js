@@ -3,7 +3,9 @@ import {
   Navbar,
   NavbarBrand,
   Jumbotron,
-  Button  } from 'reactstrap';
+  Button,
+  Row,
+  Col  } from 'reactstrap';
 import ReactPlayer from 'react-player'
 import { Link } from 'react-router-dom';
 import FaPieChart from 'react-icons/lib/fa/pie-chart';
@@ -22,14 +24,21 @@ class Home extends React.Component {
 
               <div>
                 <Jumbotron>
-                  <h1 className="display-3">Accounting Tom</h1>
-                  <p className="lead">For all your income tax and budget planning needs.</p>
-                  <hr className="my-2" />
-                  <p>Try the income tax calculator.</p>
-                  <p className="lead">
-                    <Button color="primary" tag={Link} to="/income">Income Tax Calculator</Button>
-                  </p>
+                  <h2 className="display-3">Accounting Tom</h2>
+                  <Row>
+                    <Col>
+                      <p className="lead">For all your income tax and budget planning needs.</p>
+                      <hr className="my-2" />
+                      <p>Try the income tax calculator.</p>
+                      <p className="lead">
+                        <Button color="primary" tag={Link} to="/income">Income Tax Calculator</Button>
+                      </p>
+                    </Col>
+                  </Row>
                 </Jumbotron>
+              </div>
+
+              <div>
               </div>
 
               <div>
