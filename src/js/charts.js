@@ -169,8 +169,8 @@ function MoneyChart(props){
   const endIndex = Math.max(Math.min(data.length-1, index + range), 0);
 
   return (
-      	<LineChart width={props.size} height={props.size/1.7} data={data}
-              margin={{top: 5, right: 10, left: 30, bottom: 60}}>
+      	<LineChart width={props.size} height={props.size} data={data}
+              margin={{top: 5, right: 10, left: 15, bottom: 60}}>
            <XAxis dataKey="name" label={{ value: "percentile",  position: 'insideBottom', offset: -40 }}/>
            <YAxis label={{ value: "£/year" , angle: -90, position: 'insideLeft', offset: -10 }}/>
            <Tooltip cursor={{ stroke: 'red', strokeWidth: 2 }} />

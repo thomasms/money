@@ -202,9 +202,11 @@ class IncomeForm extends React.Component {
             <div>
 
               <Navbar color="light" light expand="md" className="">
-                <NavbarBrand href="/">Accounting Tom</NavbarBrand>
+                <NavbarBrand href="/"><b>Accounting Tom</b></NavbarBrand>
                 <NavbarBrand href="/"><FaHome/></NavbarBrand>
                 <NavbarBrand href="/income"><FaPieChart/></NavbarBrand>
+                <NavbarBrand><Timer salary={this.state.netSalary}/></NavbarBrand>
+                <NavbarBrand>Net per month: £ {(this.state.netSalary/12.0).toFixed(2)}</NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                   <Nav className="ml-auto" navbar>
@@ -227,7 +229,7 @@ class IncomeForm extends React.Component {
               </Navbar>
 
               <div>
-                <h1 className="centerit">Income Tax Calculator</h1>
+                <h1 className="title">Income Tax Calculator</h1>
                 <p className="centerit">
                 Just enter your salary, or desired salary, and see how much tax
                 and national insurance you pay per year, month, week or day!
@@ -238,9 +240,9 @@ class IncomeForm extends React.Component {
               </div>
 
               <Row>
-                <Col xs="12" sm="12" md="6" lg="6" xl="4">
+                <Col xs="12" sm="12" md="6" lg="6" xl="6">
                   <div className="gridblock">
-                    <h3 className="hozspace">Income</h3>
+                    <h3 className="sectiontitle">Income</h3>
                     <InputMenu classname=""
                       input={input}
                       handleGross={this.handleGross}
@@ -250,11 +252,12 @@ class IncomeForm extends React.Component {
                       handleStudentLoanType1={this.handleStudentLoanType1}
                     />
                   </div>
+                  <br />
               </Col>
 
-              <Col xs="12" sm="12" md="6" lg="6" xl="4">
+              <Col xs="12" sm="12" md="6" lg="6" xl="6">
                 <div className="gridblock">
-                  <h3 className="hozspace">Breakdown</h3>
+                  <h3 className="sectiontitle">Breakdown</h3>
                   <OutputMenu classname=""
                     periods={this.state.outputPeriods}
                     taxPaid={this.state.taxPaid}
@@ -270,13 +273,6 @@ class IncomeForm extends React.Component {
                   />
                 </div>
               </Col>
-
-              <Col xs="12" sm="12" md="6" lg="6" xl="4">
-                <div className="gridblock">
-                  <Timer salary={this.state.netSalary}/>
-                </div>
-              </Col>
-
             </Row>
 
             <br />
@@ -284,16 +280,19 @@ class IncomeForm extends React.Component {
             <br />
 
             <Row>
-              <Col xs="12" sm="12" md="6" lg="6" xl="5">
+
+              <Col xs="12" sm="12" md="6" lg="6" xl="6">
                 <div className="gridblock">
+                  <h3 className="sectiontitle">Percentages</h3>
                   <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
                 </div>
               </Col>
 
-              <Col xs="12" sm="12" md="12" lg="12" xl="7">
+              <Col xs="12" sm="12" md="6" lg="6" xl="6">
                 <div className="gridblock">
-                  <h5 className="">Earnings percentile compared to 2015/2016 data</h5>
-                  <MoneyChart size={700} salary={this.state.netSalary}/>
+                  <h3 className="sectiontitle">Relative</h3>
+                  <h5 className="subsectiontitle">Earnings percentile compared to 2015/2016 data</h5>
+                  <MoneyChart size={500} salary={this.state.netSalary}/>
                 </div>
               </Col>
             </Row>

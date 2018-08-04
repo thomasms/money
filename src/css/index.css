@@ -34,7 +34,7 @@ input{
   text-align: right;
   font: 24px "Palatino", Futura, sans-serif;
   height: 30px;
-  width: 170px;
+  width: 150px;
 }
 
 input[type=checkbox] {
@@ -70,7 +70,7 @@ textarea.snazzy {
   margin: 0;
   border: none;
   height: 30px;
-  width: 170px;
+  width: 150px;
   background: rgba(0, 0, 0, 0);
   transition: padding-top 0.2s ease, margin-top 0.2s ease;
   overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */
@@ -84,7 +84,7 @@ textarea.snazzy + label {
   white-space: nowrap;
   padding: 0;
   margin: 0;
-  width: 170px;
+  width: 150px;
   border-top: 1px solid red;
   -webkit-transition: width 0.4s ease;
   transition: width 0.4s ease;
@@ -106,7 +106,7 @@ input.snazzy:valid + label{
   margin-bottom: 30px;
   border-color: green;
   border-width: 2px;
-  width: 170px;
+  width: 150px;
   left: 160px;
   text-align: right;
 }
@@ -163,7 +163,7 @@ textarea.question + label > span {
   background-position:
     calc(100% - 20px) calc(1em + 2px),
     calc(100% - 15px) calc(1em + 2px),
-    calc(100% - 2.5em) 0.5em;
+    calc(100% - 1.5em) 0.5em;
   background-size:
     5px 5px,
     5px 5px,
@@ -230,6 +230,31 @@ select option {
 	cursor: pointer;
 } */
 
+.title{
+	margin-top: 20px;
+	margin-bottom: 20px;
+  text-align: center;
+  font: 30px "Palatino", Futura, sans-serif;
+}
+
+.sectiontitle{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+  font: 24px "Palatino", Futura, sans-serif;
+	border-bottom: 3px solid black;
+	padding-bottom: 5px;
+	width: 250px;
+}
+
+.subsectiontitle{
+	margin-top: 20px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+  font: 18px "Palatino", Futura, sans-serif;
+}
+
+
 .jumbotron {
     background-color:transparent !important;
 }
@@ -280,6 +305,7 @@ select option {
   border: 0px dashed black;
   min-width: 360px;
   min-height: 390px;
+	margin-left: 20px;
 }
 
 .inline {
@@ -319,7 +345,7 @@ select option {
   width: 140px;
   text-align: right;
   margin-top: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-right: 10px;
 }
 
@@ -334,7 +360,7 @@ select option {
 
 .label-righty{
   display: inline-block;
-  width: 130px;
+  width: 100px;
   text-align: right;
   margin-top: 20px;
   margin-right: 5px;
