@@ -51,7 +51,7 @@ export function computeStudentLoanPaidType1TaxYear(gross, year){
 export function computeStudentLoanPaidType2TaxYear(gross, year){
 
   const rates      = [0.09, 0.09];
-  const thresholds = [25000.0, 25000.0];
+  const thresholds = [25000.0, 21000.0];
 
   var index = findYearIndex(year);
   return computeStudentLoanPaid(gross, rates[index], thresholds[index])

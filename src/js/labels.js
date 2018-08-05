@@ -18,11 +18,21 @@ function DropDownDateInput(props) {
   );
 }
 
+function MainLabelWithInput(props) {
+  return (
+    <div className="block">
+      <label className="label-lefty"><b>{props.name} </b></label>
+      <input className="snazzy" type="number" name={props.name} onChange={props.handler} autoFocus min="0" step="0.01"/>
+      <label> <span><b>{props.unit}</b></span></label>
+    </div>
+  );
+}
+
 function LabelWithInput(props) {
   return (
     <div className="block">
       <label className="label-lefty">{props.name} </label>
-      <input className="snazzy" type="number" name={props.name} onChange={props.handler}/>
+      <input className="snazzy" type="number" name={props.name} onChange={props.handler} min="0" step="0.01"/>
       <label> <span>{props.unit}</span></label>
     </div>
   );
@@ -66,6 +76,7 @@ function OutputLabel(props){
 }
 
 
+export {MainLabelWithInput};
 export {LabelWithInput};
 export {LabelWithCheck};
 export {DropDownDateInput};

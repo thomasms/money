@@ -228,7 +228,7 @@ class IncomeForm extends React.Component {
                 </Collapse>
               </Navbar>
 
-              <div>
+              <div className="">
                 <h1 className="title">Income Tax Calculator</h1>
                 <p className="centerit">
                 Just enter your salary, or desired salary, and see how much tax

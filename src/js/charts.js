@@ -31,12 +31,12 @@ function MoneyPie(props) {
               margin={{top: 5, right: 15, left: 60, bottom: 40}}>
           <Pie
             data={props.data}
-            cx={(props.size/2.0) - 20}
+            cx={(props.size/2.0) - 50}
             cy={(props.size/2.0) - 50}
-            innerRadius={50.0}
-            outerRadius={140.0}
+            innerRadius={60.0}
+            outerRadius={130.0}
             fill="#8884d8"
-            paddingAngle={0.2}
+            paddingAngle={0.0}
             dataKey="value"
             label={renderCustomizedLabel}
           >
