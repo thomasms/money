@@ -1,5 +1,5 @@
 import React from 'react';
-import { TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, SL_COLOUR, NET_COLOUR } from './colours.js';
+import { SL_COLOUR, TAX_COLOUR, NI_COLOUR, PENSION_COLOUR, NET_COLOUR } from './colours.js';
 import {
   computeStudentLoanPaidType1TaxYear,
   computeNIPaidTaxYear,
@@ -73,7 +73,7 @@ class IncomeForm extends React.Component {
                  {name: 'NI', value: 0},
                  {name: 'Pension', value: 0},
                  {name: 'Student Loan', value: 0},
-                 {name: 'Take Home', value: 0}],
+                 {name: 'Net', value: 0}],
         };
       }
 
@@ -102,11 +102,11 @@ class IncomeForm extends React.Component {
           slPaid: parseFloat(slPaid),
           pensionPaid: parseFloat(pensionPaid),
           netSalary: parseFloat(net),
-          piedata: [{name: 'Tax', value: taxPaid},
+          piedata: [{name: 'Student Loan', value: slPaid},
+                    {name: 'Tax', value: taxPaid},
                     {name: 'NI', value: niPaid},
                     {name: 'Pension', value: pensionPaid},
-                    {name: 'Student Loan', value: slPaid},
-                    {name: 'Take Home', value: net}],
+                    {name: 'Net', value: net}],
         });
       }
 
@@ -199,20 +199,27 @@ class IncomeForm extends React.Component {
 
         const input = {...this.state.input};
         return (
+          <div>
+          <aside>
+          </aside>
             <div>
 
-              <Navbar color="light" light expand="md" className="">
+              <Navbar color="dark" dark expand="md" className="">
                 <NavbarBrand href="/"><b>Accounting Tom</b></NavbarBrand>
                 <NavbarBrand href="/"><FaHome/></NavbarBrand>
                 <NavbarBrand href="/income"><FaPieChart/></NavbarBrand>
                 <NavbarBrand><Timer salary={this.state.netSalary}/></NavbarBrand>
-                <NavbarBrand>Net per month: £ {(this.state.netSalary/12.0).toFixed(2)}</NavbarBrand>
+                <NavbarBrand>
+                  <div className="navbar-custom">
+                    Net per month: £ {(this.state.netSalary/12.0).toFixed(2)}
+                    </div>
+                  </NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                   <Nav className="ml-auto" navbar>
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav caret>
-                        Tax Year - {this.state.input.taxYear['short']}
+                          Tax Year - {this.state.input.taxYear['short']}
                       </DropdownToggle>
                       <DropdownMenu right onClick={this.handleTaxYearSelected}>
                         {
@@ -236,66 +243,65 @@ class IncomeForm extends React.Component {
                 Supports financial years 2018/2019 and 2017/2018.
                 Remember, it's not the gross that matters it's the net.
                 </p>
-                <div className="vertspace"/>
               </div>
 
-              <Row>
+              <div className="page-container">
+                <Row >
+                  <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                    <div className="overview-item overview-item--c3">
+                      <InputMenu classname=""
+                        input={input}
+                        handleGross={this.handleGross}
+                        handleNonPensionableGross={this.handleNonPensionableGross}
+                        handlePensionRate={this.handlePensionRate}
+                        handleChildCareVoucher={this.handleChildCareVoucher}
+                        handleStudentLoanType1={this.handleStudentLoanType1}
+                      />
+                    </div>
+                    <br />
+                </Col>
+
                 <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                  <div className="gridblock">
-                    <h3 className="sectiontitle">Income</h3>
-                    <InputMenu classname=""
-                      input={input}
-                      handleGross={this.handleGross}
-                      handleNonPensionableGross={this.handleNonPensionableGross}
-                      handlePensionRate={this.handlePensionRate}
-                      handleChildCareVoucher={this.handleChildCareVoucher}
-                      handleStudentLoanType1={this.handleStudentLoanType1}
+                  <div className="overview-item overview-item--c4">
+                    <OutputMenu classname=""
+                      periods={this.state.outputPeriods}
+                      taxPaid={this.state.taxPaid}
+                      handleTaxChange={this.handleTaxChange}
+                      niPaid={this.state.niPaid}
+                      handleNIChange={this.handleNIChange}
+                      pensionPaid={this.state.pensionPaid}
+                      handlePensionChange={this.handlePensionChange}
+                      slPaid={this.state.slPaid}
+                      handleSlChange={this.handleSlChange}
+                      netSalary={this.state.netSalary}
+                      handleNetPeriodChange={this.handleNetPeriodChange}
                     />
                   </div>
-                  <br />
-              </Col>
+                </Col>
+              </Row>
 
-              <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                <div className="gridblock">
-                  <h3 className="sectiontitle">Breakdown</h3>
-                  <OutputMenu classname=""
-                    periods={this.state.outputPeriods}
-                    taxPaid={this.state.taxPaid}
-                    handleTaxChange={this.handleTaxChange}
-                    niPaid={this.state.niPaid}
-                    handleNIChange={this.handleNIChange}
-                    pensionPaid={this.state.pensionPaid}
-                    handlePensionChange={this.handlePensionChange}
-                    slPaid={this.state.slPaid}
-                    handleSlChange={this.handleSlChange}
-                    netSalary={this.state.netSalary}
-                    handleNetPeriodChange={this.handleNetPeriodChange}
-                  />
-                </div>
-              </Col>
-            </Row>
+              <br />
+              <br />
+              <br />
 
-            <br />
-            <br />
-            <br />
+              <Row>
 
-            <Row>
+                <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                  <div className="overview-item overview-item--white">
+                    <h3 className="sectiontitle">Percentages</h3>
+                    <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
+                  </div>
+                </Col>
 
-              <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                <div className="gridblock">
-                  <h3 className="sectiontitle">Percentages</h3>
-                  <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
-                </div>
-              </Col>
-
-              <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                <div className="gridblock">
-                  <h3 className="sectiontitle">Relative</h3>
-                  <h5 className="subsectiontitle">Earnings percentile compared to 2015/2016 data</h5>
-                  <MoneyChart size={500} salary={this.state.netSalary}/>
-                </div>
-              </Col>
-            </Row>
+                <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                  <div className="overview-item overview-item--white">
+                    <h3 className="sectiontitle">Relative</h3>
+                    <h5 className="subsectiontitle">Earnings percentile compared to 2015/2016 data</h5>
+                    <MoneyChart size={400} salary={this.state.netSalary}/>
+                  </div>
+                </Col>
+              </Row>
+            </div>
 
             <div>
               <div className="vertspace"/>
@@ -305,7 +311,9 @@ class IncomeForm extends React.Component {
               </p>
               <div className="vertspace"/>
             </div>
+
           </div>
+        </div>
         );
       }
 }

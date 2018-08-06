@@ -31,10 +31,10 @@ function MoneyPie(props) {
               margin={{top: 5, right: 15, left: 60, bottom: 40}}>
           <Pie
             data={props.data}
-            cx={(props.size/2.0) - 50}
-            cy={(props.size/2.0) - 50}
-            innerRadius={60.0}
-            outerRadius={130.0}
+            cx={(props.size/2.0) - 105}
+            cy={(props.size/2.0) - 90}
+            innerRadius={40.0}
+            outerRadius={110.0}
             fill="#8884d8"
             paddingAngle={0.0}
             dataKey="value"
@@ -177,7 +177,7 @@ function MoneyChart(props){
            <Legend verticalAlign="top" height={36}/>
            <Line type="monotone" name="before tax" dataKey="bt" stroke="black" activeDot={{r: 8}} />
            <Line type="monotone" name="after tax" dataKey="at" stroke="red" />
-           <ReferenceLine x={data[index].name} label={{ value: "Take Home" , angle: -90}} stroke="red" strokeDasharray="3 3" />
+           <ReferenceLine x={data[index].name} label={{ value: "Net" , angle: -90}} stroke="red" strokeDasharray="3 3" />
            <Brush data={data} startIndex={startIndex} endIndex={endIndex} height={20}/>
         </LineChart>
   );

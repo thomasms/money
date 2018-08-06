@@ -27,7 +27,7 @@ class Timer extends React.Component {
     const YEAR_TO_SEC = 365.25*24.0*60.0*60.0;
     const value = this.state.seconds*this.props.salary/YEAR_TO_SEC;
     return (
-      <div className="">
+      <div className="navbar-custom">
         Balance: £ {value.toFixed(2)}
       </div>
     );

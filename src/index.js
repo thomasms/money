@@ -19,7 +19,7 @@ class Main extends React.Component {
         </BrowserRouter>
 
         <div>
-          <p className="footer2" align="center">Thomas Stainer &copy; 2018</p>
+          <p className="footer" align="center">Thomas Stainer &copy; 2018</p>
         </div>
       </div>
     );
