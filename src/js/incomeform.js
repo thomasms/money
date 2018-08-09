@@ -25,6 +25,39 @@ import {
 import FaHome from 'react-icons/lib/fa/home';
 import FaPieChart from 'react-icons/lib/fa/pie-chart';
 
+
+// hacky - do this properly
+function Thresholds1819(props) {
+  return (
+    <div>
+      <p className="thresholds">0% tax up to £ 11,850</p>
+      <p className="thresholds">20% tax up to £ 34,500</p>
+      <p className="thresholds">40% tax up to £ 150,000</p>
+      <p className="thresholds">45% tax above £ 150,000</p>
+      <br />
+      <p className="thresholds">0% NI up to £ 8,424</p>
+      <p className="thresholds">12% NI up to £ 46,350</p>
+      <p className="thresholds">2% NI above £ 46,350</p>
+    </div>
+  );
+}
+
+// hacky - do this properly
+function Thresholds1718(props) {
+  return (
+    <div>
+      <p className="thresholds">0% tax up to £ 11,500</p>
+      <p className="thresholds">20% tax up to £ 33,500</p>
+      <p className="thresholds">40% tax up to £ 150,000</p>
+      <p className="thresholds">45% tax above £ 150,000</p>
+      <br />
+      <p className="thresholds">0% NI up to £ 8,164</p>
+      <p className="thresholds">12% NI up to £ 45,032</p>
+      <p className="thresholds">2% NI above £ 45,032</p>
+    </div>
+  );
+}
+
 class IncomeForm extends React.Component {
 
       constructor( props ) {
@@ -198,6 +231,13 @@ class IncomeForm extends React.Component {
                                   SL_COLOUR, NET_COLOUR ];
 
         const input = {...this.state.input};
+        let thresholds;
+        if(input.taxYear['short'] === '18/19') {
+          thresholds = <Thresholds1819/>;
+        } else {
+          thresholds = <Thresholds1718/>;
+        }
+
         return (
           <div>
           <aside>
@@ -247,8 +287,12 @@ class IncomeForm extends React.Component {
 
               <div className="page-container">
                 <Row >
-                  <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                    <div className="overview-item overview-item--c3">
+                  <Col xs={{ size: 12, offset: 1 }}
+                       sm={{ size: 8, offset: 2 }}
+                       md={{ size: 8, offset: 3 }}
+                       lg={{ size: 6, offset: 0 }}
+                       xl={{ size: 4, offset: 0 }}>
+                    <div className="overview-item overview-item--input">
                       <InputMenu classname=""
                         input={input}
                         handleGross={this.handleGross}
@@ -261,8 +305,12 @@ class IncomeForm extends React.Component {
                     <br />
                 </Col>
 
-                <Col xs="12" sm="12" md="6" lg="6" xl="6">
-                  <div className="overview-item overview-item--c4">
+                <Col xs={{ size: 12, offset: 1 }}
+                     sm={{ size: 8, offset: 2 }}
+                     md={{ size: 8, offset: 3 }}
+                     lg={{ size: 6, offset: 0 }}
+                     xl={{ size: 4, offset: 0 }}>
+                  <div className="overview-item overview-item--output">
                     <OutputMenu classname=""
                       periods={this.state.outputPeriods}
                       taxPaid={this.state.taxPaid}
@@ -278,6 +326,18 @@ class IncomeForm extends React.Component {
                     />
                   </div>
                 </Col>
+
+                  <Col xs={{ size: 12, offset: 1 }}
+                       sm={{ size: 8, offset: 2 }}
+                       md={{ size: 8, offset: 3 }}
+                       lg={{ size: 6, offset: 0 }}
+                       xl={{ size: 4, offset: 0 }}>
+                    <div className="overview-item overview-item--c1">
+                      <h3 className="sectiontitle">Thresholds</h3>
+                      <br />
+                      {thresholds}
+                    </div>
+                </Col>
               </Row>
 
               <br />
@@ -286,14 +346,22 @@ class IncomeForm extends React.Component {
 
               <Row>
 
-                <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                <Col xs={{ size: 12, offset: 1 }}
+                     sm={{ size: 8, offset: 2 }}
+                     md={{ size: 8, offset: 3 }}
+                     lg={{ size: 6, offset: 0 }}
+                     xl={{ size: 6, offset: 0 }}>
                   <div className="overview-item overview-item--white">
                     <h3 className="sectiontitle">Percentages</h3>
                     <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
                   </div>
                 </Col>
 
-                <Col xs="12" sm="12" md="6" lg="6" xl="6">
+                <Col xs={{ size: 12, offset: 1 }}
+                     sm={{ size: 8, offset: 2 }}
+                     md={{ size: 8, offset: 3 }}
+                     lg={{ size: 6, offset: 0 }}
+                     xl={{ size: 6, offset: 0 }}>
                   <div className="overview-item overview-item--white">
                     <h3 className="sectiontitle">Relative</h3>
                     <h5 className="subsectiontitle">Earnings percentile compared to 2015/2016 data</h5>

@@ -32,6 +32,12 @@ label{
   font: 19px "Montserrat", Futura, sans-serif;
 }
 
+p.thresholds{
+  color: white;
+  font: 20px "Montserrat", Futura, sans-serif;
+  text-align: right;
+}
+
 input{
   text-align: right;
   color: white;
@@ -92,7 +98,7 @@ input.snazzy:valid + label > span {
 
 input.snazzy:valid + label{
   margin-bottom: 30px;
-  border-color: green;
+  border-color: #eefcbe;
   border-width: 2px;
   width: 145px;
   left: 165px;
@@ -131,13 +137,13 @@ input.snazzy:invalid  + label{
   padding: 0.5em 0em 0.5em 0.5em;
   margin: 0;
 
-  width: 90px;
+  width: 100px;
   transition: border-color 0.2s;
-  border: 1px solid black;
-  border-radius: 2px;
+  border: 0px solid black;
+  border-radius: 8px;
 
   background: #efd;
-  color: #222;
+  color: #666666;
   line-height: normal;
   font-family: inherit;
   font-size: inherit;
@@ -163,6 +169,7 @@ input.snazzy:invalid  + label{
 	margin-bottom: 20px;
   text-align: center;
   font: 30px "Montserrat", Futura, sans-serif;
+	color: #666666
 }
 
 .sectiontitle{
@@ -170,7 +177,7 @@ input.snazzy:invalid  + label{
 	margin-bottom: 10px;
 	margin-left: 10px;
   font: 24px "Montserrat", Futura, sans-serif;
-	border-bottom: 3px solid white;
+	border-bottom: 0px solid white;
 	padding-bottom: 5px;
 	width: 250px;
 }
@@ -193,7 +200,7 @@ input.snazzy:invalid  + label{
 
 .centerit{
   text-align: center;
-  color: #000;
+  color: #688688;
   font: 19px "Montserrat", Futura, sans-serif;
 }
 
@@ -368,6 +375,12 @@ input.snazzy:invalid  + label{
     background-image: -moz-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
     background-image: -webkit-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
     background-image: -ms-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+	  min-width: 275px;
+	  min-height: 450px;
+	  max-width: 350px;
+	  max-height: 500px;
+		margin-left: 40px;
+		margin-right: 20px;
 }
 
 .overview-item--c2 {
@@ -376,16 +389,28 @@ input.snazzy:invalid  + label{
     background-image: -ms-linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
 }
 
-.overview-item--c3 {
+.overview-item--input {
     background-image: -moz-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
     background-image: -webkit-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
     background-image: -ms-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
+	  min-width: 395px;
+	  min-height: 450px;
+	  max-width: 400px;
+	  max-height: 500px;
+		margin-left: 20px;
+		margin-right: 20px;
 }
 
-.overview-item--c4 {
+.overview-item--output {
     background-image: -moz-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
     background-image: -webkit-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
     background-image: -ms-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
+	  min-width: 420px;
+	  min-height: 450px;
+	  max-width: 440px;
+	  max-height: 500px;
+		margin-left: 20px;
+		margin-right: 20px;
 }
 
 .overview-item--white {
