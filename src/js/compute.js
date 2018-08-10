@@ -130,3 +130,34 @@ export function computeTaxPaidTaxYear(gross, year){
   var index = findYearIndex(year);
   return computeTaxPaid(gross, rates[index], thresholds[index])
 }
+
+// ignores pension, SL, childcare vouchers
+// used for iterating over all gross salaries
+export function computeNet(totalGross, taxYear){
+  const niPaid = computeNIPaidTaxYear(totalGross, taxYear);
+  const taxPaid = computeTaxPaidTaxYear(totalGross, taxYear);
+  const net = totalGross - parseFloat(niPaid) - parseFloat(taxPaid);
+
+  return net;
+}
+
+
+export function computeAllSalaryData(taxYear,
+                                     lowerBound,
+                                     upperBound,
+                                     increment){
+  // move this out of render
+  // it is static data
+  var allSalaryData = [];
+  var net = 0.0;
+  for(var i=lowerBound;i<upperBound;i=i+increment){
+    net = computeNet(i, taxYear);
+    allSalaryData.push({
+      gross: parseFloat(i),
+      net : net,
+      netm : net/MONTH_TO_YEAR
+    });
+  }
+
+  return allSalaryData;
+}

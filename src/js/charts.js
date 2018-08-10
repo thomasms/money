@@ -183,5 +183,62 @@ function MoneyChart(props){
   );
 }
 
+
+function SalaryChart(props){
+  // find the percentile for your input net salary
+  var index = 0;
+  if(props.salary <= props.data[props.data.length-1].net){
+     index = props.data.findIndex((element) => {
+      return element.net >= props.salary;
+    });
+  }
+  else{
+    index = props.data.length-1;
+  }
+
+  return (
+      	<LineChart width={props.size} height={props.size} data={props.data}
+              margin={{top: 5, right: 10, left: 15, bottom: 60}}>
+           <XAxis dataKey="gross"
+                  type="number"
+                  label={{ value: "£ / year (gross)",  position: 'insideBottom', offset: 40 }}
+            />
+           <YAxis yAxisId="1"
+                  label={{ value: "£ / year (net)" , angle: -90, position: 'right', offset: 10 }}
+            />
+           <YAxis yAxisId="2"
+                  orientation="right"
+                  hide={false}
+                  label={{ value: "£ / month (net)" , angle: -90, position: 'insideLeft', offset: -10 }}
+            />
+           <Tooltip cursor={{ stroke: 'red', strokeWidth: 2 }} />
+           <Line yAxisId="1"
+                 dot={false}
+                 type="monotone"
+                 name="£ / year (net)"
+                 dataKey="net"
+                 stroke="blue"
+                 strokeWidth="4"
+                 activeDot={{ stroke: 'red', strokeWidth: 1, r: 10 }}
+            />
+            <Line yAxisId="2"
+                  dot={false}
+                  type="monotone"
+                  name="£ / month (net)"
+                  dataKey="netm"
+                  stroke="blue"
+                  strokeWidth="4"
+             />
+             <ReferenceLine x={props.data[index].gross}
+                            label={{ value: "Gross" , angle: -90}}
+                            stroke="red" />
+             <ReferenceLine yAxisId="1" y={props.data[index].net}
+                            label={{ value: "Net" , angle: 0}}
+                            stroke="red" />
+        </LineChart>
+  );
+}
+
 export { MoneyPie };
 export { MoneyChart };
+export { SalaryChart };

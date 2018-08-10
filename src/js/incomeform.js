@@ -4,11 +4,12 @@ import {
   computeStudentLoanPaidType1TaxYear,
   computeNIPaidTaxYear,
   computeTaxPaidTaxYear,
+  computeAllSalaryData,
   AVAILABLE_TAX_YEARS } from './compute.js';
 import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
 import { Timer } from './timer.js'
-import { MoneyPie, MoneyChart } from './charts.js'
+import { MoneyPie, MoneyChart, SalaryChart } from './charts.js'
 import {
   Collapse,
   Navbar,
@@ -107,6 +108,11 @@ class IncomeForm extends React.Component {
                  {name: 'Pension', value: 0},
                  {name: 'Student Loan', value: 0},
                  {name: 'Net', value: 0}],
+         allSalaryData: [{
+           gross: 0,
+           net : 0,
+           netm : 0
+         }]
         };
       }
 
@@ -217,7 +223,12 @@ class IncomeForm extends React.Component {
          return e.target.innerText === y['long'];
         });
         input.taxYear = AVAILABLE_TAX_YEARS[index];
+        const allSalaryData = computeAllSalaryData(input.taxYear,
+                                                   0,
+                                                   200000,
+                                                   1000);
         this.update(input);
+        this.setState({allSalaryData: allSalaryData});
       }
 
       toggle() {
@@ -226,12 +237,20 @@ class IncomeForm extends React.Component {
         });
       }
 
+      componentDidMount() {
+        const allSalaryData = computeAllSalaryData(this.state.input.taxYear,
+                                                   0,
+                                                   200000,
+                                                   1000);
+        this.setState({allSalaryData: allSalaryData});
+      }
+
       render(){
         const PAY_PIE_COLOURS = [ TAX_COLOUR, NI_COLOUR, PENSION_COLOUR,
                                   SL_COLOUR, NET_COLOUR ];
 
         const input = {...this.state.input};
-        let thresholds;
+        var thresholds;
         if(input.taxYear['short'] === '18/19') {
           thresholds = <Thresholds1819/>;
         } else {
@@ -240,8 +259,6 @@ class IncomeForm extends React.Component {
 
         return (
           <div>
-          <aside>
-          </aside>
             <div>
 
               <Navbar color="dark" dark expand="md" className="">
@@ -330,7 +347,7 @@ class IncomeForm extends React.Component {
                   <Col xs={{ size: 12, offset: 1 }}
                        sm={{ size: 8, offset: 2 }}
                        md={{ size: 8, offset: 3 }}
-                       lg={{ size: 6, offset: 0 }}
+                       lg={{ size: 6, offset: 3 }}
                        xl={{ size: 4, offset: 0 }}>
                     <div className="overview-item overview-item--c1">
                       <h3 className="sectiontitle">Thresholds</h3>
@@ -350,7 +367,7 @@ class IncomeForm extends React.Component {
                      sm={{ size: 8, offset: 2 }}
                      md={{ size: 8, offset: 3 }}
                      lg={{ size: 6, offset: 0 }}
-                     xl={{ size: 6, offset: 0 }}>
+                     xl={{ size: 4, offset: 0 }}>
                   <div className="overview-item overview-item--white">
                     <h3 className="sectiontitle">Percentages</h3>
                     <MoneyPie data={this.state.piedata} colours={PAY_PIE_COLOURS} size={500}/>
@@ -361,23 +378,30 @@ class IncomeForm extends React.Component {
                      sm={{ size: 8, offset: 2 }}
                      md={{ size: 8, offset: 3 }}
                      lg={{ size: 6, offset: 0 }}
-                     xl={{ size: 6, offset: 0 }}>
+                     xl={{ size: 4, offset: 0 }}>
                   <div className="overview-item overview-item--white">
                     <h3 className="sectiontitle">Relative</h3>
                     <h5 className="subsectiontitle">Earnings percentile compared to 2015/2016 data</h5>
                     <MoneyChart size={400} salary={this.state.netSalary}/>
                   </div>
                 </Col>
+
+                <Col xs={{ size: 12, offset: 1 }}
+                     sm={{ size: 8, offset: 2 }}
+                     md={{ size: 8, offset: 3 }}
+                     lg={{ size: 6, offset: 3 }}
+                     xl={{ size: 4, offset: 0 }}>
+                  <div className="overview-item overview-item--white">
+                    <h3 className="sectiontitle">Gross vs Net</h3>
+                    <SalaryChart data={this.state.allSalaryData} size={450} salary={this.state.netSalary}/>
+                  </div>
+                </Col>
               </Row>
             </div>
 
-            <div>
-              <div className="vertspace"/>
-              <p className="centerit">
+            <div className="footer2">
               Rates and thresholds accurate as of &nbsp;
               <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
-              </p>
-              <div className="vertspace"/>
             </div>
 
           </div>
