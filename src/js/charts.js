@@ -229,12 +229,12 @@ function SalaryChart(props){
                   stroke="blue"
                   strokeWidth="4"
              />
-             <ReferenceLine x={props.data[index].gross}
+             <ReferenceLine x={props.data[index].gross} yAxisId="1"
                             label={{ value: "Gross" , angle: -90}}
-                            stroke="red" />
+                            stroke="red"/>
              <ReferenceLine yAxisId="1" y={props.data[index].net}
                             label={{ value: "Net" , angle: 0}}
-                            stroke="red" />
+                            stroke="red"/>
         </LineChart>
   );
 }

@@ -396,6 +396,7 @@ class IncomeForm extends React.Component {
                     <SalaryChart data={this.state.allSalaryData} size={450} salary={this.state.netSalary}/>
                   </div>
                 </Col>
+
               </Row>
             </div>
 
