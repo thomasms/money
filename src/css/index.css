@@ -3,6 +3,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	font-family: 'Montserrat', sans-serif;
 	-webkit-transition: all .2s;
 	-moz-transition: all .2s;
 	-ms-transition: all .2s;
@@ -10,17 +11,28 @@
 	transition: all .2s;
 }
 
-html {
-  height: 100%;
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overflow-x: visible;
+	font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-	font-family: 'Montserrat', sans-serif;
-  font: 22px "Montserrat", Futura, sans-serif;
+  font-size: 22px "Montserrat", Futura, sans-serif;
   left: 0px;
   position: relative;
   min-height: 100%;
 	background-color: #ffffff;
+}
+
+h3{
+  text-align: center;
+  color: white;
+  font-size: 36px;
 }
 
 img{
@@ -28,12 +40,12 @@ img{
 }
 
 label{
-  color: #fffeff;
+  color: #363636;
   font: 19px "Montserrat", Futura, sans-serif;
 }
 
 p.thresholds{
-  color: white;
+  color: #121258;
   font: 20px "Montserrat", Futura, sans-serif;
   text-align: right;
 }
@@ -57,7 +69,7 @@ input:focus {
 
 input.snazzy,
 textarea.snazzy {
-  color: white;
+	color: #333333;
   font-size: 24px;
   font-weight: 300;
   border-radius: 2px;
@@ -93,12 +105,12 @@ input.snazzy:focus + label > span,
 input.snazzy:valid + label > span {
   top: -100px;
   font-size: 24px;
-  color: white;
+  color: #666666;
 }
 
 input.snazzy:valid + label{
   margin-bottom: 30px;
-  border-color: #eefcbe;
+  border-color: #666666;
   border-width: 2px;
   width: 145px;
   left: 165px;
@@ -203,6 +215,18 @@ input.snazzy:invalid  + label{
   font: 19px "Montserrat", Futura, sans-serif;
 }
 
+.subtitle1{
+  text-align: center;
+  color: #8B8988;
+  font: 24px "Montserrat", Futura, sans-serif;
+}
+
+.subtitle2{
+  text-align: center;
+  color: #688688;
+  font: 20px "Montserrat", Futura, sans-serif;
+}
+
 .footer{
   font: 12px "Montserrat", Futura, sans-serif;
   width: 100%;
@@ -211,11 +235,20 @@ input.snazzy:invalid  + label{
 }
 
 .footer2{
-  font: 18px "Montserrat", Futura, sans-serif;
+  font: 14px "Montserrat", Futura, sans-serif;
   width: 100%;
   text-align: center;
-  margin-top: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  bottom: 0;
+	position: fixed;
+}
+
+.footer3{
+  font: 14px "Montserrat", Futura, sans-serif;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  bottom: 0;
 }
 
 .hozspace{
@@ -368,7 +401,7 @@ input.snazzy:invalid  + label{
 	  min-height: 450px;
 	  max-width: 500px;
 	  max-height: 500px;
-    color: white;
+    color: #121258;
 }
 
 @media (min-width: 992px) and (max-width: 1519px) {
@@ -379,9 +412,9 @@ input.snazzy:invalid  + label{
 }
 
 .overview-item--c1 {
-    background-image: -moz-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
-    background-image: -webkit-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
-    background-image: -ms-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+    background-image: -moz-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
+    background-image: -webkit-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
+    background-image: -ms-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
 	  min-width: 275px;
 	  min-height: 450px;
 	  max-width: 350px;
@@ -397,27 +430,34 @@ input.snazzy:invalid  + label{
 }
 
 .overview-item--input {
-    background-image: -moz-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
-    background-image: -webkit-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
-    background-image: -ms-linear-gradient(90deg, #ff5f6d 0%, #ffc371 100%);
+    background-image: -moz-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
+    background-image: -webkit-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
+    background-image: -ms-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
 	  min-width: 395px;
 	  min-height: 450px;
 	  max-width: 400px;
 	  max-height: 500px;
 		margin-left: 20px;
 		margin-right: 20px;
+    background-color: white;
 }
 
 .overview-item--output {
-    background-image: -moz-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
-    background-image: -webkit-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
-    background-image: -ms-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
+    background-image: -moz-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
+    background-image: -webkit-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
+    background-image: -ms-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
 	  min-width: 420px;
 	  min-height: 450px;
 	  max-width: 440px;
 	  max-height: 500px;
 		margin-left: 20px;
 		margin-right: 20px;
+    background-color: white;
+}
+
+.overview-item--white {
+		color: black;
+    background-color: white;
 }
 
 .overview-item--white {

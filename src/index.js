@@ -18,8 +18,8 @@ class Main extends React.Component {
           </div>
         </BrowserRouter>
 
-        <div>
-          <p className="footer" align="center">Thomas Stainer &copy; 2018</p>
+        <div className="footer2">
+          <p align="center">Thomas Stainer &copy; 2018</p>
         </div>
       </div>
     );

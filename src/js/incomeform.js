@@ -8,7 +8,6 @@ import {
   AVAILABLE_TAX_YEARS } from './compute.js';
 import { InputMenu } from './input.js'
 import { OutputMenu } from './output.js'
-import { Timer } from './timer.js'
 import { MoneyPie, MoneyChart, SalaryChart } from './charts.js'
 import {
   Collapse,
@@ -265,7 +264,6 @@ class IncomeForm extends React.Component {
                 <NavbarBrand href="/"><b>Accounting Tom</b></NavbarBrand>
                 <NavbarBrand href="/"><FaHome/></NavbarBrand>
                 <NavbarBrand href="/income"><FaPieChart/></NavbarBrand>
-                <NavbarBrand><Timer salary={this.state.netSalary}/></NavbarBrand>
                 <NavbarBrand>
                   <div className="navbar-custom">
                     Net per month: £ {(this.state.netSalary/12.0).toFixed(2)}
@@ -400,7 +398,7 @@ class IncomeForm extends React.Component {
               </Row>
             </div>
 
-            <div className="footer2">
+            <div className="footer3">
               Rates and thresholds accurate as of &nbsp;
               <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
             </div>

@@ -6,7 +6,6 @@ import {
   Button,
   Row,
   Col  } from 'reactstrap';
-import ReactPlayer from 'react-player'
 import { Link } from 'react-router-dom';
 import FaPieChart from 'react-icons/lib/fa/pie-chart';
 import FaHome from 'react-icons/lib/fa/home';
@@ -24,28 +23,18 @@ class Home extends React.Component {
 
               <div>
                 <Jumbotron>
-                  <h2 className="display-3">Accounting Tom</h2>
+                  <h3 className="display-4">Accounting Tom</h3>
                   <Row>
                     <Col>
-                      <p className="lead">For all your income tax and budget planning needs.</p>
-                      <hr className="my-2" />
-                      <p>Try the income tax calculator.</p>
-                      <p className="lead">
+                      <p className="subtitle1">For all your income tax and budget planning needs.</p>
+                      <hr/>
+                      <p className="subtitle2">Try the income tax calculator.</p>
+                      <p className="subtitle2">
                         <Button color="primary" tag={Link} to="/income">Income Tax Calculator</Button>
                       </p>
                     </Col>
                   </Row>
                 </Jumbotron>
-              </div>
-
-              <div>
-              </div>
-
-              <div>
-                <ReactPlayer url='https://youtu.be/itOwbl6w4Wk'
-                  playing
-                  width='100%'
-                  height='500px'/>
               </div>
             </div>
         );
