@@ -217,8 +217,8 @@ function SalaryChart(props){
                  type="monotone"
                  name="£ / year (net)"
                  dataKey="net"
-                 stroke="blue"
-                 strokeWidth="4"
+                 stroke="black"
+                 strokeWidth="1"
                  activeDot={{ stroke: 'red', strokeWidth: 1, r: 10 }}
             />
             <Line yAxisId="2"
@@ -226,8 +226,8 @@ function SalaryChart(props){
                   type="monotone"
                   name="£ / month (net)"
                   dataKey="netm"
-                  stroke="blue"
-                  strokeWidth="4"
+                  stroke="black"
+                  strokeWidth="1"
              />
              <ReferenceLine x={props.data[index].gross} yAxisId="1"
                             label={{ value: "Gross" , angle: -90}}
