@@ -398,7 +398,7 @@ class IncomeForm extends React.Component {
               </Row>
             </div>
 
-            <div className="footer3">
+            <div className="footer">
               Rates and thresholds accurate as of &nbsp;
               <NavLink href="https://www.gov.uk">https://www.gov.uk</NavLink>
             </div>

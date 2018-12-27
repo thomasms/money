@@ -40,12 +40,12 @@ img{
 }
 
 label{
-  color: #363636;
+  color: #fffeff;
   font: 19px "Montserrat", Futura, sans-serif;
 }
 
 p.thresholds{
-  color: #121258;
+  color: white;
   font: 20px "Montserrat", Futura, sans-serif;
   text-align: right;
 }
@@ -69,7 +69,7 @@ input:focus {
 
 input.snazzy,
 textarea.snazzy {
-	color: #333333;
+	color: white;
   font-size: 24px;
   font-weight: 300;
   border-radius: 2px;
@@ -105,12 +105,12 @@ input.snazzy:focus + label > span,
 input.snazzy:valid + label > span {
   top: -100px;
   font-size: 24px;
-  color: #666666;
+  color: white;
 }
 
 input.snazzy:valid + label{
   margin-bottom: 30px;
-  border-color: #666666;
+  border-color: white;
   border-width: 2px;
   width: 145px;
   left: 165px;
@@ -231,7 +231,8 @@ input.snazzy:invalid  + label{
   font: 12px "Montserrat", Futura, sans-serif;
   width: 100%;
   text-align: center;
-  bottom: 0;
+  margin-bottom: 20px;
+  bottom: 30;
 }
 
 .footer2{
@@ -246,8 +247,8 @@ input.snazzy:invalid  + label{
 .footer3{
   font: 14px "Montserrat", Futura, sans-serif;
   width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
+  text-align: right;
+  margin-bottom: -20px;
   bottom: 0;
 }
 
@@ -393,15 +394,15 @@ input.snazzy:invalid  + label{
     border-radius: 10px;
     padding: 30px;
     padding-bottom: 0;
-    -webkit-box-shadow: 5px 10px 10px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 5px 10px 10px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 5px 10px 10px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
     margin-bottom: 40px;
 	  min-width: 425px;
 	  min-height: 450px;
 	  max-width: 500px;
 	  max-height: 500px;
-    color: #121258;
+    color: white;
 }
 
 @media (min-width: 992px) and (max-width: 1519px) {
@@ -412,9 +413,9 @@ input.snazzy:invalid  + label{
 }
 
 .overview-item--c1 {
-    background-image: -moz-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
-    background-image: -webkit-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
-    background-image: -ms-linear-gradient(90deg, #fff5ff 0%, #ffffff 100%);
+    background-image: -moz-linear-gradient(90deg, #6b7edd 0%, #c5b6b9 100%);
+    background-image: -webkit-linear-gradient(90deg, #6b7edd 0%, #c5b6b9 100%);
+    background-image: -ms-linear-gradient(90deg, #6b7edd 0%, #c5b6b9 100%);
 	  min-width: 275px;
 	  min-height: 450px;
 	  max-width: 350px;
@@ -430,9 +431,9 @@ input.snazzy:invalid  + label{
 }
 
 .overview-item--input {
-    background-image: -moz-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
-    background-image: -webkit-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
-    background-image: -ms-linear-gradient(90deg, #fefefe 0%, #fff9ff 100%);
+    background-image: -moz-linear-gradient(90deg, #ca5a63 0%, #eeab4d 100%);
+    background-image: -webkit-linear-gradient(90deg, #ca5a63 0%, #eeab4d 100%);
+    background-image: -ms-linear-gradient(90deg, #ca5a63 0%, #eeab4d 100%);
 	  min-width: 395px;
 	  min-height: 450px;
 	  max-width: 400px;
@@ -443,9 +444,9 @@ input.snazzy:invalid  + label{
 }
 
 .overview-item--output {
-    background-image: -moz-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
-    background-image: -webkit-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
-    background-image: -ms-linear-gradient(90deg, #fefefe 0%, #fefefe 100%);
+    background-image: -moz-linear-gradient(90deg, #449c47 0%, #cfc357 100%);
+    background-image: -webkit-linear-gradient(90deg, #449c47 0%, #cfc357 100%);
+    background-image: -ms-linear-gradient(90deg, #449c47 0%, #cfc357 100%);
 	  min-width: 420px;
 	  min-height: 450px;
 	  max-width: 440px;
