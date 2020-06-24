@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../css/index.css';
+
 function DropDownDateInput(props) {
   return (
     <span className={props.classname}>
@@ -42,7 +44,10 @@ function LabelWithCheck(props){
   return (
     <div className="block">
       <label className="label-lefty-long">{props.name} </label>
-      <input type="checkbox" name={props.name} onChange={props.handler} value={props.value} defaultChecked={props.value}/>
+      <input type="checkbox" id="_checkbox" name={props.name} onChange={props.handler} value={props.value} defaultChecked={props.value}/>
+    <label for="_checkbox" className="checklabel">
+      <div id="tick_mark"></div>
+    </label>
     </div>
   );
 }

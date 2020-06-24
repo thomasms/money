@@ -30,7 +30,9 @@ class Home extends React.Component {
                       <hr/>
                       <p className="subtitle2">Try the income tax calculator.</p>
                       <p className="subtitle2">
-                        <Button color="primary" tag={Link} to="/income">Income Tax Calculator</Button>
+                        <Button color="primary" tag={Link} to="/income" style={{
+                          boxShadow: "5px 5px 20px 2px  rgba(154, 152, 152, 0.915)"
+                        }}>Income Tax Calculator</Button>
                       </p>
                     </Col>
                   </Row>
