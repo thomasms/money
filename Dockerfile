@@ -1,10 +1,10 @@
-FROM node:10
-
+FROM node:22-alpine AS build
 WORKDIR /app
-COPY package.json /app
-RUN npm install package.json
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
 
-COPY . /app
-
-EXPOSE 3000
-CMD [ "npm", "start" ]
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
