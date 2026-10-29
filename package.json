@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "UK take-home pay calculator: income tax, National Insurance, pension and student loan.",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "vite",
     "start": "vite",
