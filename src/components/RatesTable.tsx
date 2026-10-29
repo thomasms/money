@@ -45,6 +45,7 @@ export function RatesTable({ rules }: { rules: TaxYearRules }) {
           </tbody>
         </table>
       </div>
+      {rules.note && <p className="footnote">{rules.note}</p>}
       <p className="footnote">
         Your personal allowance goes down by £1 for every £2 of income over{' '}
         {pounds(tax.allowanceTaperStart)}. Rates are for England, Wales and Northern Ireland, from{' '}
@@ -58,7 +59,7 @@ function Row({ label, rate }: { label: string; rate: number }) {
   return (
     <tr>
       <th scope="row">{label}</th>
-      <td className="num">{Math.round(rate * 100)}%</td>
+      <td className="num">{Number((rate * 100).toFixed(2))}%</td>
     </tr>
   );
 }

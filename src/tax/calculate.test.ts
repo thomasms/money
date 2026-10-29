@@ -156,3 +156,32 @@ describe('marginal rate', () => {
     expect(marginalRate({ ...BASE, salary: 40000, studentLoan: 'plan2' }, Y2627)).toBeCloseTo(0.37, 6);
   });
 });
+
+describe('2020/21 to 2023/24', () => {
+  const Y2021 = findTaxYear('2020-21');
+  const Y2324 = findTaxYear('2023-24');
+
+  it.each([
+    ['2020-21', 35000, 4500], ['2020-21', 60000, 11500], ['2020-21', 160000, 57000],
+    ['2021-22', 35000, 4486],
+    // Additional rate started at £150,000 until 2023/24.
+    ['2022-23', 130000, 44460], ['2023-24', 130000, 44703],
+  ])('income tax for %s on £%d is £%d', (id, gross, tax) => {
+    expect(incomeTax(gross, findTaxYear(id))).toBeCloseTo(tax, 4);
+  });
+
+  it.each([
+    ['2020-21', 35000, 3060], ['2020-21', 60000, 5060],
+    ['2021-22', 35000, 3051.84],
+    ['2022-23', 35000, 2939.6116], ['2022-23', 60000, 5149.1116],
+    ['2023-24', 35000, 2579.45],
+  ])('NI for %s on £%d is £%d', (id, gross, ni) => {
+    expect(nationalInsurance(gross, findTaxYear(id))).toBeCloseTo(ni, 4);
+  });
+
+  it('uses the right student loan thresholds', () => {
+    expect(loanRepayment(30000, Y2021.studentLoans.plan1)).toBeCloseTo(954.9, 4);
+    expect(loanRepayment(30000, Y2324.studentLoans.plan2)).toBeCloseTo((30000 - 27295) * 0.09, 4);
+    expect(Y2324.studentLoans.plan5).toBeUndefined();
+  });
+});

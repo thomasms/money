@@ -52,6 +52,7 @@ export default function App() {
             period={state.period}
             hasStudentLoan={state.studentLoan !== 'none' || state.postgraduateLoan}
             fullAllowance={rules.incomeTax.personalAllowance}
+            note={rules.note}
             onPeriodChange={(period) => update({ period })}
           />
           <div className="chart-grid">

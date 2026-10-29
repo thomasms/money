@@ -20,10 +20,11 @@ interface Props {
   period: Period;
   hasStudentLoan: boolean;
   fullAllowance: number;
+  note?: string;
   onPeriodChange: (period: Period) => void;
 }
 
-export function Summary({ result, period, hasStudentLoan, fullAllowance, onPeriodChange }: Props) {
+export function Summary({ result, period, hasStudentLoan, fullAllowance, note, onPeriodChange }: Props) {
   const gross = result.gross;
   const share = (value: number) => (gross > 0 ? value / gross : 0);
   const visible = ITEMS.filter(({ key }) =>
@@ -94,6 +95,7 @@ export function Summary({ result, period, hasStudentLoan, fullAllowance, onPerio
       {period === 'day' || period === 'week' ? (
         <p className="footnote">Assumes 52 weeks in a year and 7 days in a week.</p>
       ) : null}
+      {note && <p className="footnote">{note}</p>}
       {result.personalAllowance < fullAllowance && (
         <p className="footnote">
           Your personal allowance is reduced to {pounds(result.personalAllowance)} because your

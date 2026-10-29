@@ -9,7 +9,7 @@ and take-home pay per year, month, week or day.
 
 ## Features
 
-- Tax years 2026/27, 2025/26 and 2024/25 (England, Wales and Northern Ireland).
+- Tax years 2020/21 to 2026/27 (England, Wales and Northern Ireland).
 - Pension contributions as standard (net pay) or salary sacrifice.
 - Student loan Plan 1, 2, 4 and 5, plus postgraduate loans.
 - Bonus or overtime with no pension contribution, and other salary sacrifice
