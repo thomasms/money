@@ -1,14 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import {
   calculate,
-  forPeriod,
   incomeTax,
   loanRepayment,
-  marginalRate,
   nationalInsurance,
   type Inputs,
 } from './calculate';
-import { findTaxYear, type TaxYearRules } from './years';
+import { findTaxYear, type TaxYearRules } from './rules';
+import { forPeriod, marginalRate as genericMarginalRate } from '../types';
+import { UK } from './index';
+
+// The share of the next £100 lost to tax, NI and student loan, via the app's own path.
+function marginalRate(inputs: Inputs, rules: TaxYearRules): number {
+  return genericMarginalRate((salary) => UK.calculate({ ...inputs, salary, taxYear: rules.id }), inputs.salary);
+}
 
 const Y2627 = findTaxYear('2026-27');
 const Y2425 = findTaxYear('2024-25');

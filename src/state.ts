@@ -1,73 +1,36 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { Inputs, PensionMethod, Period, StudentLoanPlan } from './tax/calculate';
-import { DEFAULT_TAX_YEAR, findTaxYear } from './tax/years';
+import { readOption, type CountryId, type Period } from './countries/types';
+import { BE, COUNTRY_IDS, UK, type BEState, type UKState } from './countries';
 
-export interface AppState extends Inputs {
-  taxYear: string;
+export interface AppState {
+  country: CountryId;
   period: Period;
+  uk: UKState;
+  be: BEState;
 }
 
-export const DEFAULT_STATE: AppState = {
-  taxYear: DEFAULT_TAX_YEAR.id,
-  period: 'month',
-  salary: 35000,
-  bonus: 0,
-  pensionPercent: 5,
-  pensionMethod: 'standard',
-  studentLoan: 'none',
-  postgraduateLoan: false,
-  otherSacrificeMonthly: 0,
-};
-
-// Short names keep shared links readable, e.g. ?salary=45000&loan=plan2
-const PARAMS: Record<keyof AppState, string> = {
-  taxYear: 'year',
-  period: 'period',
-  salary: 'salary',
-  bonus: 'bonus',
-  pensionPercent: 'pension',
-  pensionMethod: 'pensionType',
-  studentLoan: 'loan',
-  postgraduateLoan: 'postgrad',
-  otherSacrificeMonthly: 'sacrifice',
-};
-
 const PERIODS: Period[] = ['year', 'month', 'week', 'day'];
-const PLANS: StudentLoanPlan[] = ['none', 'plan1', 'plan2', 'plan4', 'plan5'];
-const PENSION_METHODS: PensionMethod[] = ['standard', 'sacrifice'];
+const DEFAULT_PERIOD: Period = 'month';
 
 function readState(search: string): AppState {
   const params = new URLSearchParams(search);
-  const get = (key: keyof AppState) => params.get(PARAMS[key]);
-  const num = (key: keyof AppState, fallback: number) => {
-    const value = Number(get(key));
-    return get(key) !== null && Number.isFinite(value) && value >= 0 ? value : fallback;
-  };
-  const oneOf = <T extends string>(key: keyof AppState, options: T[], fallback: T): T => {
-    const value = get(key) as T | null;
-    return value !== null && options.includes(value) ? value : fallback;
-  };
-
+  const country = readOption(params, 'country', COUNTRY_IDS, 'uk');
+  const empty = new URLSearchParams();
+  // Only the shown country's settings are in the address bar.
   return {
-    taxYear: findTaxYear(get('taxYear')).id,
-    period: oneOf('period', PERIODS, DEFAULT_STATE.period),
-    salary: num('salary', DEFAULT_STATE.salary),
-    bonus: num('bonus', DEFAULT_STATE.bonus),
-    pensionPercent: Math.min(100, num('pensionPercent', DEFAULT_STATE.pensionPercent)),
-    pensionMethod: oneOf('pensionMethod', PENSION_METHODS, DEFAULT_STATE.pensionMethod),
-    studentLoan: oneOf('studentLoan', PLANS, DEFAULT_STATE.studentLoan),
-    postgraduateLoan: get('postgraduateLoan') === '1',
-    otherSacrificeMonthly: num('otherSacrificeMonthly', DEFAULT_STATE.otherSacrificeMonthly),
+    country,
+    period: readOption(params, 'period', PERIODS, DEFAULT_PERIOD),
+    uk: UK.fromParams(country === 'uk' ? params : empty),
+    be: BE.fromParams(country === 'be' ? params : empty),
   };
 }
 
 function writeState(state: AppState) {
   const params = new URLSearchParams();
-  for (const key of Object.keys(PARAMS) as (keyof AppState)[]) {
-    if (state[key] === DEFAULT_STATE[key]) continue;
-    const value = state[key];
-    params.set(PARAMS[key], typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
-  }
+  if (state.country !== 'uk') params.set('country', state.country);
+  if (state.period !== DEFAULT_PERIOD) params.set('period', state.period);
+  const own = state.country === 'uk' ? UK.toParams(state.uk) : BE.toParams(state.be);
+  for (const [name, value] of Object.entries(own)) params.set(name, value);
   const query = params.toString();
   window.history.replaceState(null, '', query ? `?${query}` : window.location.pathname);
 }

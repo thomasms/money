@@ -1,43 +1,44 @@
-import type { Period } from './tax/calculate';
+import type { Currency, Period } from './countries/types';
 
-const wholePounds = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  maximumFractionDigits: 0,
-});
-
-const poundsAndPence = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
-
-const compactPounds = new Intl.NumberFormat('en-GB', {
-  style: 'currency',
-  currency: 'GBP',
-  notation: 'compact',
-  maximumFractionDigits: 1,
-});
-
-const plainNumber = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 2 });
-
-// Yearly amounts in whole pounds; smaller periods to the penny.
-export function money(value: number, period: Period = 'year'): string {
-  return (period === 'year' ? wholePounds : poundsAndPence).format(value);
+export interface Formatter {
+  // Yearly amounts in whole units; smaller periods to the penny or cent.
+  money: (value: number, period?: Period) => string;
+  whole: (value: number) => string;
+  compact: (value: number) => string;
+  symbol: string;
 }
 
-export function pounds(value: number): string {
-  return wholePounds.format(value);
-}
+const cache = new Map<Currency, Formatter>();
 
-export function compactMoney(value: number): string {
-  return compactPounds.format(value);
+export function formatter(currency: Currency): Formatter {
+  let f = cache.get(currency);
+  if (!f) {
+    const make = (options: Intl.NumberFormatOptions) =>
+      new Intl.NumberFormat('en-GB', { style: 'currency', currency, ...options });
+    const whole = make({ maximumFractionDigits: 0 });
+    const exact = make({ minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const compact = make({ notation: 'compact', maximumFractionDigits: 1 });
+    f = {
+      money: (value, period = 'year') => (period === 'year' ? whole : exact).format(value),
+      whole: (value) => whole.format(value),
+      compact: (value) => compact.format(value),
+      symbol: currency === 'GBP' ? '£' : '€',
+    };
+    cache.set(currency, f);
+  }
+  return f;
 }
 
 export function percent(fraction: number, digits = 0): string {
   return `${(fraction * 100).toFixed(digits)}%`;
 }
+
+// A rate such as 0.1307 as "13.07%", without trailing zeros.
+export function rate(fraction: number): string {
+  return `${Number((fraction * 100).toFixed(3))}%`;
+}
+
+const plainNumber = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 2 });
 
 export function formatNumber(value: number): string {
   return plainNumber.format(value);

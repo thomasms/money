@@ -161,6 +161,17 @@ a {
   font-size: 1.25rem;
 }
 
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.country-switch .segmented {
+  min-width: 190px;
+}
+
 .year-select {
   display: flex;
   align-items: center;
@@ -530,7 +541,8 @@ summary:hover {
   gap: 4px;
 }
 
-.chart-grid > .chart:first-child {
+.chart-grid > .chart:first-child,
+.chart-grid > .chart:nth-child(2):last-child {
   grid-column: 1 / -1;
 }
 

@@ -1,8 +1,7 @@
-import type { Repayment, TaxYearRules } from './years';
+import type { Repayment, TaxYearRules } from './rules';
 
 export type StudentLoanPlan = 'none' | 'plan1' | 'plan2' | 'plan4' | 'plan5';
 export type PensionMethod = 'standard' | 'sacrifice';
-export type Period = 'year' | 'month' | 'week' | 'day';
 
 export interface Inputs {
   // Annual pensionable salary.
@@ -28,18 +27,6 @@ export interface Breakdown {
   takeHome: number;
   personalAllowance: number;
   taxableIncome: number;
-}
-
-export const PERIOD_DIVISORS: Record<Period, number> = {
-  year: 1,
-  month: 12,
-  // Assumes 52 weeks in a year and 7 days in a week.
-  week: 52,
-  day: 52 * 7,
-};
-
-export function forPeriod(annual: number, period: Period): number {
-  return annual / PERIOD_DIVISORS[period];
 }
 
 export function personalAllowance(income: number, rules: TaxYearRules): number {
@@ -110,15 +97,6 @@ export function calculate(inputs: Inputs, rules: TaxYearRules): Breakdown {
     personalAllowance: personalAllowance(taxableIncome, rules),
     taxableIncome,
   };
-}
-
-// The share of the next £100 of salary lost to income tax, NI and student loan.
-// Pension is left out because it stays your money.
-export function marginalRate(inputs: Inputs, rules: TaxYearRules, step = 100): number {
-  const deductions = (b: Breakdown) => b.incomeTax + b.nationalInsurance + b.studentLoan;
-  const now = calculate(inputs, rules);
-  const next = calculate({ ...inputs, salary: inputs.salary + step }, rules);
-  return (deductions(next) - deductions(now)) / step;
 }
 
 function clamp(value: number, min: number, max: number): number {

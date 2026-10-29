@@ -1,36 +1,25 @@
-import type { Breakdown, Period } from '../tax/calculate';
-import { forPeriod } from '../tax/calculate';
-import { money, percent, PERIOD_LABELS, pounds } from '../format';
-import { Segmented } from './InputPanel';
+import { forPeriod, type Period, type Result } from '../countries/types';
+import { percent, PERIOD_LABELS, type Formatter } from '../format';
+import { Segmented } from './controls';
 
-type ItemKey = 'takeHome' | 'incomeTax' | 'nationalInsurance' | 'pension' | 'studentLoan' | 'otherSacrifice';
-
-// Fixed colour slots: an item keeps its colour even when others are hidden.
-export const ITEMS: { key: ItemKey; label: string; color: string }[] = [
-  { key: 'takeHome', label: 'Take-home pay', color: 'var(--series-1)' },
-  { key: 'incomeTax', label: 'Income tax', color: 'var(--series-2)' },
-  { key: 'nationalInsurance', label: 'National Insurance', color: 'var(--series-3)' },
-  { key: 'pension', label: 'Pension', color: 'var(--series-4)' },
-  { key: 'studentLoan', label: 'Student loan', color: 'var(--series-5)' },
-  { key: 'otherSacrifice', label: 'Other salary sacrifice', color: 'var(--series-6)' },
-];
+const TAKE_HOME_COLOR = 'var(--series-1)';
 
 interface Props {
-  result: Breakdown;
+  result: Result;
   period: Period;
-  hasStudentLoan: boolean;
-  fullAllowance: number;
-  note?: string;
+  fmt: Formatter;
   onPeriodChange: (period: Period) => void;
 }
 
-export function Summary({ result, period, hasStudentLoan, fullAllowance, note, onPeriodChange }: Props) {
-  const gross = result.gross;
+export function Summary({ result, period, fmt, onPeriodChange }: Props) {
+  const { gross, takeHome } = result;
   const share = (value: number) => (gross > 0 ? value / gross : 0);
-  const visible = ITEMS.filter(({ key }) =>
-    key === 'takeHome' || key === 'incomeTax' || key === 'nationalInsurance' ||
-    result[key] > 0 || (key === 'studentLoan' && hasStudentLoan));
-  const deductions = visible.filter(({ key }) => key !== 'takeHome');
+  const amount = (value: number) => fmt.money(forPeriod(value, period), period);
+  const deductions = result.deductions.filter((d) => d.alwaysShow || d.amount > 0);
+  const segments = [
+    { key: 'takeHome', label: 'Take-home pay', amount: takeHome, color: TAKE_HOME_COLOR },
+    ...deductions,
+  ].filter((s) => s.amount > 0);
 
   return (
     <section className="card summary" aria-labelledby="summary-title">
@@ -38,11 +27,11 @@ export function Summary({ result, period, hasStudentLoan, fullAllowance, note, o
         <div>
           <h2 id="summary-title" className="eyebrow">Your take-home pay</h2>
           <p className="hero" aria-live="polite">
-            {money(forPeriod(result.takeHome, period), period)}
+            {amount(takeHome)}
             <span className="hero-unit"> {PERIOD_LABELS[period].long}</span>
           </p>
           <p className="muted">
-            From {money(forPeriod(gross, period), period)} {PERIOD_LABELS[period].long} before deductions
+            From {amount(gross)} {PERIOD_LABELS[period].long} before deductions
           </p>
         </div>
         <Segmented
@@ -55,10 +44,10 @@ export function Summary({ result, period, hasStudentLoan, fullAllowance, note, o
 
       {gross > 0 && (
         <div className="stack" role="img"
-          aria-label={visible.map(({ key, label }) => `${label} ${percent(share(result[key]))}`).join(', ')}>
-          {visible.filter(({ key }) => result[key] > 0).map(({ key, label, color }) => (
-            <div key={key} className="stack-segment" title={`${label}: ${percent(share(result[key]), 1)}`}
-              style={{ flexGrow: result[key], background: color }} />
+          aria-label={segments.map(({ label, amount: a }) => `${label} ${percent(share(a))}`).join(', ')}>
+          {segments.map(({ key, label, amount: a, color }) => (
+            <div key={key} className="stack-segment" title={`${label}: ${percent(share(a), 1)}`}
+              style={{ flexGrow: a, background: color }} />
           ))}
         </div>
       )}
@@ -75,33 +64,27 @@ export function Summary({ result, period, hasStudentLoan, fullAllowance, note, o
         <tbody>
           <tr className="row-gross">
             <th scope="row">Gross pay</th>
-            <td className="num">{money(forPeriod(gross, period), period)}</td>
+            <td className="num">{amount(gross)}</td>
             <td className="num muted">100%</td>
           </tr>
-          {deductions.map(({ key, label, color }) => (
+          {deductions.map(({ key, label, amount: a, color }) => (
             <tr key={key}>
               <th scope="row"><span className="swatch" style={{ background: color }} />{label}</th>
-              <td className="num">−{money(forPeriod(result[key], period), period)}</td>
-              <td className="num muted">{percent(share(result[key]), 1)}</td>
+              <td className="num">−{amount(a)}</td>
+              <td className="num muted">{percent(share(a), 1)}</td>
             </tr>
           ))}
           <tr className="row-total">
-            <th scope="row"><span className="swatch" style={{ background: ITEMS[0].color }} />Take-home pay</th>
-            <td className="num">{money(forPeriod(result.takeHome, period), period)}</td>
-            <td className="num muted">{percent(share(result.takeHome), 1)}</td>
+            <th scope="row"><span className="swatch" style={{ background: TAKE_HOME_COLOR }} />Take-home pay</th>
+            <td className="num">{amount(takeHome)}</td>
+            <td className="num muted">{percent(share(takeHome), 1)}</td>
           </tr>
         </tbody>
       </table>
-      {period === 'day' || period === 'week' ? (
+      {(period === 'day' || period === 'week') && (
         <p className="footnote">Assumes 52 weeks in a year and 7 days in a week.</p>
-      ) : null}
-      {note && <p className="footnote">{note}</p>}
-      {result.personalAllowance < fullAllowance && (
-        <p className="footnote">
-          Your personal allowance is reduced to {pounds(result.personalAllowance)} because your
-          income is over £100,000.
-        </p>
       )}
+      {result.notes.map((note) => <p key={note} className="footnote">{note}</p>)}
     </section>
   );
 }

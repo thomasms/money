@@ -1,7 +1,12 @@
-import type { TaxYearRules } from '../tax/years';
-import { pounds } from '../format';
+import { Row } from '../../components/controls';
+import { formatter, rate } from '../../format';
+import { findTaxYear } from './rules';
+import type { UKState } from './index';
 
-export function RatesTable({ rules }: { rules: TaxYearRules }) {
+const fmt = formatter('GBP');
+
+export function RatesTable({ state }: { state: UKState }) {
+  const rules = findTaxYear(state.taxYear);
   const tax = rules.incomeTax;
   const ni = rules.nationalInsurance;
   const higherStart = tax.personalAllowance + tax.basicRateBand;
@@ -22,25 +27,25 @@ export function RatesTable({ rules }: { rules: TaxYearRules }) {
         <table>
           <caption>Income tax</caption>
           <tbody>
-            <Row label={`Up to ${pounds(tax.personalAllowance)}`} rate={0} />
-            <Row label={`${pounds(tax.personalAllowance + 1)} to ${pounds(higherStart)}`} rate={tax.basicRate} />
-            <Row label={`${pounds(higherStart + 1)} to ${pounds(tax.additionalRateThreshold)}`} rate={tax.higherRate} />
-            <Row label={`Over ${pounds(tax.additionalRateThreshold)}`} rate={tax.additionalRate} />
+            <Row label={`Up to ${fmt.whole(tax.personalAllowance)}`} value={rate(0)} />
+            <Row label={`${fmt.whole(tax.personalAllowance + 1)} to ${fmt.whole(higherStart)}`} value={rate(tax.basicRate)} />
+            <Row label={`${fmt.whole(higherStart + 1)} to ${fmt.whole(tax.additionalRateThreshold)}`} value={rate(tax.higherRate)} />
+            <Row label={`Over ${fmt.whole(tax.additionalRateThreshold)}`} value={rate(tax.additionalRate)} />
           </tbody>
         </table>
         <table>
           <caption>National Insurance</caption>
           <tbody>
-            <Row label={`Up to ${pounds(ni.primaryThreshold)}`} rate={0} />
-            <Row label={`${pounds(ni.primaryThreshold + 1)} to ${pounds(ni.upperEarningsLimit)}`} rate={ni.mainRate} />
-            <Row label={`Over ${pounds(ni.upperEarningsLimit)}`} rate={ni.upperRate} />
+            <Row label={`Up to ${fmt.whole(ni.primaryThreshold)}`} value={rate(0)} />
+            <Row label={`${fmt.whole(ni.primaryThreshold + 1)} to ${fmt.whole(ni.upperEarningsLimit)}`} value={rate(ni.mainRate)} />
+            <Row label={`Over ${fmt.whole(ni.upperEarningsLimit)}`} value={rate(ni.upperRate)} />
           </tbody>
         </table>
         <table>
           <caption>Student loans (on pay over)</caption>
           <tbody>
             {loans.map(({ name, plan }) =>
-              plan ? <Row key={name} label={`${name}: ${pounds(plan.threshold)}`} rate={plan.rate} /> : null,
+              plan ? <Row key={name} label={`${name}: ${fmt.whole(plan.threshold)}`} value={rate(plan.rate)} /> : null,
             )}
           </tbody>
         </table>
@@ -48,18 +53,9 @@ export function RatesTable({ rules }: { rules: TaxYearRules }) {
       {rules.note && <p className="footnote">{rules.note}</p>}
       <p className="footnote">
         Your personal allowance goes down by £1 for every £2 of income over{' '}
-        {pounds(tax.allowanceTaperStart)}. Rates are for England, Wales and Northern Ireland, from{' '}
+        {fmt.whole(tax.allowanceTaperStart)}. Rates are for England, Wales and Northern Ireland, from{' '}
         <a href="https://www.gov.uk/income-tax-rates" target="_blank" rel="noreferrer">GOV.UK</a>.
       </p>
     </details>
-  );
-}
-
-function Row({ label, rate }: { label: string; rate: number }) {
-  return (
-    <tr>
-      <th scope="row">{label}</th>
-      <td className="num">{Number((rate * 100).toFixed(2))}%</td>
-    </tr>
   );
 }
