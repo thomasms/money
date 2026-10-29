@@ -6,12 +6,13 @@ import {
   Line,
   LineChart,
   ReferenceDot,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import { forPeriod, marginalRate, type Comparison, type Period, type Result } from '../countries/types';
+import { forPeriod, marginalRate, type PayScaleComparison, type PercentileComparison, type Period, type Result } from '../countries/types';
 import { ordinal, percent, PERIOD_LABELS, type Formatter } from '../format';
 
 const CHART_HEIGHT = 260;
@@ -132,7 +133,7 @@ export function MarginalRateChart({ calc, salary: yourSalary, fmt, covers }: Cha
   );
 }
 
-export function PercentileChart({ gross, comparison, fmt }: { gross: number; comparison: Comparison; fmt: Formatter }) {
+export function PercentileChart({ gross, comparison, fmt }: { gross: number; comparison: PercentileComparison; fmt: Formatter }) {
   const { data, population } = comparison;
   const position = comparison.percentileOf(gross);
   const markerX = Math.min(99, Math.max(1, position));
@@ -144,7 +145,7 @@ export function PercentileChart({ gross, comparison, fmt }: { gross: number; com
   return (
     <ChartCard
       title="How your pay compares"
-      subtitle={`${headline} ${comparison.source}`}
+      subtitle={`${headline} The median is ${fmt.whole(comparison.median)} a year. ${comparison.source}`}
     >
       <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
         <AreaChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: 0 }}>
@@ -164,6 +165,8 @@ export function PercentileChart({ gross, comparison, fmt }: { gross: number; com
               );
             }}
           />
+          <ReferenceLine x={50} stroke="var(--axis)" strokeWidth={1}
+            label={{ value: 'Median', position: 'insideTopLeft', fill: 'var(--text-muted)', fontSize: 12 }} />
           <Area dataKey="value" stroke="var(--series-7)" strokeWidth={2} fill="var(--series-7)" fillOpacity={0.1}
             dot={false} activeDot={{ r: 5, stroke: 'var(--surface)', strokeWidth: 2 }} isAnimationActive={false} />
           {gross > 0 && (
@@ -173,6 +176,72 @@ export function PercentileChart({ gross, comparison, fmt }: { gross: number; com
           )}
         </AreaChart>
       </ResponsiveContainer>
+    </ChartCard>
+  );
+}
+
+export function PayScaleChart({ gross, comparison, fmt }: { gross: number; comparison: PayScaleComparison; fmt: Formatter }) {
+  const { bottom10, median, average, top10, population } = comparison;
+  const yours = comparison.yours(gross);
+  // A fixed scale keeps the marks readable; pay beyond it is pinned to the end.
+  const min = bottom10 * 0.5;
+  const max = top10 * 1.3;
+  const position = (value: number) => Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100));
+  const x = (value: number) => `${position(value)}%`;
+  const offScale = yours < min ? '← ' : yours > max ? ' →' : '';
+  // Keep the "You" label inside the card near either end of the scale.
+  const youAt = position(yours);
+  const labelShift = youAt < 20 ? '-15%' : youAt > 80 ? '-85%' : '-50%';
+  const each = (value: number) => `${fmt.whole(value)} a month`;
+  const headline =
+    yours < bottom10 ? `Your pay is in the lowest 10% of ${population}.`
+      : yours < median ? `Your pay is below the median of ${each(median)}.`
+        : yours < top10 ? `Your pay is above the median of ${each(median)}.`
+          : `Your pay is in the top 10% of ${population}.`;
+  const marks = [
+    { label: '10%', value: bottom10 },
+    { label: 'Median', value: median },
+    { label: '90%', value: top10 },
+  ];
+
+  return (
+    <ChartCard title="How your pay compares" subtitle={`${headline} ${comparison.source}`}>
+      <div className="scale" role="img"
+        aria-label={`Your ${comparison.measure} is about ${fmt.whole(yours)}. Median ${fmt.whole(median)}.`}>
+        <div className="scale-track">
+          <div className="scale-band" style={{ left: x(bottom10), width: `calc(${x(top10)} - ${x(bottom10)})` }} />
+          {marks.map(({ label, value }) => (
+            <div key={label} className="scale-mark" style={{ left: x(value) }}>
+              <span className="scale-tick" />
+              <span className="scale-mark-label">{label}</span>
+            </div>
+          ))}
+          {gross > 0 && (
+            <div className="scale-you" style={{ left: x(yours) }}>
+              <span className="scale-you-label" style={{ transform: `translateX(${labelShift})` }}>
+                {offScale === '← ' && offScale}You: {fmt.whole(yours)}{offScale === ' →' && offScale}
+              </span>
+              <span className="scale-you-dot" />
+            </div>
+          )}
+        </div>
+      </div>
+      <p className="footnote scale-key">The shaded band is the middle 80% of {population}.</p>
+      <table className="breakdown scale-table">
+        <caption className="visually-hidden">Pay of {population}, {comparison.measure}</caption>
+        <tbody>
+          <tr><th scope="row">Lowest 10% earn less than</th><td className="num">{fmt.whole(bottom10)}</td></tr>
+          <tr><th scope="row">Median</th><td className="num">{fmt.whole(median)}</td></tr>
+          <tr><th scope="row">Average</th><td className="num">{fmt.whole(average)}</td></tr>
+          <tr><th scope="row">Top 10% earn at least</th><td className="num">{fmt.whole(top10)}</td></tr>
+          {gross > 0 && (
+            <tr className="row-total">
+              <th scope="row"><span className="swatch" style={{ background: 'var(--series-7)' }} />You (about)</th>
+              <td className="num">{fmt.whole(yours)}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </ChartCard>
   );
 }

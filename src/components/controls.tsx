@@ -21,7 +21,7 @@ interface MoneyInputProps {
   onChange: (value: number) => void;
 }
 
-// A money input that shows "45,000" when idle and plain digits while editing.
+// A money input that shows "45,000". Commas typed by the user are ignored.
 export function MoneyInput({ id, value, symbol, suffix, autoFocus, onChange }: MoneyInputProps) {
   const [editing, setEditing] = useState<string | null>(null);
   const shown = editing ?? (value === 0 ? '' : formatNumber(value));
@@ -38,12 +38,12 @@ export function MoneyInput({ id, value, symbol, suffix, autoFocus, onChange }: M
         placeholder="0"
         autoFocus={autoFocus}
         value={shown}
-        onFocus={() => setEditing(value === 0 ? '' : String(value))}
         onBlur={() => setEditing(null)}
         onChange={(e) => {
-          const raw = e.target.value.replace(/[^0-9.]/g, '');
-          setEditing(raw);
-          const parsed = Number.parseFloat(raw);
+          // Keep the text as typed (commas too) so the caret does not jump.
+          const text = e.target.value.replace(/[^0-9.,]/g, '');
+          setEditing(text);
+          const parsed = Number.parseFloat(text.replace(/,/g, ''));
           onChange(Number.isFinite(parsed) ? parsed : 0);
         }}
       />
@@ -109,5 +109,29 @@ export function Row({ label, value }: { label: string; value: string }) {
       <th scope="row">{label}</th>
       <td className="num">{value}</td>
     </tr>
+  );
+}
+
+interface StepperProps {
+  id: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (value: number) => void;
+}
+
+// A whole-number input with minus and plus buttons.
+export function Stepper({ id, value, min, max, onChange }: StepperProps) {
+  const set = (v: number) => onChange(Math.min(max, Math.max(min, Math.round(v))));
+  return (
+    <div className="stepper">
+      <button type="button" className="stepper-button" aria-label="Fewer" disabled={value <= min}
+        onClick={() => set(value - 1)}>−</button>
+      <input id={id} className="input stepper-input" type="number" inputMode="numeric" min={min} max={max} step={1}
+        value={value}
+        onChange={(e) => set(Number.isFinite(e.target.valueAsNumber) ? e.target.valueAsNumber : min)} />
+      <button type="button" className="stepper-button" aria-label="More" disabled={value >= max}
+        onClick={() => set(value + 1)}>+</button>
+    </div>
   );
 }

@@ -31,6 +31,11 @@ export function RatesTable({ state }: { state: BEState }) {
           <caption>Allowances and contributions</caption>
           <tbody>
             <Row label="Tax-free amount" value={fmt.whole(rules.taxFreeAmount)} />
+            {rules.children.totals.map((total, i) => (
+              <Row key={i} label={`Extra for ${i + 1} ${i === 0 ? 'child' : 'children'}`} value={fmt.whole(total)} />
+            ))}
+            <Row label="Extra for each child after 4" value={fmt.whole(rules.children.perExtraChild)} />
+            <Row label="Extra for a single parent" value={fmt.whole(rules.singleParent)} />
             <Row label={`Work expenses (${rate(rules.professionalExpenses.rate)}, up to)`} value={fmt.whole(rules.professionalExpenses.max)} />
             <Row label="Social security" value={rate(rules.socialSecurityRate)} />
             <Row label="Special social security (yearly maximum)" value={fmt.money(rules.specialSocialSecurity.max, 'month')} />

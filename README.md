@@ -20,10 +20,14 @@ week or day.
 
 **Belgium**
 
-- Income years 2022 to 2026, for a single white-collar employee with no dependants.
+- Income years 2022 to 2026, for a white-collar employee taxed alone.
 - Social security (13.07%), personal income tax with the tax-free amount and flat-rate
   work expenses, municipal tax (your own rate) and the special social security contribution.
-- Not included: the work bonus for lower salaries, dependants, and joint taxation.
+- Dependent children and the extra amount for single parents.
+- Compare your pay with the median and the lowest and top 10% of full-time employees
+  (Statbel).
+- Not included: the work bonus for lower salaries, joint taxation, other dependants, the
+  extra amount for children under 3 and the refundable tax credit for children.
 
 **Both**
 
@@ -57,6 +61,7 @@ Each country has its own folder in [`src/countries`](src/countries):
   top of `TAX_YEARS`. The income comparison data is in
   [`src/countries/uk/percentiles.ts`](src/countries/uk/percentiles.ts).
 - Belgian rates: [`src/countries/be/rules.ts`](src/countries/be/rules.ts). Add a new income year
-  at the top of `BELGIAN_YEARS`.
+  at the top of `BELGIAN_YEARS`. The pay comparison data is in
+  [`src/countries/be/pay.ts`](src/countries/be/pay.ts).
 
 Built with React, TypeScript, Vite and Recharts.

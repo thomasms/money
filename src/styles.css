@@ -421,6 +421,54 @@ summary:hover {
   color: var(--text-primary);
 }
 
+.stepper {
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.stepper:focus-within {
+  border-color: var(--accent);
+}
+
+.stepper-input {
+  width: 3.5rem;
+  flex: none;
+  text-align: center;
+  font-weight: 600;
+  -moz-appearance: textfield;
+}
+
+.stepper-input::-webkit-inner-spin-button,
+.stepper-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stepper-button {
+  width: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.stepper-button:hover:not(:disabled) {
+  background: var(--surface);
+}
+
+.stepper-button:disabled {
+  color: var(--text-muted);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Summary */
 
 .summary {
@@ -606,6 +654,89 @@ summary:hover {
   height: 8px;
   margin-right: 6px;
   vertical-align: 0;
+}
+
+/* Pay scale */
+
+.scale {
+  position: relative;
+  padding: 36px 8px 28px;
+}
+
+.scale-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--grid);
+}
+
+.scale-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--series-7) 22%, transparent);
+}
+
+.scale-mark {
+  position: absolute;
+  top: -4px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scale-tick {
+  width: 2px;
+  height: 18px;
+  border-radius: 1px;
+  background: var(--text-muted);
+}
+
+.scale-mark-label {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.scale-you {
+  position: absolute;
+  top: -5px;
+  width: 0;
+  z-index: 1;
+}
+
+.scale-you-label {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.scale-you-dot {
+  position: absolute;
+  left: -9px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--series-7);
+  border: 2px solid var(--surface);
+  box-sizing: content-box;
+}
+
+.scale-key {
+  margin-top: -8px;
+}
+
+.scale-table th,
+.scale-table td {
+  padding: 6px 0;
+  font-size: 0.875rem;
 }
 
 /* Rates */

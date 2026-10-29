@@ -1,9 +1,8 @@
-import { Field, MoneyInput, PercentInput } from '../../components/controls';
+import { Field, MoneyInput, PercentInput, Stepper } from '../../components/controls';
 import { formatter } from '../../format';
+import { MAX_CHILDREN } from './calculate';
+import { MONTHS_WITH_BONUSES } from './pay';
 import type { BEState } from './index';
-
-// 12 monthly salaries, a 13th month and double holiday pay (92% of a month).
-const MONTHS_WITH_BONUSES = 13.92;
 
 const fmt = formatter('EUR');
 
@@ -21,6 +20,22 @@ export function InputPanel({ state, onChange }: { state: BEState; onChange: (pat
         {(id) => (
           <MoneyInput id={id} value={state.salary} symbol={fmt.symbol} suffix="per year" autoFocus
             onChange={(salary) => onChange({ salary })} />
+        )}
+      </Field>
+
+      <Field label="Dependent children" hint="Children who live with you and count as dependants for tax. Each one raises your tax-free amount.">
+        {(id) => (
+          <>
+            <Stepper id={id} value={state.dependentChildren} min={0} max={MAX_CHILDREN}
+              onChange={(dependentChildren) => onChange({ dependentChildren })} />
+            {state.dependentChildren > 0 && (
+              <label className="check">
+                <input type="checkbox" checked={state.singleParent}
+                  onChange={(e) => onChange({ singleParent: e.target.checked })} />
+                <span>I'm a single parent (extra tax-free amount)</span>
+              </label>
+            )}
+          </>
         )}
       </Field>
 

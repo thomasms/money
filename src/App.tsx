@@ -5,7 +5,7 @@ import type { CountryDef, CountryId, CountryState, Period } from './countries/ty
 import { formatter } from './format';
 import { Segmented } from './components/controls';
 import { Summary } from './components/Summary';
-import { MarginalRateChart, PercentileChart, TakeHomeChart } from './components/Charts';
+import { MarginalRateChart, PayScaleChart, PercentileChart, TakeHomeChart } from './components/Charts';
 
 export default function App() {
   const [state, update] = useAppState();
@@ -81,7 +81,8 @@ function CountryView<S extends CountryState>({ def, state, period, countrySwitch
           <div className="chart-grid">
             <TakeHomeChart calc={calc} salary={chartState.salary} fmt={fmt} period={period} />
             <MarginalRateChart calc={calc} salary={chartState.salary} fmt={fmt} covers={def.marginalCovers} />
-            {def.comparison && <PercentileChart gross={result.gross} comparison={def.comparison} fmt={fmt} />}
+            {def.comparison?.kind === 'percentiles' && <PercentileChart gross={result.gross} comparison={def.comparison} fmt={fmt} />}
+            {def.comparison?.kind === 'scale' && <PayScaleChart gross={result.gross} comparison={def.comparison} fmt={fmt} />}
           </div>
           <RatesTable state={state} />
         </div>

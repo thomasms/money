@@ -93,7 +93,9 @@ export const UK: CountryDef<UKState> = {
   InputPanel,
   RatesTable,
   comparison: {
+    kind: 'percentiles',
     data: INCOME_PERCENTILES.map(([p, before]) => ({ p, value: before })),
+    median: INCOME_PERCENTILES[49][1],
     percentileOf,
     population: 'UK taxpayers',
     source: `Based on HMRC income data for ${INCOME_PERCENTILES_YEAR}, so treat it as a rough guide: pay has gone up since then.`,

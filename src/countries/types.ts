@@ -36,12 +36,32 @@ export interface Result {
   notes: string[];
 }
 
-export interface Comparison {
+// A full income distribution, as percentile points.
+export interface PercentileComparison {
+  kind: 'percentiles';
   data: { p: number; value: number }[];
   percentileOf: (gross: number) => number;
+  median: number;
   population: string;
   source: string;
 }
+
+// A few published points of a pay distribution, such as the median.
+export interface PayScaleComparison {
+  kind: 'scale';
+  // What the points measure, e.g. "gross pay per month".
+  measure: string;
+  // Turns yearly gross pay into the same measure as the points.
+  yours: (gross: number) => number;
+  bottom10: number;
+  median: number;
+  average: number;
+  top10: number;
+  population: string;
+  source: string;
+}
+
+export type Comparison = PercentileComparison | PayScaleComparison;
 
 export interface CountryState {
   taxYear: string;

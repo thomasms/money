@@ -17,6 +17,11 @@ export interface BelgianYear {
   brackets: Band[];
   // Taxed at the lowest bands and taken off the tax, not off income.
   taxFreeAmount: number;
+  // Extra tax-free amount for dependent children: the total for 1, 2, 3 and
+  // 4 children, then `perExtraChild` for each child after the fourth.
+  children: { totals: [number, number, number, number]; perExtraChild: number };
+  // Extra tax-free amount for a single parent with dependent children.
+  singleParent: number;
   professionalExpenses: { rate: number; max: number };
   socialSecurityRate: number;
   // Special social security contribution for a single person,
@@ -50,6 +55,9 @@ export const BELGIAN_YEARS: BelgianYear[] = [
     label: '2026',
     brackets: brackets(16720, 29510, 51070),
     taxFreeAmount: 11550,
+    // The 2026 reform raises the amounts for the first two children; the rest are frozen.
+    children: { totals: [2130, 5130, 11440, 18510], perExtraChild: 7070 },
+    singleParent: 1980,
     professionalExpenses: { rate: 0.3, max: 6070 },
     socialSecurityRate: SOCIAL_SECURITY_RATE,
     specialSocialSecurity: SPECIAL_SOCIAL_SECURITY,
@@ -59,6 +67,8 @@ export const BELGIAN_YEARS: BelgianYear[] = [
     label: '2025',
     brackets: brackets(16320, 28800, 49840),
     taxFreeAmount: 10910,
+    children: { totals: [1980, 5110, 11440, 18510], perExtraChild: 7070 },
+    singleParent: 1980,
     professionalExpenses: { rate: 0.3, max: 5930 },
     socialSecurityRate: SOCIAL_SECURITY_RATE,
     specialSocialSecurity: SPECIAL_SOCIAL_SECURITY,
@@ -68,6 +78,8 @@ export const BELGIAN_YEARS: BelgianYear[] = [
     label: '2024',
     brackets: brackets(15820, 27920, 48320),
     taxFreeAmount: 10570,
+    children: { totals: [1920, 4950, 11090, 17940], perExtraChild: 6850 },
+    singleParent: 1920,
     professionalExpenses: { rate: 0.3, max: 5750 },
     socialSecurityRate: SOCIAL_SECURITY_RATE,
     specialSocialSecurity: SPECIAL_SOCIAL_SECURITY,
@@ -77,6 +89,8 @@ export const BELGIAN_YEARS: BelgianYear[] = [
     label: '2023',
     brackets: brackets(15200, 26830, 46440),
     taxFreeAmount: 10160,
+    children: { totals: [1850, 4760, 10660, 17250], perExtraChild: 6580 },
+    singleParent: 1850,
     professionalExpenses: { rate: 0.3, max: 5520 },
     socialSecurityRate: SOCIAL_SECURITY_RATE,
     specialSocialSecurity: SPECIAL_SOCIAL_SECURITY,
@@ -86,6 +100,8 @@ export const BELGIAN_YEARS: BelgianYear[] = [
     label: '2022',
     brackets: brackets(13870, 24480, 42370),
     taxFreeAmount: 9270,
+    children: { totals: [1690, 4340, 9730, 15740], perExtraChild: 6010 },
+    singleParent: 1690,
     professionalExpenses: { rate: 0.3, max: 5040 },
     socialSecurityRate: SOCIAL_SECURITY_RATE,
     // The lower scale applied from 1 April 2022; it is used for the whole year.
